@@ -155,3 +155,17 @@ DNS servers, name resolution and mDNS worked, every service including the
 Workbench backend and Dashboard came up, the desktop session started at
 3840×2160, and no unit had failed.
 Omarchy's aarch64 package repository was synced and holds only omarchy-keyring.
+
+## Clean build of every recipe — 2026-09-06
+
+All 28 recipes under `packages/` built with `makepkg -s` from the committed tree
+alone (commit 28b895f) inside a fresh `menci/archlinuxarm` container on the
+Spark, using only Arch Linux ARM's repositories plus a local repository of the
+recipes built earlier in the run. Every package version equals the one
+installed on the test machine. The kernel took 97 minutes on the recipe's
+default six build jobs, GCC 15 sixteen minutes, CUDA nine; the whole run about
+two and a half hours. One failure, `omarchy`, was caused by the local
+repository not being configured in the container at that point and passed on
+rerun; the container script now configures it during setup. Checksums and the
+container toolchain are in `manifests/clean-build-2026-09-06.json`. The NVIDIA
+driver packages were not part of the run; they come from Arch Linux ARM.

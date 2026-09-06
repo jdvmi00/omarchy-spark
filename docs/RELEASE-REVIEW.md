@@ -46,7 +46,7 @@ its items in the main branch:
 | `make-disk-image.py` could overwrite or alias its manifest sidecar | Corrected: `.json` image names are refused and the sidecar is created exclusively. Tested |
 | `check-jupyter-runtime.py` accepted any HTML 200, including a login page | Corrected: authenticated contents/status API checks, no redirects, no-token and wrong-token refusals required. Tested against a stub server; passed inside the project container on the test Spark before and after a backend restart |
 | Workbench privileges, global `daemon-reload`, fixed port and single-user scope undocumented | Documented in the package README with an example sudoers rule; no policy is installed |
-| No clean-chroot build or independent hardware installation; update/rollback unfinished | Outstanding and required before broader promotion |
+| No clean-chroot build or independent hardware installation; update/rollback unfinished | Clean container build of all 28 recipes passed on 2026-09-06 (`manifests/clean-build-2026-09-06.json`); second-machine installation and update/rollback still outstanding |
 | Provenance notes are not a legal opinion | Stated in THIRD_PARTY.md |
 
 The regression suite is a host-side check of this repository's helpers and

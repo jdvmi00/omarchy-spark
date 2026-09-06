@@ -43,6 +43,9 @@ boot image or binary package repository is included.
   runs on the port. Run on the test Spark with no failed steps; the lock
   screen's PAM configuration, the firewall (with SSH, mDNS and Tailscale
   rules) and the remaining system defaults are now applied the upstream way.
+- Clean build: `scripts/clean-build.sh` builds every recipe from the committed
+  tree in a fresh Arch Linux ARM container. All 28 passed, with checksums in
+  `manifests/clean-build-2026-09-06.json`.
 
 ## v0.1.0-preview.1 — Omarchy Spark developer preview
 

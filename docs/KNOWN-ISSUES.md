@@ -2,10 +2,12 @@
 
 - No end-user installer, public boot image, signed port package repository or
   tested upgrade/rollback workflow. The test installation was assembled manually.
-- No complete clean-chroot build or independent hardware replication yet.
-  Source pins do not freeze rolling Arch build/runtime dependencies. A fresh
-  ARM clean build and a second-machine installation are required before the
-  port is promoted beyond a source-only developer preview.
+- Every recipe builds clean from the committed tree in a fresh Arch Linux ARM
+  container (`scripts/clean-build.sh`, `manifests/clean-build-2026-09-06.json`),
+  but source pins do not freeze rolling Arch build/runtime dependencies, so a
+  later run can differ. No second machine has reproduced the installation;
+  that is still required before the port is promoted beyond a source-only
+  developer preview.
 - Corrections made after the preview.1 review were installed and re-checked on
   the single test Spark (see the hardware report). The settings scriptlet's
   `.pacnew` branch for locally edited files and its CUPS overrides were
@@ -44,6 +46,6 @@
 - CUDA's host compiler is GCC 15 under `/opt/gcc15`; the system compiler can be
   newer. GDS, all profiler/debugger paths and broad AI workloads are unvalidated.
 
-Priorities: reproducible clean builds and a coherent package repository; native
+Priorities: a signed package repository built from the clean-build output; native
 Dashboard transactions and failure reporting; remaining default applications;
 hardware stress/power testing; then installation and recovery automation.
