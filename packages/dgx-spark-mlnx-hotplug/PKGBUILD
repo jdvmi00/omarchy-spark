@@ -1,0 +1,39 @@
+# NVIDIA's helper is downloaded from its repository; no vendor payload is vendored.
+pkgname=dgx-spark-mlnx-hotplug
+pkgver=26.01
+pkgrel=1
+_vendorver=26.01-1
+pkgdesc='NVIDIA DGX Spark ConnectX-7 hotplug userspace integration'
+arch=('aarch64')
+url='https://docs.nvidia.com/dgx/dgx-spark/'
+license=('custom:NVIDIA')
+depends=('bash' 'coreutils' 'grep' 'pciutils' 'systemd')
+optdepends=('linux-dgx-spark: Spark kernel with CONFIG_MTK_PCIE_HOTPLUG')
+backup=('etc/nvidia/cx7-hotplug-enabled')
+source=("https://repo.download.nvidia.com/baseos/ubuntu/noble/arm64/pool/dgx/d/${pkgname}/${pkgname}_${_vendorver}_all.deb")
+sha256sums=('2db1e87ba2d2e7a3dabf21d46ced3b37e9d38fda518438005805dbe04dfdcc01')
+
+prepare() {
+  mkdir -p "${srcdir}/payload"
+  bsdtar -xf "${srcdir}/data.tar.xz" -C "${srcdir}/payload"
+}
+
+package() {
+  local payload="${srcdir}/payload"
+  install -Dm755 "${payload}/opt/nvidia/${pkgname}/mtk-hotplug-handler.sh" \
+    "${pkgdir}/opt/nvidia/${pkgname}/mtk-hotplug-handler.sh"
+  install -Dm644 "${payload}/lib/udev/rules.d/90-mtk-hotplug.rules" \
+    "${pkgdir}/usr/lib/udev/rules.d/90-mtk-hotplug.rules"
+  install -Dm644 "${payload}/usr/share/doc/${pkgname}/copyright" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 "${payload}/usr/share/doc/${pkgname}/changelog.Debian.gz" \
+    "${pkgdir}/usr/share/doc/${pkgname}/changelog.Debian.gz"
+
+  # Reproduce the vendor postinst's default enablement without running it.
+  install -dm755 "${pkgdir}/etc/nvidia"
+  printf '%s\n' '# Presence enables NVIDIA ConnectX-7 hotplug power management.' \
+    > "${pkgdir}/etc/nvidia/cx7-hotplug-enabled"
+  install -dm755 "${pkgdir}/usr/lib/modules-load.d"
+  printf '%s\n' 'mtk-pcie-hotplug' \
+    > "${pkgdir}/usr/lib/modules-load.d/dgx-spark-cx7.conf"
+}

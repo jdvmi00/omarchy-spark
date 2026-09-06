@@ -1,0 +1,46 @@
+diff --git i/airootfs/root/limine-hooks/install-limine.sh w/airootfs/root/limine-hooks/install-limine.sh
+index 9536826..77cc0ea 100644
+--- i/airootfs/root/limine-hooks/install-limine.sh
++++ w/airootfs/root/limine-hooks/install-limine.sh
+@@ -15,8 +15,8 @@ install -Dm755 /root/limine-hooks/limine-mkconfig /usr/local/bin/limine-mkconfig
+ 
+ # Install pacman hook (auto-regenerates limine.conf on kernel updates)
+ install -Dm644 /root/limine-hooks/90-limine.hook /usr/share/limine/90-limine.hook
+-ln -sf /usr/share/limine/90-limine.hook /etc/pacman.d/hooks/90-limine.hook
+ mkdir -p /etc/pacman.d/hooks
++ln -sf /usr/share/limine/90-limine.hook /etc/pacman.d/hooks/90-limine.hook
+ 
+ # Generate initial config
+ limine-mkconfig
+diff --git i/airootfs/root/limine-hooks/limine-mkconfig w/airootfs/root/limine-hooks/limine-mkconfig
+index 029455a..49d8f21 100644
+--- i/airootfs/root/limine-hooks/limine-mkconfig
++++ w/airootfs/root/limine-hooks/limine-mkconfig
+@@ -4,7 +4,7 @@
+ 
+ set -euo pipefail
+ 
+-BOOT="/boot"
++BOOT="${DGX_SPARK_BOOT_DIR:-/boot}"
+ CONF="${BOOT}/limine.conf"
+ # cppc_cpufreq.auto_sel_mode=1: without autonomous CPPC the GB10 memory
+ # fabric never enters autonomous performance management (~3x lower
+@@ -13,12 +13,15 @@ CONF="${BOOT}/limine.conf"
+ CMDLINE_EXTRA="console=ttyS0,921600 console=tty0 earlycon=uart,mmio32,0x16A00000 nouveau.modeset=0 sbsa_gwdt.action=1 pci=pcie_bus_safe cppc_cpufreq.auto_sel_mode=1"
+ 
+ # Detect root partition and subvolume
+-ROOT_DEV=$(findmnt -n -o SOURCE /)
+-ROOT_UUID=$(blkid -s UUID -o value "$ROOT_DEV")
++ROOT_UUID=$(findmnt -n -o UUID /)
++if [[ -z "$ROOT_UUID" ]]; then
++  echo "Cannot determine root filesystem UUID; leaving boot configuration unchanged" >&2
++  exit 1
++fi
+ ROOT_FSTYPE=$(findmnt -n -o FSTYPE /)
+ ROOTFLAGS=""
+ if [[ "$ROOT_FSTYPE" == "btrfs" ]]; then
+-  SUBVOL=$(findmnt -n -o OPTIONS / | grep -oP 'subvol=\K[^,]+')
++  SUBVOL=$(findmnt -n -o FSROOT /)
+   [[ -n "$SUBVOL" ]] && ROOTFLAGS="rootflags=subvol=${SUBVOL} "
+ fi
+ 

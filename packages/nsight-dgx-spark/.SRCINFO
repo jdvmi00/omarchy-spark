@@ -1,0 +1,44 @@
+pkgbase = nsight-dgx-spark
+	pkgdesc = Nsight Compute and Systems matching the Spark installation
+	pkgver = 2025.3.2
+	pkgrel = 1
+	url = https://developer.nvidia.com/tools-overview
+	arch = aarch64
+	license = custom:NVIDIA
+	depends = glibc
+	depends = gcc-libs
+	depends = glib2
+	depends = ncurses
+	depends = libxcb
+	depends = xcb-util-wm
+	depends = xcb-util-image
+	depends = xcb-util-keysyms
+	depends = xcb-util-renderutil
+	depends = xcb-util-cursor
+	depends = libxkbcommon-x11
+	depends = fontconfig
+	depends = dbus
+	depends = nss
+	depends = libxcomposite
+	depends = libxdamage
+	depends = libxrandr
+	depends = libxtst
+	depends = alsa-lib
+	depends = libglvnd
+	depends = krb5
+	provides = nsight-compute=2025.3.1
+	provides = nsight-systems=2025.3.2
+	conflicts = nsight-compute
+	conflicts = nsight-systems
+	noextract = nsight-compute-2025.3.1_2025.3.1.4-1_arm64.deb
+	noextract = nsight-systems-2025.3.2_2025.3.2.474-1_arm64.deb
+	options = !strip
+	options = !debug
+	source = https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./nsight-compute-2025.3.1_2025.3.1.4-1_arm64.deb
+	source = https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./nsight-systems-2025.3.2_2025.3.2.474-1_arm64.deb
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha512sums = 7165cec1e123bec308856e38a28e15b3c51a43be0cb14bede613d78c889812f84c4668373a1fec51b3be8f97c29863950a9e741c264cc0ea3079f591d940076a
+	sha512sums = 0ce8040c54e4649bbf38869d246f4ecfceaa706b948d46c2bb3e47e8b5466f06a2a26d91da21ea2c284038b73be5e02bdf6413404e335896fb276e03a2a355e0
+
+pkgname = nsight-dgx-spark

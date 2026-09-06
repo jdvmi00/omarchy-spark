@@ -1,0 +1,20 @@
+pkgbase = perftest
+	pkgdesc = InfiniBand and RoCE performance tests for Spark fabric validation
+	pkgver = 26.04.17
+	pkgrel = 1
+	url = https://github.com/linux-rdma/perftest
+	arch = aarch64
+	license = GPL-2.0-only OR BSD-2-Clause
+	makedepends = autoconf
+	makedepends = automake
+	makedepends = libtool
+	makedepends = pkgconf
+	makedepends = cuda-dgx-spark
+	makedepends = gcc15-dgx
+	depends = rdma-core
+	depends = pciutils
+	optdepends = cuda-dgx-spark: CUDA memory and GPU validation benchmarks
+	source = perftest-26.04.17.tar.gz::https://github.com/linux-rdma/perftest/archive/refs/tags/26.04.17.tar.gz
+	sha256sums = 18446f0390dbb097e623ab5f100ba163de6867bc5ad4e42669701e3ca3c4a4bf
+
+pkgname = perftest

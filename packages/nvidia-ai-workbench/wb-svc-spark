@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+"""Verify the configured Docker Engine instead of starting Docker Desktop on Arch."""
+import os
+from pathlib import Path
+import sys
+import yaml
+
+args = sys.argv[1:]
+service_dir = Path.home() / '.nvwb'
+for i, arg in enumerate(args):
+    if arg in ('-service-dir', '--service-dir') and i + 1 < len(args):
+        service_dir = Path(args[i + 1]).expanduser()
+    elif arg.startswith(('-service-dir=', '--service-dir=')):
+        service_dir = Path(arg.split('=', 1)[1]).expanduser()
+if args and args[-1] == 'start-container-tool':
+    try:
+        config = yaml.safe_load((service_dir / 'config.yaml').read_text()) or {}
+    except (OSError, yaml.YAMLError):
+        config = {}
+    if config.get('container', {}).get('runtime') == 'docker':
+        os.execv('/usr/bin/newgrp', ['newgrp', 'docker', '-c', 'exec /usr/bin/docker info --format "{{.ServerVersion}}"'])
+vendor = '/opt/NVIDIA AI Workbench/resources/bin/wb-svc'
+os.execv(vendor, [vendor, *args])

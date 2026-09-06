@@ -1,0 +1,23 @@
+[
+  {
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./nsight-compute-2025.3.1_2025.3.1.4-1_arm64.deb",
+    "filename": "nsight-compute-2025.3.1_2025.3.1.4-1_arm64.deb",
+    "size": 140671938,
+    "hash_algorithm": "sha512",
+    "hash": "7165cec1e123bec308856e38a28e15b3c51a43be0cb14bede613d78c889812f84c4668373a1fec51b3be8f97c29863950a9e741c264cc0ea3079f591d940076a"
+  },
+  {
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./nsight-systems-2025.3.2_2025.3.2.474-1_arm64.deb",
+    "filename": "nsight-systems-2025.3.2_2025.3.2.474-253236389321v0_arm64.deb",
+    "size": 392673814,
+    "hash_algorithm": "sha512",
+    "hash": "0ce8040c54e4649bbf38869d246f4ecfceaa706b948d46c2bb3e47e8b5466f06a2a26d91da21ea2c284038b73be5e02bdf6413404e335896fb276e03a2a355e0"
+  },
+  {
+    "url": "https://workbench.download.nvidia.com/stable/linux/debian/pool/proprietary/n/nvidia-ai-workbench/NVIDIA-AI-Workbench-0.169.2-16-arm64.deb",
+    "filename": "nvidia-ai-workbench_0.169.2~16-7693_arm64.deb",
+    "size": 119695296,
+    "hash_algorithm": "sha512",
+    "hash": "8f9a90c09e53526bdcf75b9e51a30676dc0de791cd8908386f17d60216762df0919b280b7ecc30a46308ddb95bf13eb0dd74325f6f0b95e9de8afb3c76cb1449"
+  }
+]

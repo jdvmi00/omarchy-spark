@@ -1,0 +1,2 @@
+# Unified diffs contain context-only blank lines; preserve their exact bytes.
+*.patch -whitespace

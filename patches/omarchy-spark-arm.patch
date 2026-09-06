@@ -1,0 +1,121 @@
+diff --git i/bin/omarchy-refresh-pacman w/bin/omarchy-refresh-pacman
+index 299d6c20..774146d0 100755
+--- i/bin/omarchy-refresh-pacman
++++ w/bin/omarchy-refresh-pacman
+@@ -3,21 +3,33 @@
+ # omarchy:summary=Overwrite the package configuration for /etc/pacman with the Omarchy default of using its dedicated mirrors and repositories, then update all packages.
+ # omarchy:requires-sudo=true
+ 
+-sudo cp -f /etc/pacman.conf /etc/pacman.conf.bak
+-sudo cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
++set -e
+ 
+ channel="${1:-stable}"
+-
+ if [[ $channel != "stable" && $channel != "rc" && $channel != "edge" ]]; then
+   echo "Error: Invalid channel '$channel'. Must be one of: stable, rc, edge"
+   exit 1
+ fi
+ 
++if [[ $(uname -m) == "aarch64" ]]; then
++  if [[ $channel != "stable" ]]; then
++    echo "Error: This ARM port uses Arch Linux ARM repositories; rc and edge channels are unavailable."
++    exit 1
++  fi
++  pacman_config="$OMARCHY_PATH/spark/pacman-aarch64.conf"
++  mirrorlist="$OMARCHY_PATH/spark/mirrorlist-aarch64"
++else
++  pacman_config="$OMARCHY_PATH/default/pacman/pacman-$channel.conf"
++  mirrorlist="$OMARCHY_PATH/default/pacman/mirrorlist-$channel"
++fi
++
++[[ -r $pacman_config && -r $mirrorlist ]]
+ echo "Setting channel to $channel"
+ echo
+-
+-sudo cp -f "$OMARCHY_PATH/default/pacman/pacman-$channel.conf" /etc/pacman.conf
+-sudo cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-$channel" /etc/pacman.d/mirrorlist
++sudo cp -f /etc/pacman.conf /etc/pacman.conf.bak
++sudo cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
++sudo cp -f "$pacman_config" /etc/pacman.conf
++sudo cp -f "$mirrorlist" /etc/pacman.d/mirrorlist
+ 
+ # Allow user customization of /etc/pacman.conf before the upgrade runs
+ omarchy-hook pre-refresh-pacman
+diff --git i/install/hardware/nvidia.sh w/install/hardware/nvidia.sh
+index e7370995..cd593952 100644
+--- i/install/hardware/nvidia.sh
++++ w/install/hardware/nvidia.sh
+@@ -1,12 +1,18 @@
+ if lspci | grep -qi 'nvidia'; then
+   # Check which kernel is installed and set appropriate headers package
+-  KERNEL_PACKAGE=$(pacman -Qqs '^linux(-zen|-lts|-hardened|-t2|-ptl)?$' | head -1 || true)
++  KERNEL_PACKAGE=$(pacman -Qqs '^linux(-zen|-lts|-hardened|-t2|-ptl|-dgx-spark(-64k)?)?$' | head -1 || true)
+   [[ -n $KERNEL_PACKAGE ]] && omarchy-pkg-add "$KERNEL_PACKAGE-headers"
+ 
+   if omarchy-hw-nvidia-gsp; then
+-    PACKAGES=(nvidia-open-dkms nvidia-utils lib32-nvidia-utils libva-nvidia-driver)
++    PACKAGES=(nvidia-open-dkms nvidia-utils libva-nvidia-driver)
++    if [[ $(uname -m) == "x86_64" ]]; then
++      PACKAGES+=(lib32-nvidia-utils)
++    fi
+   elif omarchy-hw-nvidia-without-gsp; then
+-    PACKAGES=(nvidia-580xx-dkms nvidia-580xx-utils lib32-nvidia-580xx-utils)
++    PACKAGES=(nvidia-580xx-dkms nvidia-580xx-utils)
++    if [[ $(uname -m) == "x86_64" ]]; then
++      PACKAGES+=(lib32-nvidia-580xx-utils)
++    fi
+   fi
+ 
+   # Bail if no supported GPU
+--- /dev/null
++++ b/spark/pacman-aarch64.conf
+@@ -0,0 +1,23 @@
++# Spark port: signed Arch Linux ARM repositories, without x86 multilib.
++[options]
++Color
++ILoveCandy
++VerbosePkgLists
++HoldPkg = pacman glibc
++Architecture = auto
++CheckSpace
++ParallelDownloads = 5
++DownloadUser = alpm
++SigLevel = Required DatabaseOptional
++LocalFileSigLevel = Optional
++
++[core]
++Include = /etc/pacman.d/mirrorlist
++[extra]
++Include = /etc/pacman.d/mirrorlist
++[alarm]
++Include = /etc/pacman.d/mirrorlist
++[aur]
++Include = /etc/pacman.d/mirrorlist
++[omarchy]
++Server = https://pkgs.omarchy.org/$arch
+--- /dev/null
++++ b/spark/mirrorlist-aarch64
+@@ -0,0 +1,2 @@
++# Arch Linux ARM official mirror selector; package signatures are required.
++Server = http://mirror.archlinuxarm.org/$arch/$repo
+diff --git i/bin/omarchy-mise-install w/bin/omarchy-mise-install
+index e6dfc96c..63994ffe 100755
+--- i/bin/omarchy-mise-install
++++ w/bin/omarchy-mise-install
+@@ -14,14 +14,10 @@ bin=${3:-$command}
+ 
+ mkdir -p "$HOME/.local/bin"
+ 
+-# These tools install and upgrade on first run, so mise's release cooldown would
+-# hold a new version back for days after it ships. Exported rather than set on
+-# the install line alone, so resolving the version to execute agrees with the
+-# one just installed.
++# Let mise apply the user's configured release age when resolving and running tools.
+ rm -f "$HOME/.local/bin/$command"
+ cat >"$HOME/.local/bin/$command" <<EOF
+ #!/bin/bash
+-export MISE_MINIMUM_RELEASE_AGE=0
+ mise use -g --quiet "$package" || exit 1
+ exec mise x "$package" -- "$bin" "\$@"
+ EOF

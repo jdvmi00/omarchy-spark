@@ -1,0 +1,295 @@
+# Local Spark port; adapted from RageLtd/linux-dgx-spark (see upstream-lock.json).
+# Contributor: graham33 (nixos-dgx-spark)
+#
+# Kernel for NVIDIA DGX Spark (GB10 Grace-Blackwell)
+# Sources NVIDIA's custom kernel from Launchpad
+# Config derived from NVIDIA's Debian annotations, cross-referenced
+# against the nixos-dgx-spark project.
+#
+# Build in a native aarch64 environment (e.g. Apple Silicon container).
+# This preview includes its tested config.aarch64 and configs/version.env.
+
+# Included source version metadata
+# Provides: _kernelver, _ubuntupkg, _kver_series
+_version_env="${startdir:-$(pwd)}/configs/version.env"
+if [[ -f "$_version_env" ]]; then
+  source "$_version_env"
+else
+  echo "ERROR: configs/version.env missing — use the complete package directory" >&2
+  exit 1
+fi
+
+# Page-size variant: 4k (default) or 64k (mirrors RHEL's kernel-64k for GB10 —
+# better throughput on Grace unified memory, higher memory overhead, and some
+# userspace still assumes 4K pages). Select with: _PAGESIZE=64k (build.sh -p 64k)
+_pagesize="${_PAGESIZE:-4k}"
+case "$_pagesize" in
+  4k)  _pagesuffix="" ;;
+  64k) _pagesuffix="-64k" ;;
+  *)   echo "ERROR: _PAGESIZE must be 4k or 64k (got: ${_pagesize})" >&2; exit 1 ;;
+esac
+
+pkgbase=linux-dgx-spark${_pagesuffix}
+pkgname=("${pkgbase}" "${pkgbase}-headers")
+pkgver=${_kernelver}.${_ubuntupkg//./_}
+pkgrel=1
+pkgdesc="Linux kernel for NVIDIA DGX Spark (GB10 Grace-Blackwell)${_pagesuffix:+ (64K pages)}"
+arch=('aarch64')
+url="https://launchpad.net/ubuntu/+source/linux-nvidia-${_kver_series}"
+license=('GPL2')
+makedepends=(
+  'bc'
+  'cpio'
+  'gettext'
+  'libelf'
+  'pahole'
+  'perl'
+  'python'
+  'tar'
+  'xz'
+  'zstd'
+)
+options=('!strip')
+
+_launchpadpkg="linux-nvidia-${_kver_series}"
+_srcname="linux-${_kver_series}"
+_orig="${_launchpadpkg}_${_kernelver}.orig.tar.gz"
+_diff="${_launchpadpkg}_${_kernelver}-${_ubuntupkg}.diff.gz"
+
+# Source URLs — always use Launchpad for AUR compatibility.
+# build.sh sets SRCDEST to use pre-downloaded cache files.
+_launchpad_base="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/${_launchpadpkg}/${_kernelver}-${_ubuntupkg}"
+
+source=(
+  "${_launchpad_base}/${_orig}"
+  "${_launchpad_base}/${_diff}"
+  "config.aarch64"
+)
+sha256sums=('a5623ec5af79da8807e1467e43a1888461c7a445fb1e17533fe45f0fdf4394e3'
+            'df8095ab64d4497fe920788c595b6d41ccbb2742445da3da62243dff0b33078b'
+            'd1749ded24fb65dc6bb80a1d7fc168fc9e1d49b7227d899d9dab7feaa17cc4ef')
+
+prepare() {
+  # Ensure the config was generated before building
+  if [[ ! -f "${startdir}/config.aarch64" ]]; then
+    error "Missing config.aarch64 - run scripts/gen-config.sh first"
+    exit 1
+  fi
+
+  cd "${srcdir}/${_srcname}"
+
+  # Apply the Ubuntu/NVIDIA debian patch series
+  # The diff creates new files that may already exist in the upstream 6.17
+  # tarball (e.g. pinctrl-mt8901.c, version_signature.c were merged upstream
+  # but the Ubuntu diff still carries them). Remove such files first so the
+  # diff can recreate them cleanly instead of appending duplicate content.
+  local _difffile="../${_launchpadpkg}_${_kernelver}-${_ubuntupkg}.diff"
+  echo "Removing files that the Ubuntu diff will recreate..."
+  # dpkg-source diffs use .orig/ prefix (not /dev/null) for new files.
+  # Detect them by @@ -0,0 hunks and grab the +++ path above each.
+  grep -B2 '^@@ -0,0 ' "$_difffile" \
+    | grep '^+++ ' \
+    | sed 's|^+++ [^/]*/||; s/[[:space:]].*//' \
+    | sort -u \
+    | while read -r f; do
+        if [[ -n "$f" && -f "$f" ]]; then
+          echo "  removing pre-existing: $f"
+          rm -f "$f"
+        fi
+      done || true
+
+  echo "Applying Ubuntu NVIDIA kernel patches..."
+  patch -Np1 --forward < "$_difffile"
+
+  # Apply any DGX Spark specific patches from this repo
+  local patchdir="${startdir}/patches"
+  if [[ -d "$patchdir" ]]; then
+    for p in "$patchdir"/*.patch; do
+      [[ -f "$p" ]] || continue
+      echo "Applying patch: $p"
+      patch -Np1 < "$p"
+    done
+  fi
+
+  # Install our assembled kernel config
+  cp "${startdir}/config.aarch64" .config
+
+  # Ubuntu signing material is not part of this Arch build. Disable optional
+  # debug/Rust tooling while retaining the captured hardware configuration.
+  scripts/config --set-str SYSTEM_TRUSTED_KEYS ""
+  scripts/config --set-str SYSTEM_REVOCATION_KEYS ""
+  scripts/config --disable DEBUG_INFO_BTF
+  scripts/config --disable DEBUG_INFO_BTF_MODULES
+  scripts/config --disable DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+  scripts/config --enable DEBUG_INFO_NONE
+  scripts/config --disable RUST
+
+  # Set the local version string
+  echo "-dgx-spark${_pagesuffix}" > localversion.10-pkgname
+
+  # Sync config with current kernel source
+  make olddefconfig
+
+  # DGX Spark overrides: match stock DGX OS kernel config for display.
+  # Build DRM + simpledrm as built-in so framebuffer console works
+  # immediately at boot without initramfs module loading.
+  scripts/config --enable DRM
+  scripts/config --enable DRM_SIMPLEDRM
+  scripts/config --enable SYSFB_SIMPLEFB
+  scripts/config --enable FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+  # Filesystems needed for archiso live boot
+  scripts/config --module ISO9660_FS
+  scripts/config --enable SQUASHFS_XZ
+  scripts/config --enable SQUASHFS_LZO
+  scripts/config --enable SQUASHFS_ZSTD
+  # Device-mapper: archiso hook requires dm-snapshot for overlay setup
+  scripts/config --module DM_SNAPSHOT
+  # USB: UAS for modern USB 3.0 drives
+  scripts/config --module USB_UAS
+  # Onboard MT7925 WiFi 7 chip — missing from the nixos-dgx-spark delta;
+  # Red Hat's nvidia-gb10 kernel enables it and backports mt7925 fixes
+  # (already present in the Ubuntu diff). Firmware ships in linux-firmware.
+  scripts/config --module MT7925E
+  # ConnectX-7 PCIe hotplug (NVIDIA SAUCE driver, Mediatek root port) —
+  # enabled as a module in Red Hat's nvidia-gb10 config.
+  scripts/config --module MTK_PCIE_HOTPLUG
+  if [[ "$_pagesize" == "64k" ]]; then
+    # 64K granule — same choice RHEL ships as kernel-64k for GB10.
+    # VA/PA bits stay at 48, valid for the 64K granule.
+    scripts/config --disable ARM64_4K_PAGES
+    scripts/config --enable ARM64_64K_PAGES
+  fi
+  make olddefconfig
+
+  # Verify critical overrides survived olddefconfig
+  local _required=(DRM_SIMPLEDRM ISO9660_FS SQUASHFS_XZ MT7925E MTK_PCIE_HOTPLUG)
+  [[ "$_pagesize" == "64k" ]] && _required+=(ARM64_64K_PAGES)
+  for opt in "${_required[@]}"; do
+    if ! grep -q "CONFIG_${opt}=[ym]" .config; then
+      error "CONFIG_${opt} was stripped by olddefconfig!"
+      exit 1
+    fi
+  done
+
+  diff -u "${startdir}/config.aarch64" .config || :
+
+  # Write version file for packaging (used by $(<version) in package functions)
+  make -s kernelrelease > version
+  echo "Prepared kernel version: $(<version)"
+}
+
+build() {
+  cd "${srcdir}/${_srcname}"
+
+  # Build kernel image + modules only — skip DTBs (DGX Spark uses ACPI, not device trees)
+  # Use image_name to get the correct target (Image.gz when gzip compression is configured)
+  make -j"${BUILD_JOBS:-6}" "$(basename "$(make -s image_name)")" modules
+}
+
+_package() {
+  pkgdesc="The ${pkgdesc} kernel and modules"
+  depends=('coreutils' 'kmod' 'initramfs')
+  optdepends=(
+    'wireless-regdb: to set the correct wireless channels of your country'
+    'linux-firmware: firmware images needed for some devices'
+  )
+  provides=("linux=${pkgver}")
+
+  cd "${srcdir}/${_srcname}"
+
+  local kernver="$(<version)"
+  local modulesdir="${pkgdir}/usr/lib/modules/${kernver}"
+
+  echo "Installing boot image..."
+  # Install uncompressed Image — Limine on aarch64 doesn't support gzip-compressed kernels.
+  # image_name returns Image.gz but we need the raw Image with ARM64 magic header.
+  install -Dm644 "arch/arm64/boot/Image" "${modulesdir}/vmlinuz"
+  echo "${pkgbase}" | install -Dm644 /dev/stdin "${modulesdir}/pkgbase"
+
+  echo "Installing modules..."
+  make INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 \
+    DEPMOD=/doesnt/exist modules_install
+
+  # Remove build and source symlinks - headers package will handle them
+  rm -f "${modulesdir}/"{build,source}
+}
+
+_package-headers() {
+  pkgdesc="Headers and scripts for building modules for the ${pkgdesc} kernel"
+  depends=("${pkgbase}=${pkgver}")
+  provides=("linux-headers=${pkgver}")
+
+  cd "${srcdir}/${_srcname}"
+
+  local builddir="${pkgdir}/usr/lib/modules/$(<version)/build"
+
+  echo "Installing build files..."
+  install -Dt "${builddir}" -m644 .config Makefile Module.symvers \
+    System.map localversion.10-pkgname vmlinux
+  install -Dt "${builddir}/kernel" -m644 kernel/Makefile
+  install -Dt "${builddir}/arch/arm64" -m644 arch/arm64/Makefile
+  cp -t "${builddir}" -a scripts
+
+  echo "Installing headers..."
+  cp -t "${builddir}" -a include
+  cp -t "${builddir}/arch/arm64" -a arch/arm64/include
+  install -Dt "${builddir}/arch/arm64/kernel" -m644 \
+    arch/arm64/kernel/asm-offsets.s
+
+  install -Dt "${builddir}/drivers/md" -m644 drivers/md/*.h
+  install -Dt "${builddir}/net/mac80211" -m644 net/mac80211/*.h
+  install -Dt "${builddir}/drivers/media/i2c" -m644 \
+    drivers/media/i2c/msp3400-driver.h
+  install -Dt "${builddir}/drivers/media/usb/dvb-usb" -m644 \
+    drivers/media/usb/dvb-usb/*.h
+  install -Dt "${builddir}/drivers/media/dvb-frontends" -m644 \
+    drivers/media/dvb-frontends/*.h
+  install -Dt "${builddir}/drivers/media/tuners" -m644 \
+    drivers/media/tuners/*.h
+  install -Dt "${builddir}/drivers/iio" -m644 drivers/iio/*.h
+
+  echo "Installing KConfig files..."
+  find . -name 'Kconfig*' -exec install -Dm644 {} "${builddir}/{}" \;
+
+  echo "Removing unneeded architectures..."
+  local arch
+  for arch in "${builddir}"/arch/*/; do
+    [[ "${arch}" = */arm64/ ]] && continue
+    echo "Removing $(basename "${arch}")"
+    rm -r "${arch}"
+  done
+
+  echo "Removing broken symlinks..."
+  find -L "${builddir}" -type l -printf 'Removing %P\n' -delete
+
+  echo "Removing loose objects..."
+  find "${builddir}" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
+  echo "Stripping build tools..."
+  while read -rd '' file; do
+    case "$(file -Sib "$file")" in
+      application/x-sharedlib\;*)
+        strip -v "${STRIP_SHARED}" "$file" ;;
+      application/x-archive\;*)
+        strip -v "${STRIP_STATIC}" "$file" ;;
+      application/x-executable\;*)
+        strip -v "${STRIP_BINARIES}" "$file" ;;
+      application/x-pie-executable\;*)
+        strip -v "${STRIP_SHARED}" "$file" ;;
+    esac
+  done < <(find "${builddir}" -type f -perm -u+x ! -name vmlinux -print0)
+
+  echo "Stripping vmlinux..."
+  strip -v "${STRIP_STATIC}" "${builddir}/vmlinux"
+
+  echo "Adding symlink..."
+  mkdir -p "${pkgdir}/usr/src"
+  ln -sr "${builddir}" "${pkgdir}/usr/src/${pkgbase}"
+}
+
+for _p in "${pkgname[@]}"; do
+  eval "package_${_p}() {
+    $(declare -f "_package${_p#${pkgbase}}")
+    _package${_p#${pkgbase}}
+  }"
+done

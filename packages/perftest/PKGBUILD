@@ -1,0 +1,28 @@
+pkgname=perftest
+pkgver=26.04.17
+pkgrel=1
+pkgdesc='InfiniBand and RoCE performance tests for Spark fabric validation'
+arch=('aarch64')
+url='https://github.com/linux-rdma/perftest'
+license=('GPL-2.0-only OR BSD-2-Clause')
+depends=('rdma-core' 'pciutils')
+optdepends=('cuda-dgx-spark: CUDA memory and GPU validation benchmarks')
+makedepends=('autoconf' 'automake' 'libtool' 'pkgconf' 'cuda-dgx-spark' 'gcc15-dgx')
+source=("perftest-${pkgver}.tar.gz::https://github.com/linux-rdma/perftest/archive/refs/tags/${pkgver}.tar.gz")
+sha256sums=('18446f0390dbb097e623ab5f100ba163de6867bc5ad4e42669701e3ca3c4a4bf')
+prepare() {
+  cd "${srcdir}/perftest-${pkgver}"
+  ./autogen.sh
+}
+build() {
+  cd "${srcdir}/perftest-${pkgver}"
+  export NVCC_CCBIN=/opt/gcc15/bin/g++
+  export NVCCFLAGS="-arch=sm_121"
+  ./configure --prefix=/usr --enable-cudart
+  make -j4
+}
+package() {
+  cd "${srcdir}/perftest-${pkgver}"
+  make DESTDIR="$pkgdir" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

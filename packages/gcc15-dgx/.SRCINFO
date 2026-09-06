@@ -1,0 +1,24 @@
+pkgbase = gcc15-dgx
+	pkgdesc = Side-by-side GCC 15 C/C++ compiler for the Spark CUDA 13 toolkit
+	pkgver = 15.3.0
+	pkgrel = 1
+	url = https://gcc.gnu.org/
+	arch = aarch64
+	license = GPL-3.0-with-GCC-exception
+	license = GFDL-1.3-or-later
+	makedepends = python
+	depends = binutils
+	depends = glibc
+	depends = gcc-libs
+	depends = gmp
+	depends = mpfr
+	depends = libmpc
+	depends = libisl
+	depends = zlib
+	depends = zstd
+	options = !lto
+	options = !debug
+	source = https://gcc.gnu.org/pub/gcc/releases/gcc-15.3.0/gcc-15.3.0.tar.xz
+	sha512sums = 0de9e296153b52c021b1c7e63c9c62151d7a0ac03f23ce6e9f772c1b0eb783f6acdd81cc4567bfe4128a6f64968c2cfc8eff40b36229cba7425349f7d637c654
+
+pkgname = gcc15-dgx

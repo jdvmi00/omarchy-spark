@@ -1,0 +1,37 @@
+[
+  {
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./gds-tools-13-0_1.15.1.6-1_arm64.deb",
+    "filename": "gds-tools-13-0_1.15.1.6-1_arm64.deb",
+    "size": 39001068,
+    "hash_algorithm": "sha512",
+    "hash": "d8e8505b67bd24c4a6e862850f31bf05625577f6920b7301a11568074cf75a0071b2be905103dcc5afdef279ed92ea74cb4299e8140fa30dc8b5e7b4c7f3ca53"
+  },
+  {
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./libnvjpeg-13-0_13.0.1.86-1_arm64.deb",
+    "filename": "libnvjpeg-13-0_13.0.1.86-1_arm64.deb",
+    "size": 3168486,
+    "hash_algorithm": "sha512",
+    "hash": "b0852be3d8632be4e12205c734720fffd8684b03c5d6ae1aa390501d5bf603615f1f3b31d7807033a4299f86c7d6dad84de439b8ad147e2ba36fd1a021a9d049"
+  },
+  {
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./libnvjpeg-dev-13-0_13.0.1.86-1_arm64.deb",
+    "filename": "libnvjpeg-dev-13-0_13.0.1.86-1_arm64.deb",
+    "size": 2962362,
+    "hash_algorithm": "sha512",
+    "hash": "1df354fefc1e973c53daf05c48c3295d613936bc3415c5a26da3ef5843f2332cecb4202cd1478e26bd79e68d48e2ca6a7646ca3f270f4ad8d0d5f29a8d102ac9"
+  },
+  {
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./libnvptxcompiler-13-0_13.0.88-1_arm64.deb",
+    "filename": "libnvptxcompiler-13-0_13.0.88-1_arm64.deb",
+    "size": 12903084,
+    "hash_algorithm": "sha512",
+    "hash": "e0e1cff89dfc6e03e90be14eb1ad38b729c2ad5a2eb2c94d8b8cb108e8279a5dd4a1e256eb10bd3584fe1d518872dfe536d61798a5d451e3f2ff8c4f5920b2ca"
+  },
+  {
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./libnvvm-13-0_13.0.88-1_arm64.deb",
+    "filename": "libnvvm-13-0_13.0.88-1_arm64.deb",
+    "size": 38508284,
+    "hash_algorithm": "sha512",
+    "hash": "59ee5dc117a16c03c3a3db97144997160eafaf18ce85f227ab3b272e5e379f541b4343201a7ef1825de42ba9b8d9690fb500b6a8d771ae459e085b76aefac46e"
+  }
+]

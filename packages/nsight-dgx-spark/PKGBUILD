@@ -1,0 +1,44 @@
+pkgname=nsight-dgx-spark
+pkgver=2025.3.2
+pkgrel=1
+pkgdesc='Nsight Compute and Systems matching the Spark installation'
+arch=('aarch64')
+url='https://developer.nvidia.com/tools-overview'
+license=('custom:NVIDIA')
+depends=('glibc' 'gcc-libs' 'glib2' 'ncurses' 'libxcb' 'xcb-util-wm' 'xcb-util-image'
+         'xcb-util-keysyms' 'xcb-util-renderutil' 'xcb-util-cursor' 'libxkbcommon-x11'
+         'fontconfig' 'dbus' 'nss' 'libxcomposite' 'libxdamage' 'libxrandr' 'libxtst'
+         'alsa-lib' 'libglvnd' 'krb5')
+provides=('nsight-compute=2025.3.1' 'nsight-systems=2025.3.2')
+conflicts=('nsight-compute' 'nsight-systems')
+options=('!strip' '!debug')
+source=(
+  https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./nsight-compute-2025.3.1_2025.3.1.4-1_arm64.deb
+  https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/./nsight-systems-2025.3.2_2025.3.2.474-1_arm64.deb
+)
+sha256sums=(
+  SKIP
+  SKIP
+)
+sha512sums=(
+  7165cec1e123bec308856e38a28e15b3c51a43be0cb14bede613d78c889812f84c4668373a1fec51b3be8f97c29863950a9e741c264cc0ea3079f591d940076a
+  0ce8040c54e4649bbf38869d246f4ecfceaa706b948d46c2bb3e47e8b5466f06a2a26d91da21ea2c284038b73be5e02bdf6413404e335896fb276e03a2a355e0
+)
+noextract=(
+  nsight-compute-2025.3.1_2025.3.1.4-1_arm64.deb
+  nsight-systems-2025.3.2_2025.3.2.474-1_arm64.deb
+)
+package() {
+  set -o pipefail
+  local archive member
+  for archive in "${noextract[@]}"; do
+    member=$(bsdtar -tf "${srcdir}/${archive}" | grep -E '^data\.tar\.(xz|gz|zst)$')
+    [[ -n "$member" && "$member" != *$'\n'* ]] || return 1
+    bsdtar -xOf "${srcdir}/${archive}" "$member" | bsdtar -xf - -C "${pkgdir}"
+  done
+  install -dm755 "${pkgdir}/usr/bin"
+  ln -s /opt/nvidia/nsight-compute/2025.3.1/ncu "${pkgdir}/usr/bin/ncu"
+  ln -s /opt/nvidia/nsight-compute/2025.3.1/ncu-ui "${pkgdir}/usr/bin/ncu-ui"
+  ln -s /opt/nvidia/nsight-systems/2025.3.2/target-linux-sbsa-armv8/nsys "${pkgdir}/usr/bin/nsys"
+  ln -s /opt/nvidia/nsight-systems/2025.3.2/host-linux-armv8/nsys-ui "${pkgdir}/usr/bin/nsys-ui"
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "arch-dgx-spark-iso",
+    "url": "https://github.com/RageLtd/arch-dgx-spark-iso.git",
+    "commit": "4d31c3b5e3b08a8ae7e822e4194305ae6d1929d5"
+  },
+  {
+    "name": "linux-dgx-spark",
+    "url": "https://github.com/RageLtd/linux-dgx-spark.git",
+    "commit": "2f74023ce225559d1da4d71795274dedab1fc32c"
+  },
+  {
+    "name": "nixos-dgx-spark",
+    "url": "https://github.com/graham33/nixos-dgx-spark.git",
+    "commit": "43fff730b076c9ea490f8a26ee55f7ca0de3239e"
+  },
+  {
+    "name": "try-omarchy",
+    "url": "https://github.com/omacom/try-omarchy.git",
+    "commit": "088ceaea247d0b5858f5a41c3a5a3c9c666ba896"
+  },
+  {
+    "name": "gcc15",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gcc15.git",
+    "commit": "a496a034dcd4724bba8d9aacd05f1f96db7f9055"
+  },
+  {
+    "name": "nvidia-utils",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-utils.git",
+    "commit": "917e1917929733b1e6632a20cd091b0ec13f39e8"
+  },
+  {
+    "name": "omarchy",
+    "url": "https://github.com/basecamp/omarchy.git",
+    "commit": "346e69e1cec6c4e8924531874af6ba010a1bc99e"
+  },
+  {
+    "name": "omarchy-pkgs",
+    "url": "https://github.com/omacom-io/omarchy-pkgs.git",
+    "commit": "b81d678b3f18b66d3e99feeb72b762d06f3a56cd"
+  },
+  {
+    "name": "cuda",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cuda.git",
+    "commit": "7b4ef69c5f5f0adf5c197ce6db21e242d4d0e188"
+  },
+  {
+    "name": "cuda-glibc242-patch",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cuda.git",
+    "commit": "c36d77ac1d8e60fcd97490f8e432a8d034ddcc10"
+  },
+  {
+    "name": "aquamarine-packaging-compat13",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aquamarine.git",
+    "commit": "8489a8358817a964a923f05ba324996378d81a5d"
+  }
+]
