@@ -4,26 +4,16 @@
   "host_arch": "aarch64",
   "counts": {
     "total": 147,
-    "installed": 124,
+    "installed": 137,
     "available_not_installed": 0,
-    "unavailable": 23
+    "unavailable": 10
   },
   "available_not_installed": [],
   "unavailable": [
     {
-      "name": "aether",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/aether/PKGBUILD"
-    },
-    {
       "name": "asdcontrol",
       "tier": "not-applicable",
       "note": "Apple Studio Display brightness control"
-    },
-    {
-      "name": "cliamp",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/cliamp/PKGBUILD"
     },
     {
       "name": "dotnet-runtime",
@@ -31,19 +21,9 @@
       "note": "no omarchy-pkgs recipe; AUR or vendor source"
     },
     {
-      "name": "herdr",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/herdr/PKGBUILD"
-    },
-    {
-      "name": "hyprland-preview-share-picker",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/hyprland-preview-share-picker/PKGBUILD"
-    },
-    {
       "name": "localsend",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/localsend/PKGBUILD"
+      "tier": "external",
+      "note": "Flutter app built through fvm; Flutter publishes no Linux aarch64 SDK"
     },
     {
       "name": "obs-studio",
@@ -56,26 +36,6 @@
       "note": "no omarchy-pkgs recipe; AUR or vendor source"
     },
     {
-      "name": "omacalc",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/omacalc/PKGBUILD"
-    },
-    {
-      "name": "omacut",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/omacut/PKGBUILD"
-    },
-    {
-      "name": "omawrite",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/omawrite/PKGBUILD"
-    },
-    {
-      "name": "omarchy-nvim",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/omarchy-nvim/PKGBUILD"
-    },
-    {
       "name": "pinta",
       "tier": "external",
       "note": "no omarchy-pkgs recipe; AUR or vendor source"
@@ -84,16 +44,6 @@
       "name": "qemu-user-static-binfmt",
       "tier": "not-applicable",
       "note": "runs foreign-architecture binaries; the port is the foreign architecture"
-    },
-    {
-      "name": "tensaku",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/tensaku/PKGBUILD"
-    },
-    {
-      "name": "tobi-try",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/tobi-try/PKGBUILD"
     },
     {
       "name": "ttf-ia-writer",
@@ -106,27 +56,13 @@
       "note": "upstream/omarchy-pkgs/pkgbuilds/ttf-jetbrains-mono-nerd-basic/PKGBUILD"
     },
     {
-      "name": "tzupdate",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/tzupdate/PKGBUILD"
-    },
-    {
-      "name": "ufw-docker",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/ufw-docker/PKGBUILD"
-    },
-    {
       "name": "yaru-icon-theme",
       "tier": "omarchy-x86-only",
       "note": "upstream/omarchy-pkgs/pkgbuilds/yaru-icon-theme/PKGBUILD"
-    },
-    {
-      "name": "yay",
-      "tier": "omarchy-recipe",
-      "note": "upstream/omarchy-pkgs/pkgbuilds/yay/PKGBUILD"
     }
   ],
   "installed": [
+    "aether",
     "alsa-utils",
     "avahi",
     "bash-completion",
@@ -139,6 +75,7 @@
     "btop",
     "chromium",
     "clang",
+    "cliamp",
     "cups",
     "cups-filters",
     "cups-pk-helper",
@@ -171,8 +108,10 @@
     "gvfs-mtp",
     "gvfs-nfs",
     "gvfs-smb",
+    "herdr",
     "hyprland",
     "hyprland-guiutils",
+    "hyprland-preview-share-picker",
     "hyprpicker",
     "hyprsunset",
     "imagemagick",
@@ -208,6 +147,10 @@
     "noto-fonts-emoji",
     "nss-mdns",
     "nvim",
+    "omacalc",
+    "omacut",
+    "omawrite",
+    "omarchy-nvim",
     "pacman-contrib",
     "pamixer",
     "plocate",
@@ -222,6 +165,7 @@
     "quickshell",
     "ripgrep",
     "ruby",
+    "tensaku",
     "sddm",
     "slurp",
     "socat",
@@ -233,8 +177,11 @@
     "tldr",
     "tree-sitter-cli",
     "tmux",
+    "tobi-try",
+    "tzupdate",
     "udiskie",
     "ufw",
+    "ufw-docker",
     "unzip",
     "usage",
     "uwsm",
@@ -248,6 +195,7 @@
     "xdg-desktop-portal-hyprland",
     "xdg-terminal-exec",
     "xournalpp",
+    "yay",
     "yt-dlp",
     "zbar",
     "zoxide"

@@ -83,7 +83,8 @@ python3 scripts/audit-base-packages.py classify probe.json --pkgbuilds <omarchy-
 
 The manifest lists what is installed, what the repos offer but is missing, and
 tiers the rest by whether an upstream recipe builds on aarch64. Packages in
-the `omarchy-recipe` tier belong under `packages/` here; `ttfx` was the first.
+the `omarchy-recipe` tier belong under `packages/` here; all 14 that build on
+aarch64 are now present, copied unchanged from omarchy-pkgs.
 
 ## Native integration
 

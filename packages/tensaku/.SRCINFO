@@ -1,0 +1,20 @@
+pkgbase = tensaku
+	pkgdesc = Modern screenshot annotation tool for Wayland
+	pkgver = 0.28.0
+	pkgrel = 1
+	url = https://github.com/jondkinney/tensaku
+	arch = x86_64
+	arch = aarch64
+	license = MPL-2.0
+	makedepends = rust
+	depends = gtk4
+	depends = gtk4-layer-shell
+	depends = libadwaita
+	depends = libepoxy
+	depends = fontconfig
+	optdepends = hyprland: window snapping and pin placement
+	optdepends = sway: window snapping and pin placement
+	source = tensaku-0.28.0.tar.gz::https://github.com/jondkinney/tensaku/archive/refs/tags/v0.28.0.tar.gz
+	sha256sums = 08f61dce1a4b629a1229c0b2cead642e165319e4b61a6f605fc3568d9f6183ee
+
+pkgname = tensaku

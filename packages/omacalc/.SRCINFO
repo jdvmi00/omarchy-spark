@@ -1,0 +1,27 @@
+pkgbase = omacalc
+	pkgdesc = Dead-simple calculator built with Qt Quick
+	pkgver = 0.2.2
+	pkgrel = 1
+	url = https://github.com/omacom-io/omacalc
+	install = omacalc.install
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	license = OFL-1.1
+	makedepends = gcc
+	makedepends = make
+	makedepends = qt6-base
+	makedepends = qt6-declarative
+	depends = hicolor-icon-theme
+	depends = qt6-base
+	depends = qt6-declarative
+	depends = xdg-desktop-portal
+	options = !debug
+	source = omacalc-0.2.2.tar.gz::https://github.com/omacom-io/omacalc/archive/refs/tags/v0.2.2.tar.gz
+	source = omacalc.desktop
+	source = omacalc.svg
+	sha256sums = a42b39cd5a62c83f6667060da19c9bcc5dd8469ce69e48f19394b71322b9cba4
+	sha256sums = a8697a8606ab2ff6323e2923a835b1d3312e03f20614b71b1d5db57c84c93306
+	sha256sums = a6366f7167e657dd3be9c129a533fccc007dfb644db505f07068ad5a5986d34d
+
+pkgname = omacalc

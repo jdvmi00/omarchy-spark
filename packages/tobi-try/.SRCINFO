@@ -1,0 +1,19 @@
+pkgbase = tobi-try
+	pkgdesc = Fresh directories for every vibe.
+	pkgver = 1.8.1
+	pkgrel = 3
+	url = https://github.com/tobi/try
+	arch = any
+	license = MIT
+	depends = ruby
+	provides = try
+	conflicts = try
+	options = !debug
+	source = try-1.8.1.rb::https://raw.githubusercontent.com/tobi/try/d1bc484cc31a34db3d287550f4800e9a6e56bacd/try.rb
+	source = fuzzy.rb::https://raw.githubusercontent.com/tobi/try/d1bc484cc31a34db3d287550f4800e9a6e56bacd/lib/fuzzy.rb
+	source = tui.rb::https://raw.githubusercontent.com/tobi/try/d1bc484cc31a34db3d287550f4800e9a6e56bacd/lib/tui.rb
+	sha256sums = 55a968dc5b1536b338d8f96693576c8cb19ca6bcabbca9138591cd0518486b02
+	sha256sums = cf815ed12c8147bbc7f67008cfc1f3fd05df1638ff290e2079188f1b9bf8f190
+	sha256sums = b62d2b61445d8266f064e2809e06ebc0a25da401ee5a13dc3a73d215c0a1ea71
+
+pkgname = tobi-try

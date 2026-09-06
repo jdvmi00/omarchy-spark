@@ -1,0 +1,23 @@
+pkgbase = omawrite
+	pkgdesc = Dead-simple Markdown writing app built with Qt Quick
+	pkgver = 0.5.0
+	pkgrel = 1
+	url = https://github.com/omacom-io/omawrite
+	install = omawrite.install
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	license = OFL-1.1
+	makedepends = gcc
+	makedepends = make
+	makedepends = qt6-base
+	makedepends = qt6-declarative
+	depends = hicolor-icon-theme
+	depends = qt6-base
+	depends = qt6-declarative
+	depends = xdg-desktop-portal
+	options = !debug
+	source = omawrite-0.5.0.tar.gz::https://github.com/omacom-io/omawrite/archive/refs/tags/v0.5.0.tar.gz
+	sha256sums = b57e418212f9bde0b8a12cff2424a43f15829a56a58fdc49542a0393a430f938
+
+pkgname = omawrite

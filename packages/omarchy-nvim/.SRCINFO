@@ -1,0 +1,19 @@
+pkgbase = omarchy-nvim
+	pkgdesc = Pre-built LazyVim configuration with cached plugins
+	pkgver = 2026.8.13
+	pkgrel = 1
+	url = https://github.com/LazyVim/LazyVim
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = nodejs
+	makedepends = npm
+	makedepends = tree-sitter-cli
+	depends = neovim>=0.9.0
+	depends = git
+	conflicts = omarchy-lazyvim
+	options = !debug
+	source = https://github.com/LazyVim/starter/archive/refs/heads/main.tar.gz
+	sha256sums = d865d50211358358d3c3c1e356773c1e3de1e8964215d85eb1b4c77521e17488
+
+pkgname = omarchy-nvim

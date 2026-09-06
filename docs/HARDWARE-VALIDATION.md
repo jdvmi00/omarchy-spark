@@ -115,3 +115,17 @@ was then set to 6144×2560 at 60 Hz by an explicit `hl.monitor` entry for
 HDMI-A-1 in `~/.config/hypr/monitors.lua`, with Omarchy's automatic scaling
 keeping the interface at 1×. Only this one monitor was tested; other displays,
 HDR, and sustained use at 120 Hz were not.
+
+## Omarchy recipes built natively — 2026-09-06
+
+The 13 remaining base-list packages whose upstream recipes declare aarch64
+were built on the Spark with `makepkg -s` from the recipes now under
+`packages/`, each unchanged from omarchy-pkgs, and installed. Build times
+ranged from 5 seconds (scripts) to about 4.5 minutes (herdr, Rust with a
+bundled Zig). Every native binary is an ARM64 ELF, pacman reports no altered
+files, and the command-line tools answer version or help calls: cliamp,
+herdr, tzupdate, yay, try, tensaku. The Qt apps (omacalc, omacut, omawrite),
+aether, hyprland-preview-share-picker and the LazyVim configuration were
+installed but not exercised interactively. localsend was not attempted: its
+recipe builds a Flutter app through fvm, and Flutter publishes no Linux
+aarch64 SDK. The audit afterwards reports 137 of 147 base packages installed.

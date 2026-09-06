@@ -28,6 +28,10 @@ NOT_APPLICABLE = {
     'qemu-user-static-binfmt': 'runs foreign-architecture binaries; the port is the foreign architecture',
     'asdcontrol': 'Apple Studio Display brightness control',
 }
+# Upstream recipe declares aarch64 but its toolchain has no ARM64 Linux build.
+BLOCKED = {
+    'localsend': 'Flutter app built through fvm; Flutter publishes no Linux aarch64 SDK',
+}
 
 
 def read_list(path):
@@ -54,6 +58,8 @@ def probe(args):
 def recipe_tier(name, pkgbuilds):
     if name in NOT_APPLICABLE:
         return 'not-applicable', NOT_APPLICABLE[name]
+    if name in BLOCKED:
+        return 'external', BLOCKED[name]
     recipe = pkgbuilds / name / 'PKGBUILD' if pkgbuilds else None
     if recipe and recipe.exists():
         arch = re.search(r"^arch=\((.*)\)", recipe.read_text(), re.M)

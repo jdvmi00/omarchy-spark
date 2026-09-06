@@ -1,0 +1,25 @@
+pkgbase = omacut
+	pkgdesc = Dead-simple video length trimmer built with Qt Quick and ffmpeg
+	pkgver = 0.4.0
+	pkgrel = 1
+	url = https://github.com/omacom-io/omacut
+	install = omacut.install
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	makedepends = gcc
+	makedepends = make
+	makedepends = qt6-base
+	makedepends = qt6-declarative
+	makedepends = qt6-multimedia
+	depends = ffmpeg
+	depends = hicolor-icon-theme
+	depends = qt6-base
+	depends = qt6-declarative
+	depends = qt6-multimedia
+	depends = xdg-desktop-portal
+	options = !debug
+	source = omacut-0.4.0.tar.gz::https://github.com/omacom-io/omacut/archive/refs/tags/v0.4.0.tar.gz
+	sha256sums = 0e1b0665e0304a1ecbdb06b8574e8abf385e1cffa431821032902340c2c5d7df
+
+pkgname = omacut

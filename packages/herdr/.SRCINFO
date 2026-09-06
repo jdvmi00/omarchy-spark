@@ -1,0 +1,23 @@
+pkgbase = herdr
+	pkgdesc = Herdr terminal workspace manager for AI coding agents
+	pkgver = 0.8.2
+	pkgrel = 1
+	url = https://github.com/herdrdev/herdr
+	arch = x86_64
+	arch = aarch64
+	license = Apache-2.0
+	makedepends = cargo
+	depends = gcc-libs
+	depends = glibc
+	conflicts = omarchy-herdr
+	replaces = omarchy-herdr
+	options = !debug
+	options = !lto
+	source = herdr-0.8.2.tar.gz::https://github.com/herdrdev/herdr/archive/refs/tags/v0.8.2.tar.gz
+	sha256sums = 60453051025ee44ebf055d26cdaf665a0accd99a992cddd22c166a26c49cd161
+	source_x86_64 = zig-x86_64-linux-0.15.2.tar.xz::https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz
+	sha256sums_x86_64 = 02aa270f183da276e5b5920b1dac44a63f1a49e55050ebde3aecc9eb82f93239
+	source_aarch64 = zig-aarch64-linux-0.15.2.tar.xz::https://ziglang.org/download/0.15.2/zig-aarch64-linux-0.15.2.tar.xz
+	sha256sums_aarch64 = 958ed7d1e00d0ea76590d27666efbf7a932281b3d7ba0c6b01b0ff26498f667f
+
+pkgname = herdr

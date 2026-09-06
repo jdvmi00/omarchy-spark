@@ -1,0 +1,20 @@
+pkgbase = hyprland-preview-share-picker
+	pkgdesc = An alternative share picker for hyprland with window and monitor previews
+	pkgver = 0.2.1
+	pkgrel = 1
+	url = https://github.com/WhySoBad/hyprland-preview-share-picker
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	makedepends = cargo
+	depends = gtk4
+	depends = gtk4-layer-shell
+	depends = xdg-desktop-portal-hyprland
+	depends = hyprland
+	optdepends = slurp: default tool for selecting share regions
+	source = hyprland-preview-share-picker-0.2.1.tar.gz::https://github.com/WhySoBad/hyprland-preview-share-picker/archive/refs/tags/v0.2.1.tar.gz
+	source = hyprland-protocols-3a5c2bda1c1a4e55cc1330c782547695a93f05b2.tar.gz::https://github.com/hyprwm/hyprland-protocols/archive/3a5c2bda1c1a4e55cc1330c782547695a93f05b2.tar.gz
+	sha256sums = dfbd6773884c24bb300d756420cc540dda0c3518e910e20d1538e7dd6c0990da
+	sha256sums = SKIP
+
+pkgname = hyprland-preview-share-picker
