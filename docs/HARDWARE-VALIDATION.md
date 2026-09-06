@@ -149,6 +149,9 @@ enabled and then started: a fresh SSH connection, mDNS resolution of the
 hostname and the running Docker containers all still worked, with the SSH,
 mDNS, LocalSend and Docker DNS rules present and ufw-docker's block in
 after.rules. The shell's lock screen was then locked and unlocked with the
-account password, confirmed at the desk. systemd-resolved starts on the next
-boot; DNS through it and the firewall at boot were not yet observed.
+account password, confirmed at the desk. After a reboot, ufw was active from
+boot, systemd-resolved was active with NetworkManager feeding it the network's
+DNS servers, name resolution and mDNS worked, every service including the
+Workbench backend and Dashboard came up, the desktop session started at
+3840×2160, and no unit had failed.
 Omarchy's aarch64 package repository was synced and holds only omarchy-keyring.
