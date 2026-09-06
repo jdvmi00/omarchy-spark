@@ -14,7 +14,7 @@ re-checked; see the final section.
 | GPU | GB10, NVIDIA 610.57.04 |
 | CUDA/compiler | CUDA 13.0.3, nvcc 13.0.88, side-by-side GCC 15.3.0 |
 | Desktop | Omarchy 4.0.2-6, settings 4.0.2-3 (later 4.0.2-4), Hyprland 0.56.1, Quickshell |
-| Display | NVIDIA-accelerated 3840×2160; no Hyprland configuration errors |
+| Display | NVIDIA-accelerated 3840×2160 at bring-up; later 6144×2560 at 120 Hz verified and 60 Hz configured (below) |
 | Workbench | Desktop 0.169.2.16-5 (later -6); native service 0.95.2-5, CLI 0.72.1-10 |
 | Dashboard | 0.25.11-2; both services active, HTTP 200, firmware discovery |
 | RDMA | rdma-core 64.0; four devices found; fabric links down |
@@ -100,3 +100,18 @@ cleanly. The shell's 150-second idle timer was not observed. Omarchy 4 handles
 idle and lock in its own shell; `hypridle` and `hyprlock` are intentionally
 absent. The audit afterwards reports 124 of 147 base packages installed and
 none missing that the repos provide.
+
+## Display modes over HDMI 2.1a — 2026-09-06
+
+NVIDIA's hardware page lists only "1x HDMI 2.1a display connector" and no
+maximum. On the attached Dell U5226KW, driver 610.57.04 advertises the panel's
+full mode list up to 6144×2560 at 120 Hz. Omarchy's default picks the
+display's preferred mode, which this monitor reports as 3840×2160 at 60 Hz
+over HDMI, so bring-up ran at 4K.
+
+Switching the live session to 6144×2560 at 120 Hz through Hyprland succeeded
+and displayed correctly, confirmed by eye at the panel. The configured mode
+was then set to 6144×2560 at 60 Hz by an explicit `hl.monitor` entry for
+HDMI-A-1 in `~/.config/hypr/monitors.lua`, with Omarchy's automatic scaling
+keeping the interface at 1×. Only this one monitor was tested; other displays,
+HDR, and sustained use at 120 Hz were not.
