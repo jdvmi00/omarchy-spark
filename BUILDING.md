@@ -40,9 +40,24 @@ makepkg -s
 ```
 
 `-s` may install build dependencies in your build environment. Do not bypass
-source validation or dependency checks. Some initial historical builds used
-manually provisioned dependencies; a complete clean-chroot build of every recipe
-is still outstanding. Do not treat this command example as evidence of that.
+source validation or dependency checks.
+
+## Clean build of every recipe
+
+`scripts/clean-build.sh` builds all 28 recipes from the committed tree alone in
+a fresh Arch Linux ARM container, in dependency order, with a local pacman
+repository for the recipes that depend on each other:
+
+```sh
+scripts/clean-build.sh setup   # container with base-devel, git, sudo and the local repo
+scripts/clean-build.sh run     # exports HEAD, builds everything, prints summary.txt
+```
+
+It needs an aarch64 Docker host; the Spark itself served. The run recorded in
+`manifests/clean-build-2026-09-06.json` passed every recipe, producing the same
+package versions installed on the test machine, in about two and a half hours.
+The kernel recipe defaults `BUILD_JOBS` to 6; set it to the core count for a
+faster kernel build. The NVIDIA driver is not built here (see below).
 
 Suggested dependency order:
 

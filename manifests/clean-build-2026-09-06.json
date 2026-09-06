@@ -1,0 +1,225 @@
+{
+  "source_commit": "28b895f",
+  "note": "Every recipe under packages/ built with makepkg -s from the committed tree alone, in a fresh menci/archlinuxarm container on the DGX Spark with a local repository for inter-recipe dependencies. Versions equal the packages installed on the test machine.",
+  "container_toolchain": "gcc 16.1.1+r12+g301eb08fa2c5-1 glibc 2.43+r22+g8362e8ce10b2-2 binutils 2.46+r70+g155188ea10a7-1 rust 1:1.98.1-1 go 2:1.27.0-1 rust 1:1.98.1-1 cmake 4.4.3-2",
+  "completed": "2026-09-06T13:24Z",
+  "build_seconds": {
+    "gcc15-dgx": 981,
+    "linux-dgx-spark": 5814,
+    "cuda-dgx-spark": 526,
+    "perftest": 280,
+    "herdr": 255,
+    "omarchy-nvim": 171,
+    "nsight-dgx-spark": 144,
+    "tensaku": 135,
+    "hyprland-preview-share-picker": 129,
+    "omarchy": 105,
+    "cliamp": 102,
+    "ttfx": 101
+  },
+  "packages": [
+    {
+      "file": "aether-4.29.8-1-aarch64.pkg.tar.xz",
+      "name": "aether",
+      "version": "4.29.8-1",
+      "arch": "aarch64",
+      "sha256": "d9bbecc4a4bc654fe31798cc4ebc5d2e87fe5e689f4107700268ab219d61e64e"
+    },
+    {
+      "file": "aquamarine-compat13-0.14.0-1-aarch64.pkg.tar.xz",
+      "name": "aquamarine-compat13",
+      "version": "0.14.0-1",
+      "arch": "aarch64",
+      "sha256": "3e1ed2db4173756e7a1ad2608a48465bf37e913a047316692558e7f7224acf03"
+    },
+    {
+      "file": "cliamp-2.0.1-1-aarch64.pkg.tar.xz",
+      "name": "cliamp",
+      "version": "2.0.1-1",
+      "arch": "aarch64",
+      "sha256": "ee7411020a32823fb3daa1f6261296d28ad75efda19f6f0ed6734c369b70a846"
+    },
+    {
+      "file": "cuda-dgx-spark-13.0.3-2-aarch64.pkg.tar.xz",
+      "name": "cuda-dgx-spark",
+      "version": "13.0.3-2",
+      "arch": "aarch64",
+      "sha256": "fe95800976f5faf23356ec9b7489971557f75841dc9242059be218671bcb9699"
+    },
+    {
+      "file": "dgx-dashboard-0.25.11-2-aarch64.pkg.tar.xz",
+      "name": "dgx-dashboard",
+      "version": "0.25.11-2",
+      "arch": "aarch64",
+      "sha256": "39277ad182d362d7f5d6bc6c26cd1e9da2d61b7c182b318c44822da03b03cbf3"
+    },
+    {
+      "file": "dgx-spark-mlnx-hotplug-26.01-1-aarch64.pkg.tar.xz",
+      "name": "dgx-spark-mlnx-hotplug",
+      "version": "26.01-1",
+      "arch": "aarch64",
+      "sha256": "64ea96dcde9acac1d9d79d60d99ad87d054d898778f4973a02f6fb909444a7a7"
+    },
+    {
+      "file": "gcc15-dgx-15.3.0-1-aarch64.pkg.tar.xz",
+      "name": "gcc15-dgx",
+      "version": "15.3.0-1",
+      "arch": "aarch64",
+      "sha256": "fea8ea92b690156a3276f3acad9bd4e3caabda283293686a9b176e93c0af1bc0"
+    },
+    {
+      "file": "herdr-0.8.2-1-aarch64.pkg.tar.xz",
+      "name": "herdr",
+      "version": "0.8.2-1",
+      "arch": "aarch64",
+      "sha256": "0ca4acc99b7aa729b84f7d87258d8c0420063f9c62464708b235927558d66530"
+    },
+    {
+      "file": "hyprland-preview-share-picker-0.2.1-1-aarch64.pkg.tar.xz",
+      "name": "hyprland-preview-share-picker",
+      "version": "0.2.1-1",
+      "arch": "aarch64",
+      "sha256": "321b2bcd40d6c2c2fcbc1766c99fc23e84c9da5a9a5be4a9a7befcbf2c0c533e"
+    },
+    {
+      "file": "linux-dgx-spark-6.17.0.1014_14-1-aarch64.pkg.tar.xz",
+      "name": "linux-dgx-spark",
+      "version": "6.17.0.1014_14-1",
+      "arch": "aarch64",
+      "sha256": "a55a5f9b5a4fadfe592b581ac9d920da726cbe729826d3f5387ead49eba3525c"
+    },
+    {
+      "file": "linux-dgx-spark-headers-6.17.0.1014_14-1-aarch64.pkg.tar.xz",
+      "name": "linux-dgx-spark-headers",
+      "version": "6.17.0.1014_14-1",
+      "arch": "aarch64",
+      "sha256": "b9f491861052bb469cef013b5d62614ff89f69871867e3661fc9992ce463eae5"
+    },
+    {
+      "file": "mise-bin-2026.9.1-1-aarch64.pkg.tar.xz",
+      "name": "mise-bin",
+      "version": "2026.9.1-1",
+      "arch": "aarch64",
+      "sha256": "cb5d6287f02c1a2408faa04c62b1df57607ad05a1734b37301ccbbda5b329d51"
+    },
+    {
+      "file": "nsight-dgx-spark-2025.3.2-1-aarch64.pkg.tar.xz",
+      "name": "nsight-dgx-spark",
+      "version": "2025.3.2-1",
+      "arch": "aarch64",
+      "sha256": "4b3f43a8feee1779bd432da1397808ce226f137938e0007ca97c0e15a51c003b"
+    },
+    {
+      "file": "nvidia-ai-workbench-0.169.2.16-6-aarch64.pkg.tar.xz",
+      "name": "nvidia-ai-workbench",
+      "version": "0.169.2.16-6",
+      "arch": "aarch64",
+      "sha256": "4e2f2f768ea5e8d3189b7031a5b1f29d506148405384c87ead497dce17ee51e5"
+    },
+    {
+      "file": "omacalc-0.2.2-1-aarch64.pkg.tar.xz",
+      "name": "omacalc",
+      "version": "0.2.2-1",
+      "arch": "aarch64",
+      "sha256": "236a9a440e548d0b59dcc9759a0c977487685cb5edfb48b88c52f44e9c9e0267"
+    },
+    {
+      "file": "omacut-0.4.0-1-aarch64.pkg.tar.xz",
+      "name": "omacut",
+      "version": "0.4.0-1",
+      "arch": "aarch64",
+      "sha256": "3f380cf97fc0d5517278e98f4896bcff274c1271c5e291f1790f896647eed0b3"
+    },
+    {
+      "file": "omarchy-4.0.2-7-aarch64.pkg.tar.xz",
+      "name": "omarchy",
+      "version": "4.0.2-7",
+      "arch": "aarch64",
+      "sha256": "6345a0cd237daf20b46cf13cc13a1aafc7e152f781902c7d6af2cedaed4a5d3b"
+    },
+    {
+      "file": "omarchy-keyring-20251027-1-any.pkg.tar.xz",
+      "name": "omarchy-keyring",
+      "version": "20251027-1",
+      "arch": "any",
+      "sha256": "c66e0a9476d27ff3181862be6414b299a329052afccf1fb2a9e797d17596e28a"
+    },
+    {
+      "file": "omarchy-nvim-2026.8.13-1-any.pkg.tar.xz",
+      "name": "omarchy-nvim",
+      "version": "2026.8.13-1",
+      "arch": "any",
+      "sha256": "0200d8df6aae4b057be066801b38f76abd34ee835e6e3299ce2f526d88720e57"
+    },
+    {
+      "file": "omarchy-settings-4.0.2-4-aarch64.pkg.tar.xz",
+      "name": "omarchy-settings",
+      "version": "4.0.2-4",
+      "arch": "aarch64",
+      "sha256": "9f15490ad74258c8a36454abe07b272c3fe690b1485364f8bda4aaa2c5fa75f1"
+    },
+    {
+      "file": "omawrite-0.5.0-1-aarch64.pkg.tar.xz",
+      "name": "omawrite",
+      "version": "0.5.0-1",
+      "arch": "aarch64",
+      "sha256": "7fce2f0cf6dcab4c6bc34da4f0e5c23a9b79fdb060795db076c395761ce61c9f"
+    },
+    {
+      "file": "perftest-26.04.17-1-aarch64.pkg.tar.xz",
+      "name": "perftest",
+      "version": "26.04.17-1",
+      "arch": "aarch64",
+      "sha256": "f98eafdc0ec34561e220c910bf19a13b8d2b42d22af4a305ecb8594a2903133a"
+    },
+    {
+      "file": "tensaku-0.28.0-1-aarch64.pkg.tar.xz",
+      "name": "tensaku",
+      "version": "0.28.0-1",
+      "arch": "aarch64",
+      "sha256": "0447f050e3c7ba0c3e13f044229946e3fe8da6db1ab107e5582fa819689266d9"
+    },
+    {
+      "file": "tobi-try-1.8.1-3-any.pkg.tar.xz",
+      "name": "tobi-try",
+      "version": "1.8.1-3",
+      "arch": "any",
+      "sha256": "b907286f581a95d17134e2379e72ecac145fe7efd8bdbddfee870716fa2b4163"
+    },
+    {
+      "file": "ttfx-0.3.2-1-aarch64.pkg.tar.xz",
+      "name": "ttfx",
+      "version": "0.3.2-1",
+      "arch": "aarch64",
+      "sha256": "c4d00d33d6f547067d7943c38014506dc6ba9b65c5a9aeaa90e9f84aa8c1eb59"
+    },
+    {
+      "file": "tzupdate-3.1.0-1-aarch64.pkg.tar.xz",
+      "name": "tzupdate",
+      "version": "3.1.0-1",
+      "arch": "aarch64",
+      "sha256": "ee3a69de2a7cd661f6487ef6d97b64c423c0c0e9ac2963b9146a7f480ae79346"
+    },
+    {
+      "file": "ufw-docker-251123-1-any.pkg.tar.xz",
+      "name": "ufw-docker",
+      "version": "251123-1",
+      "arch": "any",
+      "sha256": "c675cfb75ea5a647578b222c30ab7671fcda011f429c823674d1d7370b589518"
+    },
+    {
+      "file": "xdg-terminal-exec-0.14.3-1-any.pkg.tar.xz",
+      "name": "xdg-terminal-exec",
+      "version": "0.14.3-1",
+      "arch": "any",
+      "sha256": "531598a19c0e03b0f0f89a283c9afd4ad6f9e320961b3efae28171c28efb2972"
+    },
+    {
+      "file": "yay-13.0.1-1-aarch64.pkg.tar.xz",
+      "name": "yay",
+      "version": "13.0.1-1",
+      "arch": "aarch64",
+      "sha256": "58fd09e1ec11cfcabd99746e5013a208641b015e1edae754902ca44f3abf9422"
+    }
+  ]
+}
