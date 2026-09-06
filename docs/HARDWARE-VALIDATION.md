@@ -14,7 +14,7 @@ re-checked; see the final section.
 | GPU | GB10, NVIDIA 610.57.04 |
 | CUDA/compiler | CUDA 13.0.3, nvcc 13.0.88, side-by-side GCC 15.3.0 |
 | Desktop | Omarchy 4.0.2-6, settings 4.0.2-3 (later 4.0.2-4), Hyprland 0.56.1, Quickshell |
-| Display | NVIDIA-accelerated 3840×2160 at bring-up; later 6144×2560 at 120 Hz verified and 60 Hz configured (below) |
+| Display | NVIDIA-accelerated 3840×2160 at 60 Hz; 6144×2560 at 120 Hz verified working, 60 Hz not (below) |
 | Workbench | Desktop 0.169.2.16-5 (later -6); native service 0.95.2-5, CLI 0.72.1-10 |
 | Dashboard | 0.25.11-2; both services active, HTTP 200, firmware discovery |
 | RDMA | rdma-core 64.0; four devices found; fabric links down |
@@ -110,11 +110,15 @@ display's preferred mode, which this monitor reports as 3840×2160 at 60 Hz
 over HDMI, so bring-up ran at 4K.
 
 Switching the live session to 6144×2560 at 120 Hz through Hyprland succeeded
-and displayed correctly, confirmed by eye at the panel. The configured mode
-was then set to 6144×2560 at 60 Hz by an explicit `hl.monitor` entry for
-HDMI-A-1 in `~/.config/hypr/monitors.lua`, with Omarchy's automatic scaling
-keeping the interface at 1×. Only this one monitor was tested; other displays,
-HDR, and sustained use at 120 Hz were not.
+and displayed correctly, confirmed by eye at the panel. 6144×2560 at 60 Hz did
+not: Hyprland reported the mode set, but the panel stayed black when the
+monitor reconnected after an input switch, and the monitor's input menu froze
+until the mode was changed. The 120 Hz mode needs DSC while 60 Hz runs the
+uncompressed FRL link at a higher raw rate, so the cable or the monitor's
+handling of that path is the likely cause; it was not isolated. The
+configuration was returned to the preferred 3840×2160 at 60 Hz, which is also
+the cheapest mode in unified-memory scanout bandwidth for a machine serving
+models. Only this one monitor and cable were tested.
 
 ## Omarchy recipes built natively — 2026-09-06
 
@@ -124,8 +128,9 @@ were built on the Spark with `makepkg -s` from the recipes now under
 ranged from 5 seconds (scripts) to about 4.5 minutes (herdr, Rust with a
 bundled Zig). Every native binary is an ARM64 ELF, pacman reports no altered
 files, and the command-line tools answer version or help calls: cliamp,
-herdr, tzupdate, yay, try, tensaku. The Qt apps (omacalc, omacut, omawrite),
-aether, hyprland-preview-share-picker and the LazyVim configuration were
-installed but not exercised interactively. localsend was not attempted: its
+herdr, tzupdate, yay, try, tensaku. The desktop apps (omacalc, omacut,
+omawrite, aether) were opened on the desktop and launch. The share picker and
+the LazyVim configuration were installed but not exercised. localsend was not
+attempted: its
 recipe builds a Flutter app through fvm, and Flutter publishes no Linux
 aarch64 SDK. The audit afterwards reports 137 of 147 base packages installed.
