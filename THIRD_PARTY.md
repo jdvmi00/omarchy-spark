@@ -9,6 +9,12 @@ describe the packaged software; they are not a grant to redistribute its binarie
   retained in LICENSES/Omarchy-MIT.txt. The keyring package identifies its payload
   as GPL-3.0-or-later; that license is also included. The public signing keyring
   contains public keys, not project credentials or private signing keys.
+- The artwork under docs/media extends the Omarchy wordmark from basecamp/omarchy
+  (MIT, notice retained): the letters s, p and k are new, drawn on the same
+  15-pixel stair-step grid, and a and r reuse the original glyphs. Colors are the
+  Tokyo Night theme values shipped with Omarchy. The spark glyph and bracket icon
+  are original. No NVIDIA logo or trademark artwork is used or imitated; the
+  words NVIDIA and DGX Spark appear only as plain text naming the hardware.
 - Kernel packaging derives from RageLtd/linux-dgx-spark; its MIT license remains
   in packages/linux-dgx-spark/LICENSE. Downloaded Linux/Ubuntu sources have their
   own kernel licenses. The included configuration is a build configuration.

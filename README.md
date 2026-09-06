@@ -1,5 +1,7 @@
 # Omarchy Spark
 
+![Omarchy Spark: native Arch Linux ARM and Omarchy on the DGX Spark](docs/media/hero.png)
+
 Native Arch Linux ARM and Omarchy for NVIDIA DGX Spark, with ports of its NVIDIA
 compute and development tools.
 
@@ -34,6 +36,7 @@ is not hidden inside an Ubuntu VM.
 - [Release notes](docs/RELEASE-NOTES.md)
 - [Publication review and post-publication reassessment](docs/RELEASE-REVIEW.md)
 - [Upstream provenance and licenses](THIRD_PARTY.md)
+- [Artwork: hero, announcement card, wallpaper and icon](docs/media/README.md)
 - [Contributing](CONTRIBUTING.md)
 - [Requirements for a supported release](docs/RELEASE-CRITERIA.md)
 
