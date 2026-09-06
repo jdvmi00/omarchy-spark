@@ -54,7 +54,7 @@ denied before dispatch. Package integrity: 51 files, zero altered.
 ## Not established
 
 Audible audio, Bluetooth pairing, RDMA throughput/GPU-direct networking, suspend,
-lock/unlock, sustained thermals, comprehensive Nsight workflows, authenticated
+sustained thermals, comprehensive Nsight workflows, authenticated
 Dashboard telemetry/notebooks, private registry/remote Workbench integrations,
 firmware installation, a complete default application set, and update/rollback.
 No firmware was flashed. The external drive negotiated USB 2.0 during bring-up;
@@ -148,6 +148,7 @@ cleanup service are enabled and NetworkManager-wait-online is masked. ufw was
 enabled and then started: a fresh SSH connection, mDNS resolution of the
 hostname and the running Docker containers all still worked, with the SSH,
 mDNS, LocalSend and Docker DNS rules present and ufw-docker's block in
-after.rules. systemd-resolved starts on the next boot; DNS through it, the
-lock screen's unlock, and the firewall at boot were not yet observed.
+after.rules. The shell's lock screen was then locked and unlocked with the
+account password, confirmed at the desk. systemd-resolved starts on the next
+boot; DNS through it and the firewall at boot were not yet observed.
 Omarchy's aarch64 package repository was synced and holds only omarchy-keyring.
