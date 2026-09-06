@@ -57,10 +57,13 @@ already included; do not run an absent upstream configuration generator. The
 kernel source release is 6.17.0-1014.14, while its compiled kernel identifies as
 6.17.9-dgx-spark. The tested page size is 4 KiB.
 
-The tested NVIDIA module/userspace version is 610.57.04. Installing a matching
-NVIDIA open-module/DKMS, userspace, headers and Container Toolkit set is a separate
-integration prerequisite; this preview does not provide a complete pinned Arch
-repository for it. Rolling repositories may no longer provide the tested set.
+The NVIDIA driver is not a recipe here: `nvidia-open-dkms`, `nvidia-utils`,
+`libnvidia-container` and `nvidia-container-toolkit` come from Arch Linux ARM's
+`extra` repository (610.57.04-1 and toolkit 1.20.0-1 at test time), and DKMS
+builds the open modules against `linux-dgx-spark-headers`. Nothing pins them:
+a rolling update to a newer driver must be validated against the kernel as a
+set, and the `nvidia-utils` entry in upstream-lock.json records Arch's
+packaging revision that was consulted, not a source the port builds.
 The Aquamarine ABI 13 compatibility recipe addresses the repository combination
 observed during bring-up, not every future Hyprland release.
 
