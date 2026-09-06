@@ -41,10 +41,10 @@ its items in the main branch:
 
 | Review item | Disposition |
 | --- | --- |
-| `omarchy-settings` scriptlet overwrote administrator `/etc` files on every upgrade | Corrected in 4.0.2-4: local edits are kept and packaged content lands as `.pacnew`. Host-side tests; not yet on hardware |
-| `nvwb-spark-setup` changed config and links before detecting a conflicting local context | Corrected in 0.169.2.16-6: all checks precede any write; global `daemon-reload` removed. Host-side tests |
+| `omarchy-settings` scriptlet overwrote administrator `/etc` files on every upgrade | Corrected in 4.0.2-4: local edits are kept and packaged content lands as `.pacnew`. Host-side tests; the upgrade on the test Spark left every live file untouched |
+| `nvwb-spark-setup` changed config and links before detecting a conflicting local context | Corrected in 0.169.2.16-6: all checks precede any write; global `daemon-reload` removed. Host-side tests; re-run on the test Spark without changes |
 | `make-disk-image.py` could overwrite or alias its manifest sidecar | Corrected: `.json` image names are refused and the sidecar is created exclusively. Tested |
-| `check-jupyter-runtime.py` accepted any HTML 200, including a login page | Corrected: authenticated contents/status API checks, no redirects, no-token and wrong-token refusals required. Tested against a stub server; not yet re-run on the Spark |
+| `check-jupyter-runtime.py` accepted any HTML 200, including a login page | Corrected: authenticated contents/status API checks, no redirects, no-token and wrong-token refusals required. Tested against a stub server; passed inside the project container on the test Spark before and after a backend restart |
 | Workbench privileges, global `daemon-reload`, fixed port and single-user scope undocumented | Documented in the package README with an example sudoers rule; no policy is installed |
 | No clean-chroot build or independent hardware installation; update/rollback unfinished | Outstanding and required before broader promotion |
 | Provenance notes are not a legal opinion | Stated in THIRD_PARTY.md |

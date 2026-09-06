@@ -3,7 +3,8 @@
 ## Unreleased changes after v0.1.0-preview.1
 
 Corrections from the post-publication readiness review, present in the main
-branch, not in a tagged release, and not yet re-validated on hardware:
+branch and not in a tagged release. They were installed and re-checked on the
+single test Spark on 2026-09-06 (see the hardware report):
 
 - `omarchy-settings` 4.0.2-4: the install scriptlet keeps administrator edits
   to `/etc/nsswitch.conf`, `/etc/security/faillock.conf`, `/etc/os-release`,
@@ -19,7 +20,7 @@ branch, not in a tagged release, and not yet re-validated on hardware:
   API responses without following redirects and fails unless requests with no
   token and with a wrong token are refused. Tokens are still never printed.
 - New host-side regression tests cover each change; a SECURITY.md describes
-  private reporting. The hardware report still describes the preview.1 state.
+  private reporting.
 
 ## v0.1.0-preview.1 — Omarchy Spark developer preview
 

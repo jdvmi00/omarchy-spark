@@ -84,8 +84,9 @@ Upgrading `omarchy-settings` keeps locally edited `/etc/nsswitch.conf`,
 `/etc/skel/.bashrc` files and leaves the packaged content beside them as
 `<path>.pacnew` with a warning, as pacman does for its own configuration
 files. Untouched distribution defaults and files the package itself applied
-earlier are replaced. This scriptlet behaviour is covered by the regression
-tests and has not yet been exercised on the Spark.
+earlier are replaced. The upgrade path was exercised on the test Spark, where
+the live files were left untouched; the `.pacnew` branch is covered by the
+regression tests.
 
 Dashboard read-only status is available through
 `sudo dgx-arch-package-status --refresh`. Its combined Ubuntu update/reboot method

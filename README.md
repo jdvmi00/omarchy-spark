@@ -16,7 +16,7 @@ and an AI Workbench GPU project. Full factory software parity is still in progre
 | Omarchy | Login, Hyprland/Quickshell, NVIDIA acceleration at 3840×2160 |
 | CUDA | Native compilation and kernel execution; 4 MiB unified-memory verification |
 | Containers | Docker with NVIDIA runtime; CUDA execution inside containers |
-| AI Workbench | Native backend, ARM64 project build, GPU execution, JupyterLab HTTP 200 with the server token (page-level check only); repeated after backend restart |
+| AI Workbench | Native backend, ARM64 project build, GPU execution, JupyterLab with token enforcement verified (authenticated API; no-token and wrong-token refused); repeated after backend restart |
 | DGX Dashboard | Web service, firmware inventory and read-only Arch package status |
 | Networking and audio | Four RDMA devices, Bluetooth controller and HDMI audio sink detected |
 

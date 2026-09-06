@@ -6,11 +6,11 @@
   Source pins do not freeze rolling Arch build/runtime dependencies. A fresh
   ARM clean build and a second-machine installation are required before the
   port is promoted beyond a source-only developer preview.
-- Corrections made after the preview.1 review (the settings scriptlet keeping
-  local `/etc` edits, Workbench setup validating before writing, the image
-  manifest guard and the stricter notebook probe) are covered by host-side
-  tests only. They have not yet been installed or re-run on the Spark, and the
-  hardware report describes the preview.1 packages.
+- Corrections made after the preview.1 review were installed and re-checked on
+  the single test Spark (see the hardware report). The settings scriptlet's
+  `.pacnew` branch for locally edited files and its CUPS overrides were
+  exercised only by host-side tests, and no second machine has reproduced
+  any of it.
 - Full DGX OS and Omarchy default application parity is incomplete. The missing
   ARM package manifest is a dated research list, not an installer manifest.
 - Dashboard package queries work, but package-query failures may be collapsed

@@ -117,8 +117,9 @@ the configured NVIDIA Docker runtime. Evidence is recorded in
 That notebook check was a page-level probe. `tests/check-jupyter-runtime.py`
 now requires authenticated contents and status API responses without following
 redirects, and fails unless requests with no token and with a wrong token are
-refused; it has not yet been re-run on the Spark. Release 6's setup ordering is
-covered by host-side tests and has likewise not yet been exercised on hardware.
+refused. It passed inside the running project container on the test Spark,
+before and after a backend restart. Release 6's setup helper was re-run there
+against the existing configuration and changed nothing.
 
 Release 5 normalizes only the legacy CUDA/driver scalar version fields from
 `nvidia-smi -q --display=COMPUTE`: NVIDIA 610 appends deprecation notes that the
