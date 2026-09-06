@@ -13,7 +13,7 @@ pkgname='omarchy-settings'
 _tag=''
 _commit='346e69e1cec6c4e8924531874af6ba010a1bc99e'
 pkgver=4.0.2
-pkgrel=3
+pkgrel=4
 pkgdesc='Omarchy user defaults, /etc/skel content, fonts, plymouth theme, and support helpers'
 # Arch-specific because the shipped /etc tree is not the same on every
 # architecture: the Limine, mkinitcpio, zram and oomd drop-ins belong to the
@@ -54,8 +54,9 @@ makedepends=(
 # The etc-overrides set (faillock.conf, nsswitch.conf, cups-browsed.conf,
 # cups-files.conf, plymouthd.conf, /etc/skel/.bashrc) ships at
 # /usr/share/omarchy/etc-overrides/
-# and is cp -f'd by post_install — those paths are unowned by pacman and the
-# scriptlet WILL clobber user edits on each upgrade (documented limitation).
+# and is applied by omarchy-settings.install. Those paths are owned by other
+# packages, so the scriptlet keeps administrator edits and leaves changed
+# content beside them as <path>.pacnew instead of overwriting.
 backup=(
   'etc/fastfetch/config.jsonc'
   'etc/docker/daemon.json'
@@ -105,8 +106,9 @@ optdepends_x86_64=(
 install='omarchy-settings.install'
 
 # Live config files the package can't own outright (the path is owned by an
-# upstream Arch package): ship them at /usr/share/omarchy/etc-overrides/ and
-# cp -f into place from post_install. See omarchy-settings.install.
+# upstream Arch package): ship them at /usr/share/omarchy/etc-overrides/; the
+# install scriptlet applies them without discarding local edits. See
+# omarchy-settings.install.
 _etc_override_paths=(
   'etc/security/faillock.conf'
   'etc/nsswitch.conf'
@@ -237,7 +239,7 @@ EOF
 
   # Stage upstream-owned files at /usr/share/omarchy/etc-overrides/ instead of
   # owning their live /etc paths directly (which would conflict with pam,
-  # filesystem, cups-browsed, plymouth, bash). post_install copies them in.
+  # filesystem, cups-browsed, plymouth, bash). The install scriptlet applies them.
   install -d "$pkgdir/usr/share/omarchy/etc-overrides"
   install -Dm644 default/bashrc \
     "$pkgdir/usr/share/omarchy/etc-overrides/dot.bashrc"

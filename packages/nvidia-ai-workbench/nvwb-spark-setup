@@ -1,5 +1,12 @@
 #!/usr/bin/python3
-"""Configure NVIDIA's native backend with Arch-managed dependencies, as the user."""
+"""Configure NVIDIA's native backend with Arch-managed dependencies, as the user.
+
+Every check runs before anything is written. The existing configuration, Docker
+access and the Workbench context list are inspected first; only once they are
+accepted does the helper back up and rewrite ~/.nvwb state and enable the
+per-user system service. The exact privileged commands are the two systemctl
+calls at the end; see README.md for the authorization they need.
+"""
 import argparse
 import datetime
 import getpass
@@ -8,64 +15,115 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
+import tempfile
 import yaml
 
-parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--no-start', action='store_true', help='Enable the service without starting it yet')
-args = parser.parse_args()
-if os.geteuid() == 0:
-    parser.error('Run as the desktop user, not root')
-home = Path.home()
-if home != Path('/home') / getpass.getuser():
-    parser.error('This Spark service template requires a /home/<username> home directory')
-base = home / '.nvwb'
-config_file = base / 'config.yaml'
-config = yaml.safe_load(config_file.read_text()) if config_file.exists() else {}
-config = config or {}
-if config.get('container', {}).get('runtime') not in (None, '', 'docker'):
-    parser.error('Existing non-Docker runtime requires a deliberate migration')
-groups = subprocess.check_output(['id', '-nG', getpass.getuser()], text=True).split()
-if 'docker' not in groups:
-    parser.error('Docker-group membership is required for the native backend')
-subprocess.run(['/usr/bin/newgrp', 'docker', '-c', '/usr/bin/docker info >/dev/null'], check=True)
-base.mkdir(mode=0o700, exist_ok=True)
-backup = base / 'spark-backups' / datetime.datetime.now().strftime('%Y%m%dT%H%M%S%f')
-backup.mkdir(parents=True, mode=0o700)
-if config_file.exists():
-    shutil.copy2(config_file, backup / 'config.yaml')
-config.setdefault('container', {}).update(runtime='docker', buildtime='docker')
-config.setdefault('service', {})['working_dir'] = str(base)
-config_file.write_text(yaml.safe_dump(config))
-config_file.chmod(0o600)
-bindir = base / 'bin'
-bindir.mkdir(exist_ok=True)
-for name, target in {
-    'nvwb-cli': '/usr/lib/nvwb-spark/nvwb-cli',
+CLI = '/usr/lib/nvwb-spark/nvwb-cli'
+LINKS = {
+    'nvwb-cli': CLI,
     'wb-svc': '/usr/lib/nvwb-spark/wb-svc',
     'credential-manager': '/opt/NVIDIA AI Workbench/resources/bin/credential-manager',
-}.items():
-    path = bindir / name
-    if path.exists() or path.is_symlink():
-        if path.is_symlink() and os.readlink(path) == target:
-            continue
-        shutil.copy2(path, backup / name, follow_symlinks=False)
-        path.unlink()
-    path.symlink_to(target)
-cli = str(bindir / 'nvwb-cli')
-contexts = subprocess.run([cli, 'list', 'contexts', '-o', 'json'], capture_output=True, text=True, check=True)
-existing = json.loads(contexts.stdout).get('result', []) if contexts.stdout.strip() else []
-local = next((c for c in existing if c['name'] == 'local'), None)
-if local and (local['hostname'] != 'localhost' or local['workbenchDir'] != str(base)):
-    parser.error('Existing local context points elsewhere; inspect it before migration')
-if not local:
-    subprocess.run([cli, 'create', 'context', 'local', 'localhost', '--context-workbench-dir', str(base), '--description', 'Native Arch ARM'], check=True)
-for name in ('.bashrc', '.zshrc'):
-    if (home / name).exists():
-        shutil.copy2(home / name, backup / name)
-subprocess.run([cli, 'internal', 'install-hook', getpass.getuser(), str(os.getuid()), str(os.getgid())], check=True)
-unit = 'nvwb-spark@' + getpass.getuser() + '.service'
-subprocess.run(['sudo', '-n', 'systemctl', 'daemon-reload'], check=True)
-subprocess.run(['sudo', '-n', 'systemctl', 'enable', unit], check=True)
-if not args.no_start:
-    subprocess.run(['sudo', '-n', 'systemctl', 'start', unit], check=True)
-print('Native Workbench configured; existing files backed up under', backup)
+}
+HOME_ROOT = Path('/home')
+SYSTEMCTL = ['/usr/bin/sudo', '-n', '/usr/bin/systemctl']
+
+
+def fail(message):
+    raise SystemExit('nvwb-spark-setup: ' + message)
+
+
+def preflight(user, home):
+    """Validate account, configuration, Docker access and contexts without writing."""
+    if os.geteuid() == 0:
+        fail('run as the desktop user, not root')
+    if home != HOME_ROOT / user:
+        fail('this Spark service template requires a /home/<username> home directory')
+    base = home / '.nvwb'
+    config_file = base / 'config.yaml'
+    config = {}
+    if config_file.exists():
+        config = yaml.safe_load(config_file.read_text()) or {}
+        if not isinstance(config, dict):
+            fail(f'{config_file} is not a mapping; inspect it before migration')
+    runtime = (config.get('container') or {}).get('runtime')
+    if runtime not in (None, '', 'docker'):
+        fail('existing non-Docker runtime requires a deliberate migration')
+    groups = subprocess.check_output(['/usr/bin/id', '-nG', user], text=True).split()
+    if 'docker' not in groups:
+        fail('docker-group membership is required for the native backend')
+    subprocess.run(['/usr/bin/newgrp', 'docker', '-c', '/usr/bin/docker info >/dev/null'], check=True)
+    # The packaged CLI reads ~/.nvwb/contexts.json; nothing has been written yet.
+    listing = subprocess.run([CLI, 'list', 'contexts', '-o', 'json'], capture_output=True, text=True, check=True)
+    contexts = json.loads(listing.stdout).get('result', []) if listing.stdout.strip() else []
+    local = next((c for c in contexts if c.get('name') == 'local'), None)
+    if local and (local.get('hostname') != 'localhost' or local.get('workbenchDir') != str(base)):
+        fail('existing local context points elsewhere; inspect it before migration')
+    return {'base': base, 'config': config, 'local': local}
+
+
+def write_private(path, text):
+    """Replace a file atomically with mode 0600."""
+    fd, temp = tempfile.mkstemp(dir=path.parent, prefix=path.name + '.')
+    try:
+        with os.fdopen(fd, 'w') as handle:
+            handle.write(text)
+        os.chmod(temp, 0o600)
+        os.replace(temp, path)
+    except BaseException:
+        os.unlink(temp)
+        raise
+
+
+def configure(user, home, plan, start):
+    """Apply the accepted plan; existing files are copied to a timestamped backup first."""
+    base, config = plan['base'], plan['config']
+    base.mkdir(mode=0o700, exist_ok=True)
+    backup = base / 'spark-backups' / datetime.datetime.now().strftime('%Y%m%dT%H%M%S%f')
+    backup.mkdir(parents=True, mode=0o700)
+    config_file = base / 'config.yaml'
+    if config_file.exists():
+        shutil.copy2(config_file, backup / 'config.yaml')
+    config.setdefault('container', {}).update(runtime='docker', buildtime='docker')
+    config.setdefault('service', {})['working_dir'] = str(base)
+    write_private(config_file, yaml.safe_dump(config))
+    bindir = base / 'bin'
+    bindir.mkdir(exist_ok=True)
+    for name, target in LINKS.items():
+        path = bindir / name
+        if path.exists() or path.is_symlink():
+            if path.is_symlink() and os.readlink(path) == target:
+                continue
+            shutil.copy2(path, backup / name, follow_symlinks=False)
+            path.unlink()
+        path.symlink_to(target)
+    cli = str(bindir / 'nvwb-cli')
+    if not plan['local']:
+        subprocess.run([cli, 'create', 'context', 'local', 'localhost', '--context-workbench-dir', str(base),
+                        '--description', 'Native Arch ARM'], check=True)
+    for name in ('.bashrc', '.zshrc'):
+        if (home / name).exists():
+            shutil.copy2(home / name, backup / name)
+    subprocess.run([cli, 'internal', 'install-hook', user, str(os.getuid()), str(os.getgid())], check=True)
+    # The unit file was installed by pacman, whose systemd hook already reloaded
+    # the manager; only this user's instance needs enabling and starting.
+    unit = f'nvwb-spark@{user}.service'
+    subprocess.run([*SYSTEMCTL, 'enable', unit], check=True)
+    if start:
+        subprocess.run([*SYSTEMCTL, 'start', unit], check=True)
+    return backup
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description='Configure the native NVIDIA AI Workbench backend for this user.')
+    parser.add_argument('--no-start', action='store_true', help='Enable the service without starting it yet')
+    args = parser.parse_args(argv)
+    user, home = getpass.getuser(), Path.home()
+    plan = preflight(user, home)
+    backup = configure(user, home, plan, start=not args.no_start)
+    print('Native Workbench configured; existing files backed up under', backup)
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

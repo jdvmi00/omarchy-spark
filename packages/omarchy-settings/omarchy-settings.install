@@ -1,16 +1,98 @@
+# pacman scriptlet for omarchy-settings. The functions are also exercised by
+# the repository's regression tests, which point _etc_overrides_root at a
+# scratch tree instead of the live root filesystem.
+_etc_overrides_root=''
+
 _apple_silicon() {
   [[ $(uname -m) == aarch64 ]] && grep -aq 'apple,' /proc/device-tree/compatible 2>/dev/null
 }
 
+_sha256() {
+  sha256sum -- "$1" | cut -d' ' -f1
+}
+
+# Checksum pacman recorded for a package-owned backup file (the %BACKUP%
+# entries of the local database). Empty when no package claims the path.
+_pacman_backup_md5() {
+  local relative=${1#/}
+  awk -v path="$relative" -F'\t' '$1 == path && NF == 2 { print $2; exit }' \
+    "$_etc_overrides_root"/var/lib/pacman/local/*/files 2>/dev/null
+}
+
+# Apply one etc-override without discarding administrator changes.
+#   $1 file name under /usr/share/omarchy/etc-overrides
+#   $2 live path
+#   $3 mode (default 0644)
+#   $4 group (default root)
+# The live file is replaced only when it is absent, is the distribution's
+# untouched packaged default, still matches the override this package applied
+# last time, or already has the new content. Anything else is an administrator
+# decision: it stays in place and the new content is stored beside it as
+# <path>.pacnew, the convention pacman uses for its own backup files. The
+# checksum of every applied override is recorded under
+# /var/lib/omarchy/etc-overrides so later upgrades can tell their own previous
+# content from local edits.
+_etc_override_apply() {
+  local name=$1 target=$2 mode=${3:-0644} group=${4:-root}
+  local source="$_etc_overrides_root/usr/share/omarchy/etc-overrides/$name"
+  local live="$_etc_overrides_root$target"
+  local state_dir="$_etc_overrides_root/var/lib/omarchy/etc-overrides"
+  local state="$state_dir/$name.sha256"
+  local want have packaged previous='' replace=''
+
+  want=$(_sha256 "$source")
+  [[ ! -f $state ]] || previous=$(<"$state")
+
+  if [[ ! -e $live && ! -L $live ]]; then
+    replace=yes
+  elif [[ -L $live ]]; then
+    # The filesystem package ships /etc/os-release as a link to
+    # ../usr/lib/os-release; that default may be replaced. Any other link is
+    # an administrator decision.
+    if [[ $name == os-release && $(readlink -- "$live") == *usr/lib/os-release ]]; then
+      replace=yes
+    fi
+  elif [[ -f $live ]]; then
+    have=$(_sha256 "$live")
+    if [[ $have == "$want" ]]; then
+      install -d -m 0755 "$state_dir"
+      printf '%s\n' "$want" >"$state"
+      return 0
+    fi
+    packaged=$(_pacman_backup_md5 "$target")
+    if [[ -n $previous && $have == "$previous" ]]; then
+      replace=yes
+    elif [[ -n $packaged && $(md5sum -- "$live" | cut -d' ' -f1) == "$packaged" ]]; then
+      replace=yes
+    fi
+  fi
+
+  if [[ $replace == yes ]]; then
+    install -d -m 0755 "$(dirname -- "$live")"
+    rm -f -- "$live"
+    if [[ $group == root ]]; then
+      install -m "$mode" -- "$source" "$live"
+    else
+      install -m "$mode" -o root -g "$group" -- "$source" "$live"
+    fi
+    install -d -m 0755 "$state_dir"
+    printf '%s\n' "$want" >"$state"
+  else
+    install -m 0644 -- "$source" "$live.pacnew"
+    echo "==> WARNING: $target has local changes; the Omarchy version was written to $target.pacnew for review."
+  fi
+}
+
 _etc_overrides_apply() {
   echo "Applying Omarchy etc-overrides..."
+  local root=$_etc_overrides_root
 
   # The hardened CUPS authorization applies on every platform. It waits for the
   # file the cups package owns: an ISO bootstrap without cups installed is left
   # alone and picks it up once cups lands.
-  if [[ -f /etc/cups/cups-files.conf && -f /usr/share/omarchy/etc-overrides/cups-cups-files.conf ]]; then
+  if [[ -f $root/etc/cups/cups-files.conf && -f $root/usr/share/omarchy/etc-overrides/cups-cups-files.conf ]]; then
     systemd-sysusers /etc/sysusers.d/omarchy-cups-browsed.conf
-    install -m 0640 -o root -g cups /usr/share/omarchy/etc-overrides/cups-cups-files.conf /etc/cups/cups-files.conf
+    _etc_override_apply cups-cups-files.conf /etc/cups/cups-files.conf 0640 cups
   fi
 
   # Apple Silicon installs run on Arch Linux ARM's base with the Asahi
@@ -19,40 +101,26 @@ _etc_overrides_apply() {
   # plymouth and skel overrides below are not applied there.
   if _apple_silicon; then
     echo "Preserving Arch Linux ARM system configuration on Apple Silicon..."
-    if [[ -f /usr/lib/os-release ]]; then
-      rm -f /etc/os-release
-      ln -s ../usr/lib/os-release /etc/os-release
+    if [[ -f $root/usr/lib/os-release ]]; then
+      rm -f "$root/etc/os-release"
+      ln -s ../usr/lib/os-release "$root/etc/os-release"
     fi
     return 0
   fi
 
-  # Ensure parent dirs exist. cups-browsed may not be installed yet during ISO
-  # bootstrap; do not create /etc/cups/cups-browsed.conf before the package is
-  # installed or pacman will preserve its packaged file as a noisy .pacnew.
-  install -d /etc/plymouth /etc/security /etc/skel
+  install -d "$root/etc/plymouth" "$root/etc/security" "$root/etc/skel"
 
-  # NOTE: these cp -f's are intentionally destructive on every install/upgrade.
-  # Users who customize /etc/os-release, /etc/plymouth/plymouthd.conf (theme
-  # switch), /etc/cups/cups-browsed.conf, /etc/cups/cups-files.conf, /etc/nsswitch.conf,
-  # /etc/security/faillock.conf, or /etc/skel/.bashrc WILL have their changes
-  # reset to Omarchy defaults each time omarchy-settings is upgraded. This is
-  # the trade-off of routing upstream-owned paths through etc-overrides instead
-  # of pacman backup=().
-  rm -f /etc/os-release
-  cp -f /usr/share/omarchy/etc-overrides/os-release              /etc/os-release
-  cp -f /usr/share/omarchy/etc-overrides/security-faillock.conf  /etc/security/faillock.conf
-  cp -f /usr/share/omarchy/etc-overrides/nsswitch.conf           /etc/nsswitch.conf
-  if [[ -f /etc/cups/cups-browsed.conf ]]; then
-    install -d /etc/cups
-    cp -f /usr/share/omarchy/etc-overrides/cups-cups-browsed.conf /etc/cups/cups-browsed.conf
+  _etc_override_apply os-release             /etc/os-release
+  _etc_override_apply security-faillock.conf /etc/security/faillock.conf
+  _etc_override_apply nsswitch.conf          /etc/nsswitch.conf
+  # cups-browsed may not be installed yet during ISO bootstrap; do not create
+  # /etc/cups/cups-browsed.conf before the package is installed or pacman will
+  # preserve its packaged file as a noisy .pacnew.
+  if [[ -f $root/etc/cups/cups-browsed.conf ]]; then
+    _etc_override_apply cups-cups-browsed.conf /etc/cups/cups-browsed.conf
   fi
-  cp -f /usr/share/omarchy/etc-overrides/plymouth-plymouthd.conf /etc/plymouth/plymouthd.conf
-  cp -f /usr/share/omarchy/etc-overrides/dot.bashrc              /etc/skel/.bashrc
-  chmod 0644 /etc/os-release /etc/security/faillock.conf /etc/nsswitch.conf \
-             /etc/plymouth/plymouthd.conf /etc/skel/.bashrc
-  if [[ -f /etc/cups/cups-browsed.conf ]]; then
-    chmod 0644 /etc/cups/cups-browsed.conf
-  fi
+  _etc_override_apply plymouth-plymouthd.conf /etc/plymouth/plymouthd.conf
+  _etc_override_apply dot.bashrc             /etc/skel/.bashrc
 }
 
 post_install() {

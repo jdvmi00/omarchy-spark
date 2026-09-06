@@ -7,7 +7,7 @@ public installation tooling.
 
 ## Run regression tests
 
-On Linux with Python 3.11+, Git, Bash and patch:
+On Linux with Python 3.11+, PyYAML, Git, Bash and patch:
 
 ```sh
 python3 scripts/prepare-test-sources.py
@@ -19,7 +19,9 @@ The preparation script fetches two exact public Git revisions from
 an existing checkout. Tests use stubs for privileged host commands and do not
 install packages, change desktop settings or write block devices. Native probes
 named `check-*.sh` or `check-*.py` are not part of this suite; inspect their
-requirements before running them on a configured Spark.
+requirements before running them on a configured Spark. The notebook probe
+requires a token-protected server and fails when authentication is not
+enforced, so a pass means more than an HTTP 200.
 
 ## Build packages
 
@@ -69,11 +71,21 @@ sources. Download URLs and checksums do not establish redistribution rights.
 ## Native integration
 
 On an already configured Arch Spark, the Workbench README documents
-`nvwb-spark-setup` and its service-management requirements. The setup currently
-expects a home under `/home/<username>` and noninteractive authorization for its
-specific system service; the bring-up machine used temporary passwordless sudo.
-Do not add unrestricted sudo just to reproduce the preview. Defining the final
-service authorization policy is remaining installer work.
+`nvwb-spark-setup`, the exact `systemctl` verbs it and the CLI adapter run
+through `sudo -n` for the user's own `nvwb-spark@<username>.service`, and a
+sudoers rule limited to them. The setup expects a home under `/home/<username>`
+and validates everything before it changes `~/.nvwb`. The bring-up machine used
+temporary passwordless sudo; do not add unrestricted sudo just to reproduce the
+preview. The package installs no policy, and its backend uses one fixed
+loopback port, so it is a single-user arrangement.
+
+Upgrading `omarchy-settings` keeps locally edited `/etc/nsswitch.conf`,
+`/etc/security/faillock.conf`, `/etc/os-release`, plymouth, CUPS and
+`/etc/skel/.bashrc` files and leaves the packaged content beside them as
+`<path>.pacnew` with a warning, as pacman does for its own configuration
+files. Untouched distribution defaults and files the package itself applied
+earlier are replaced. This scriptlet behaviour is covered by the regression
+tests and has not yet been exercised on the Spark.
 
 Dashboard read-only status is available through
 `sudo dgx-arch-package-status --refresh`. Its combined Ubuntu update/reboot method

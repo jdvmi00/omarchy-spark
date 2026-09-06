@@ -16,7 +16,7 @@ and an AI Workbench GPU project. Full factory software parity is still in progre
 | Omarchy | Login, Hyprland/Quickshell, NVIDIA acceleration at 3840×2160 |
 | CUDA | Native compilation and kernel execution; 4 MiB unified-memory verification |
 | Containers | Docker with NVIDIA runtime; CUDA execution inside containers |
-| AI Workbench | Native backend, ARM64 project build, GPU execution, authenticated JupyterLab; repeated after backend restart |
+| AI Workbench | Native backend, ARM64 project build, GPU execution, JupyterLab HTTP 200 with the server token (page-level check only); repeated after backend restart |
 | DGX Dashboard | Web service, firmware inventory and read-only Arch package status |
 | Networking and audio | Four RDMA devices, Bluetooth controller and HDMI audio sink detected |
 
@@ -28,15 +28,18 @@ is not hidden inside an Ubuntu VM.
 
 - [Build and test the source](BUILDING.md)
 - [Known issues and remaining work](docs/KNOWN-ISSUES.md)
-- [Developer preview release notes](docs/RELEASE-NOTES.md)
+- [Release notes and unreleased corrections](docs/RELEASE-NOTES.md)
+- [Publication review and post-publication reassessment](docs/RELEASE-REVIEW.md)
 - [Upstream provenance and licenses](THIRD_PARTY.md)
 - [Contributing](CONTRIBUTING.md)
 
 `packages/` contains Arch recipes and compatibility helpers; `patches/` contains
 upstream changes; `manifests/` and `upstream-lock.json` record source locations and
 pins. Tests include host-side regression checks and explicitly separate native
-integration probes. `image/make-disk-image.py` assembles regular files only; it is
-not an installer and does not configure a bootable root filesystem for you.
+integration probes; passing them does not certify the operating system, the
+vendor software or any installed machine. `image/make-disk-image.py` assembles
+regular files only; it is not an installer and does not configure a bootable
+root filesystem for you.
 
 The preview deliberately ships no boot image, vendor binary packages, firmware,
 private inventories, credentials, or automated raw-disk writer. NVIDIA payloads

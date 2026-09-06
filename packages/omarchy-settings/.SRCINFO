@@ -1,7 +1,7 @@
 pkgbase = omarchy-settings
 	pkgdesc = Omarchy user defaults, /etc/skel content, fonts, plymouth theme, and support helpers
 	pkgver = 4.0.2
-	pkgrel = 3
+	pkgrel = 4
 	url = https://github.com/basecamp/omarchy
 	install = omarchy-settings.install
 	arch = x86_64

@@ -4,6 +4,8 @@ Observed on one NVIDIA DGX Spark, booted natively from an external USB SSD.
 The internal DGX OS installation was preserved. These are summarized local test
 results, not a certification, independent replication or proof of full parity.
 Private host identifiers, serial numbers, logs and credentials are not included.
+The report describes the preview.1 packages; source corrections made after the
+post-publication review (see the release notes) were not installed here.
 
 | Layer | Tested version / result |
 | --- | --- |
@@ -24,8 +26,11 @@ The native CUDA smoke test executes a GPU kernel and verifies 4 MiB of unified
 memory on the CPU. The same check passes inside a Docker GPU container.
 Workbench creates and builds an ARM64 project using
 `nvcr.io/nvidia/ai-workbench/python-cuda130:1.0.1`. With one GPU requested,
-its container uses the NVIDIA runtime and sees GB10. Authenticated JupyterLab
-returns HTTP 200. The CUDA smoke binary executes inside that container; the
+its container uses the NVIDIA runtime and sees GB10. JupyterLab answered HTTP
+200 to a request carrying the server token; that probe followed redirects and
+checked only for an HTML page, so it did not demonstrate that requests without
+the token are refused. The stricter probe that replaced it has not been re-run
+here. The CUDA smoke binary executes inside that container; the
 runtime base itself does not include nvcc. Backend stop/start and project restart
 were followed by successful repeats of the notebook and compute checks.
 
@@ -49,7 +54,8 @@ denied before dispatch. Package integrity: 51 files, zero altered.
 
 ## Not established
 
-Audible audio, Bluetooth pairing, RDMA throughput/GPU-direct networking, suspend,
+Notebook authentication enforcement under the stricter probe, audible audio,
+Bluetooth pairing, RDMA throughput/GPU-direct networking, suspend,
 lock/unlock, sustained thermals, comprehensive Nsight workflows, authenticated
 Dashboard telemetry/notebooks, private registry/remote Workbench integrations,
 firmware installation, a complete default application set, and update/rollback.

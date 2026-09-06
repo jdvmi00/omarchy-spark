@@ -1,4 +1,27 @@
-# v0.1.0-preview.1 — Omarchy Spark developer preview
+# Release notes
+
+## Unreleased changes after v0.1.0-preview.1
+
+Corrections from the post-publication readiness review, present in the main
+branch, not in a tagged release, and not yet re-validated on hardware:
+
+- `omarchy-settings` 4.0.2-4: the install scriptlet keeps administrator edits
+  to `/etc/nsswitch.conf`, `/etc/security/faillock.conf`, `/etc/os-release`,
+  plymouth, CUPS and `/etc/skel/.bashrc`, writing changed content as `.pacnew`
+  and recording applied checksums under `/var/lib/omarchy/etc-overrides`.
+- `nvidia-ai-workbench` 0.169.2.16-6: `nvwb-spark-setup` runs every check,
+  including the local-context conflict check, before writing anything, writes
+  its config atomically and no longer runs a global `daemon-reload`. The README
+  lists the exact privileged commands, the fixed port and the single-user scope.
+- `image/make-disk-image.py` refuses image names ending in `.json` and never
+  overwrites an existing manifest sidecar.
+- `tests/check-jupyter-runtime.py` requires authenticated contents and status
+  API responses without following redirects and fails unless requests with no
+  token and with a wrong token are refused. Tokens are still never printed.
+- New host-side regression tests cover each change; a SECURITY.md describes
+  private reporting. The hardware report still describes the preview.1 state.
+
+## v0.1.0-preview.1 — Omarchy Spark developer preview
 
 First public **source-only** preview of native Arch Linux ARM and Omarchy on
 NVIDIA DGX Spark. Intended for developers investigating the port, not unattended

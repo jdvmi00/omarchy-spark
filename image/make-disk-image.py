@@ -7,12 +7,21 @@ from pathlib import Path
 import shutil
 import stat
 import subprocess
+import sys
 import tempfile
 import uuid
 
 
 def run(*args):
     subprocess.run([str(a) for a in args], check=True)
+
+
+def sidecar_path(output):
+    """Manifest written beside the image as <name>.json; never the image itself."""
+    manifest = output.with_suffix('.json')
+    if manifest == output:
+        raise ValueError('image name must not end in .json; its manifest is written as <name>.json')
+    return manifest
 
 
 def main():
@@ -27,6 +36,12 @@ def main():
         parser.error('root directory and EFI file must exist')
     if args.size_gib < 4:
         parser.error('image must be at least 4 GiB')
+    try:
+        manifest = sidecar_path(args.output)
+    except ValueError as error:
+        parser.error(str(error))
+    if manifest.exists() or manifest.is_symlink():
+        parser.error(f'manifest {manifest} already exists; remove it or choose another image name')
     for binary in ['sgdisk', 'mkfs.fat', 'mcopy', 'mmd', 'mke2fs', 'e2fsck']:
         if not shutil.which(binary):
             parser.error(f'missing command: {binary}')
@@ -67,16 +82,19 @@ def main():
                         offset += len(chunk)
         os.fsync(fd)
         run('sgdisk', '--verify', args.output)
-        manifest = dict(image=str(args.output), root_uuid=str(args.root_uuid),
-                        esp_start=esp_start, root_start=root_start,
-                        size_bytes=args.size_gib * 1024**3, sector_size=512)
-        args.output.with_suffix('.json').write_text(json.dumps(manifest, indent=2) + '\n')
     except BaseException:
         os.close(fd)
         args.output.unlink()
         raise
     else:
         os.close(fd)
+    description = dict(image=str(args.output), root_uuid=str(args.root_uuid),
+                       esp_start=esp_start, root_start=root_start,
+                       size_bytes=args.size_gib * 1024**3, sector_size=512)
+    # Exclusive creation, like the image: a sidecar that appeared meanwhile is
+    # reported rather than overwritten, and the finished image is kept.
+    with open(os.open(manifest, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644), 'w') as handle:
+        handle.write(json.dumps(description, indent=2) + '\n')
 
 
 if __name__ == '__main__':

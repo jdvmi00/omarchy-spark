@@ -3,7 +3,14 @@
 - No end-user installer, public boot image, signed port package repository or
   tested upgrade/rollback workflow. The test installation was assembled manually.
 - No complete clean-chroot build or independent hardware replication yet.
-  Source pins do not freeze rolling Arch build/runtime dependencies.
+  Source pins do not freeze rolling Arch build/runtime dependencies. A fresh
+  ARM clean build and a second-machine installation are required before the
+  port is promoted beyond a source-only developer preview.
+- Corrections made after the preview.1 review (the settings scriptlet keeping
+  local `/etc` edits, Workbench setup validating before writing, the image
+  manifest guard and the stricter notebook probe) are covered by host-side
+  tests only. They have not yet been installed or re-run on the Spark, and the
+  hardware report describes the preview.1 packages.
 - Full DGX OS and Omarchy default application parity is incomplete. The missing
   ARM package manifest is a dated research list, not an installer manifest.
 - Dashboard package queries work, but package-query failures may be collapsed
@@ -12,8 +19,10 @@
   returns Access denied. Native installation/rollback is not implemented.
 - Workbench's native backend uses scoped compatibility adapters. Its vendor
   installer/self-updater still assumes Ubuntu. Remote locations, private
-  credentials and full desktop project interaction remain unvalidated. Setup
-  needs an explicit service-management authorization policy for general users.
+  credentials and full desktop project interaction remain unvalidated. The
+  package README lists the exact privileged commands and an example sudoers
+  rule, but installs no policy; the backend uses one fixed loopback port and
+  supports a single user per host.
 - Bluetooth/audio devices and RDMA interfaces are detected; practical playback,
   pairing and peer throughput have not been established.
 - Firmware discovery works; firmware maintenance and recovery are unvalidated.

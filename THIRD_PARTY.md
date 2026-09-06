@@ -30,3 +30,7 @@ describe the packaged software; they are not a grant to redistribute its binarie
 No complete upstream checkout, vendor DEB, compiled package, disk image, firmware
 or installed-machine inventory is included in the Git repository or release.
 Public source URLs and immutable pins are retained for reproducibility and credit.
+
+This document records provenance as the project understands it. It is not a
+legal opinion, and the redistribution terms of each upstream payload were not
+independently verified.
