@@ -1,17 +1,20 @@
 # Release notes
 
-## Unreleased changes after v0.1.0-preview.1
+## v0.1.0-preview.2 — Community developer preview
 
-Corrections from the post-publication readiness review, present in the main
-branch and not in a tagged release. They were installed and re-checked on the
-single test Spark on 2026-09-06 (see the hardware report):
+Source-only release incorporating the post-publication readiness corrections.
+The updated settings and Workbench packages were installed and re-checked on the
+single test Spark on 2026-09-06; the stricter Jupyter probe passed again after a
+backend restart. See [hardware validation](HARDWARE-VALIDATION.md) for scope.
+All 35 host regression tests pass. This does not establish a complete clean
+package build or independent hardware replication.
 
 - `omarchy-settings` 4.0.2-4: the install scriptlet keeps administrator edits
   to `/etc/nsswitch.conf`, `/etc/security/faillock.conf`, `/etc/os-release`,
   plymouth, CUPS and `/etc/skel/.bashrc`, writing changed content as `.pacnew`
   and recording applied checksums under `/var/lib/omarchy/etc-overrides`.
-- `nvidia-ai-workbench` 0.169.2.16-6: `nvwb-spark-setup` runs every check,
-  including the local-context conflict check, before writing anything, writes
+- `nvidia-ai-workbench` 0.169.2.16-6: `nvwb-spark-setup` runs its preflight checks,
+  including the local-context conflict check, before configuration changes, writes
   its config atomically and no longer runs a global `daemon-reload`. The README
   lists the exact privileged commands, the fixed port and the single-user scope.
 - `image/make-disk-image.py` refuses image names ending in `.json` and never
@@ -21,6 +24,11 @@ single test Spark on 2026-09-06 (see the hardware report):
   token and with a wrong token are refused. Tokens are still never printed.
 - New host-side regression tests cover each change; a SECURITY.md describes
   private reporting.
+
+The release also adds a [getting-started guide](GETTING-STARTED.md), a
+[community announcement draft](ANNOUNCEMENT.md), and explicit
+[requirements for a supported release](RELEASE-CRITERIA.md). No installer,
+boot image or binary package repository is included.
 
 ## v0.1.0-preview.1 — Omarchy Spark developer preview
 

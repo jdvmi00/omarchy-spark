@@ -3,7 +3,9 @@
 Native Arch Linux ARM and Omarchy for NVIDIA DGX Spark, with ports of its NVIDIA
 compute and development tools.
 
-**Developer preview: v0.1.0-preview.1.** This is a source release for developers,
+[![Source tests](https://github.com/jdvmi00/omarchy-spark/actions/workflows/tests.yml/badge.svg)](https://github.com/jdvmi00/omarchy-spark/actions/workflows/tests.yml)
+
+**[Developer preview: v0.1.0-preview.2](https://github.com/jdvmi00/omarchy-spark/releases/tag/v0.1.0-preview.2).** This is a source release for developers,
 not an installer or a supported replacement for DGX OS. One physical Spark has
 booted from an external SSD with accelerated Omarchy, native CUDA, GPU containers
 and an AI Workbench GPU project. Full factory software parity is still in progress.
@@ -26,12 +28,14 @@ is not hidden inside an Ubuntu VM.
 
 ## Start here
 
+- [Getting started](docs/GETTING-STARTED.md)
 - [Build and test the source](BUILDING.md)
 - [Known issues and remaining work](docs/KNOWN-ISSUES.md)
-- [Release notes and unreleased corrections](docs/RELEASE-NOTES.md)
+- [Release notes](docs/RELEASE-NOTES.md)
 - [Publication review and post-publication reassessment](docs/RELEASE-REVIEW.md)
 - [Upstream provenance and licenses](THIRD_PARTY.md)
 - [Contributing](CONTRIBUTING.md)
+- [Requirements for a supported release](docs/RELEASE-CRITERIA.md)
 
 `packages/` contains Arch recipes and compatibility helpers; `patches/` contains
 upstream changes; `manifests/` and `upstream-lock.json` record source locations and
