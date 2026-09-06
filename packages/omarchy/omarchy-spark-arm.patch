@@ -1,5 +1,25 @@
+diff --git i/bin/omarchy-mise-install w/bin/omarchy-mise-install
+index e6dfc96..63994ff 100755
+--- i/bin/omarchy-mise-install
++++ w/bin/omarchy-mise-install
+@@ -14,14 +14,10 @@ bin=${3:-$command}
+ 
+ mkdir -p "$HOME/.local/bin"
+ 
+-# These tools install and upgrade on first run, so mise's release cooldown would
+-# hold a new version back for days after it ships. Exported rather than set on
+-# the install line alone, so resolving the version to execute agrees with the
+-# one just installed.
++# Let mise apply the user's configured release age when resolving and running tools.
+ rm -f "$HOME/.local/bin/$command"
+ cat >"$HOME/.local/bin/$command" <<EOF
+ #!/bin/bash
+-export MISE_MINIMUM_RELEASE_AGE=0
+ mise use -g --quiet "$package" || exit 1
+ exec mise x "$package" -- "$bin" "\$@"
+ EOF
 diff --git i/bin/omarchy-refresh-pacman w/bin/omarchy-refresh-pacman
-index 299d6c20..774146d0 100755
+index 299d6c2..774146d 100755
 --- i/bin/omarchy-refresh-pacman
 +++ w/bin/omarchy-refresh-pacman
 @@ -3,21 +3,33 @@
@@ -42,8 +62,47 @@ index 299d6c20..774146d0 100755
  
  # Allow user customization of /etc/pacman.conf before the upgrade runs
  omarchy-hook pre-refresh-pacman
+diff --git i/install/config/firewall.sh w/install/config/firewall.sh
+index de38943..e1fa118 100644
+--- i/install/config/firewall.sh
++++ w/install/config/firewall.sh
+@@ -10,6 +10,19 @@ ufw allow 53317/tcp
+ ufw allow in proto udp from 172.16.0.0/12 to 172.17.0.1 port 53 comment 'allow-docker-dns'
+ ufw allow in proto udp from 192.168.0.0/16 to 172.17.0.1 port 53 comment 'allow-docker-dns'
+ 
++# A machine that is administered or discovered over the network must stay
++# reachable after the firewall turns on. Only services already enabled here
++# get a rule: SSH, mDNS for the avahi hostname, and the Tailscale interface.
++if systemctl is-enabled --quiet sshd.service 2>/dev/null; then
++  ufw allow in 22/tcp comment 'allow-ssh'
++fi
++if systemctl is-enabled --quiet avahi-daemon.service 2>/dev/null; then
++  ufw allow in 5353/udp comment 'allow-mdns'
++fi
++if systemctl is-enabled --quiet tailscaled.service 2>/dev/null; then
++  ufw allow in on tailscale0 comment 'allow-tailscale'
++fi
++
+ # Turn on Docker protections. ufw-docker refuses to install its after.rules
+ # block unless UFW is already active, but during ISO finalization the target
+ # chroot shares the live installer's kernel firewall. Keep the live firewall
+diff --git i/install/config/snapper.sh w/install/config/snapper.sh
+index 3e936ec..c0e753a 100644
+--- i/install/config/snapper.sh
++++ w/install/config/snapper.sh
+@@ -1,3 +1,10 @@
++# Snapshots need a Btrfs root and snapper. The ARM port's tested installation
++# is ext4 with GRUB, so this is a no-op there instead of a failed step.
++if [[ $(findmnt -no FSTYPE / 2>/dev/null) != "btrfs" ]] || ! command -v snapper >/dev/null 2>&1; then
++  echo "Skipping Snapper configuration: root is not Btrfs or snapper is not installed"
++  exit 0
++fi
++
+ SNAPPER_CONFIG_PATH="${OMARCHY_SNAPPER_CONFIG_PATH:-/etc/snapper/configs/root}"
+ SNAPPER_CONF_PATH="${OMARCHY_SNAPPER_CONF_PATH:-/etc/conf.d/snapper}"
+ template="${OMARCHY_SNAPPER_TEMPLATE:-${OMARCHY_PATH:-/usr/share/omarchy}/default/snapper/root}"
 diff --git i/install/hardware/nvidia.sh w/install/hardware/nvidia.sh
-index e7370995..cd593952 100644
+index e737099..7c388a9 100644
 --- i/install/hardware/nvidia.sh
 +++ w/install/hardware/nvidia.sh
 @@ -1,12 +1,18 @@
@@ -68,8 +127,65 @@ index e7370995..cd593952 100644
    fi
  
    # Bail if no supported GPU
+@@ -20,14 +26,20 @@ if lspci | grep -qi 'nvidia'; then
+   # Per-session Hyprland NVIDIA env vars are handled by default/hypr/nvidia.lua.
+ 
+   # Configure modprobe for early KMS
+-  mkdir -p /etc/modprobe.d
+-  cat > /etc/modprobe.d/nvidia.conf <<'EOF'
++  modprobe_dir="${OMARCHY_MODPROBE_DIR:-/etc/modprobe.d}"
++  mkdir -p "$modprobe_dir"
++  cat > "$modprobe_dir/nvidia.conf" <<'EOF'
+ options nvidia_drm modeset=1
+ EOF
+ 
+-  # Configure mkinitcpio for early loading
+-  mkdir -p /etc/mkinitcpio.conf.d
+-  cat > /etc/mkinitcpio.conf.d/nvidia.conf <<'EOF'
++  # Configure mkinitcpio for early loading. The DGX Spark kernel's initramfs
++  # (USB root, Realtek firmware) is integrated by the ARM port and has not been
++  # tested with early NVIDIA module loading, so it is left alone there.
++  if [[ $KERNEL_PACKAGE != linux-dgx-spark* ]]; then
++    mkinitcpio_dir="${OMARCHY_MKINITCPIO_DIR:-/etc/mkinitcpio.conf.d}"
++    mkdir -p "$mkinitcpio_dir"
++    cat > "$mkinitcpio_dir/nvidia.conf" <<'EOF'
+ MODULES+=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+ EOF
++  fi
+ fi
+diff --git i/install/post-install/pacman.sh w/install/post-install/pacman.sh
+index da84975..c009159 100644
+--- i/install/post-install/pacman.sh
++++ w/install/post-install/pacman.sh
+@@ -1,7 +1,13 @@
+ # Configure pacman after package installation completes. Offline target package
+ # installs use the live ISO's offline pacman.conf until this final restore.
+-cp -f "$OMARCHY_PATH/default/pacman/pacman-${OMARCHY_MIRROR:-stable}.conf" /etc/pacman.conf
+-cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-${OMARCHY_MIRROR:-stable}" /etc/pacman.d/mirrorlist
++# The ARM port uses the signed Arch Linux ARM repositories (see omarchy-refresh-pacman).
++if [[ $(uname -m) == "aarch64" ]]; then
++  cp -f "$OMARCHY_PATH/spark/pacman-aarch64.conf" /etc/pacman.conf
++  cp -f "$OMARCHY_PATH/spark/mirrorlist-aarch64" /etc/pacman.d/mirrorlist
++else
++  cp -f "$OMARCHY_PATH/default/pacman/pacman-${OMARCHY_MIRROR:-stable}.conf" /etc/pacman.conf
++  cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-${OMARCHY_MIRROR:-stable}" /etc/pacman.d/mirrorlist
++fi
+ 
+ # Wait for CUPS to own the file, the way omarchy-settings does, so pacman does
+ # not turn the override into a .pacnew during ISO package installation.
+diff --git i/spark/mirrorlist-aarch64 w/spark/mirrorlist-aarch64
+new file mode 100644
+index 0000000..5591fa4
 --- /dev/null
-+++ b/spark/pacman-aarch64.conf
++++ w/spark/mirrorlist-aarch64
+@@ -0,0 +1,2 @@
++# Arch Linux ARM official mirror selector; package signatures are required.
++Server = http://mirror.archlinuxarm.org/$arch/$repo
+diff --git i/spark/pacman-aarch64.conf w/spark/pacman-aarch64.conf
+new file mode 100644
+index 0000000..6f89058
+--- /dev/null
++++ w/spark/pacman-aarch64.conf
 @@ -0,0 +1,23 @@
 +# Spark port: signed Arch Linux ARM repositories, without x86 multilib.
 +[options]
@@ -94,28 +210,3 @@ index e7370995..cd593952 100644
 +Include = /etc/pacman.d/mirrorlist
 +[omarchy]
 +Server = https://pkgs.omarchy.org/$arch
---- /dev/null
-+++ b/spark/mirrorlist-aarch64
-@@ -0,0 +1,2 @@
-+# Arch Linux ARM official mirror selector; package signatures are required.
-+Server = http://mirror.archlinuxarm.org/$arch/$repo
-diff --git i/bin/omarchy-mise-install w/bin/omarchy-mise-install
-index e6dfc96c..63994ffe 100755
---- i/bin/omarchy-mise-install
-+++ w/bin/omarchy-mise-install
-@@ -14,14 +14,10 @@ bin=${3:-$command}
- 
- mkdir -p "$HOME/.local/bin"
- 
--# These tools install and upgrade on first run, so mise's release cooldown would
--# hold a new version back for days after it ships. Exported rather than set on
--# the install line alone, so resolving the version to execute agrees with the
--# one just installed.
-+# Let mise apply the user's configured release age when resolving and running tools.
- rm -f "$HOME/.local/bin/$command"
- cat >"$HOME/.local/bin/$command" <<EOF
- #!/bin/bash
--export MISE_MINIMUM_RELEASE_AGE=0
- mise use -g --quiet "$package" || exit 1
- exec mise x "$package" -- "$bin" "\$@"
- EOF

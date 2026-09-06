@@ -20,8 +20,11 @@
   remaining are external apps without an ARM recipe here (obsidian,
   obs-studio, pinta, dotnet-runtime, and localsend, whose Flutter toolchain
   has no Linux ARM64 SDK), three x86-only font and icon recipes, and two
-  that do not apply. The installer's post-install and first-user
-  provisioning steps are still reproduced by hand.
+  that do not apply. Omarchy's system setup phases now run through
+  `omarchy-apply-system` with four scripts adapted by the ARM patch (see
+  BUILDING.md); the ISO's partitioning, bootloader and snapshot steps are not
+  reproduced. Omarchy's aarch64 package repository currently publishes a
+  single package, so the recipes here remain necessary.
 - Dashboard package queries work, but package-query failures may be collapsed
   into an empty list by NVIDIA's UI. Check the status helper's exit code and
   timestamp. The UI may offer Update, but its combined update/reboot operation

@@ -1,7 +1,7 @@
 pkgbase = omarchy
 	pkgdesc = Beautiful, modern, and opinionated Arch Linux by DHH
 	pkgver = 4.0.2
-	pkgrel = 6
+	pkgrel = 7
 	url = https://github.com/basecamp/omarchy
 	arch = x86_64
 	arch = aarch64
@@ -27,7 +27,7 @@ pkgbase = omarchy
 	source = omarchy::git+https://github.com/basecamp/omarchy.git#commit=346e69e1cec6c4e8924531874af6ba010a1bc99e
 	source = omarchy-spark-arm.patch
 	sha256sums = ed1ca61045f73e313c3e73874d324945e2b5357e6510664eab25783b26138197
-	sha256sums = d87e5e277eec0970cf87676dc4bb2943e6e2c34c5e640481fb64dbfacb3ecf0c
+	sha256sums = 3c88c610a61df4309b0a11d74b79a79fae1467872ce54a0cc46fb9118241f0c4
 	depends_x86_64 = ttf-jetbrains-mono-nerd-basic
 	depends_x86_64 = limine
 	depends_x86_64 = limine-mkinitcpio-hook

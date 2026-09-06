@@ -110,7 +110,24 @@ Dashboard read-only status is available through
 `sudo dgx-arch-package-status --refresh`. Its combined Ubuntu update/reboot method
 is disabled. It does not install Arch updates or firmware.
 
-Desktop provisioning, bootloader installation, key enrollment, account setup,
-external-drive selection and rollback are not automated here. Never run all of
-upstream Omarchy's system provisioning unchanged on this port: its boot and
-snapshot assumptions differ from the tested external ext4/GRUB installation.
+Omarchy's own system setup runs on the port through its normal entry point,
+with the ARM patch adapting four of its scripts:
+
+```sh
+sudo omarchy-apply-system --install-user <user> --first-install
+```
+
+That applies the config, hardware, login and post-install phases: lock-screen
+PAM, the faillock limit, SSH and PATH defaults, Chromium policies, service
+enablement (cups, systemd-resolved, oomd, kernel-modules cleanup) and the
+firewall. The patch skips Snapper on a non-Btrfs root, writes the ARM pacman
+configuration instead of the x86 one, adds firewall rules for SSH, mDNS and
+Tailscale when those services are enabled so the machine stays reachable, and
+leaves the DGX Spark kernel's initramfs without the early NVIDIA module
+drop-in. The firewall denies all other incoming traffic, including the
+ConnectX ports; add rules before multi-node RDMA. The user phase
+(`install/user`) runs through Omarchy's first-boot provisioning as upstream.
+
+Bootloader installation, key enrollment, external-drive selection and rollback
+are still not automated here, and the ISO's partitioning and bootloader steps
+assume Limine and Btrfs rather than the tested external ext4/GRUB layout.
