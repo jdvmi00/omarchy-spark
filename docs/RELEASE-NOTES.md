@@ -38,6 +38,11 @@ The release also adds a [getting-started guide](GETTING-STARTED.md), a
 [community announcement draft](ANNOUNCEMENT.md), and explicit
 [requirements for a supported release](RELEASE-CRITERIA.md). No installer,
 boot image or binary package repository is included.
+- `omarchy` 4.0.2-7: the ARM patch also adapts the installer's Snapper,
+  post-install pacman, firewall and NVIDIA scripts, so `omarchy-apply-system`
+  runs on the port. Run on the test Spark with no failed steps; the lock
+  screen's PAM configuration, the firewall (with SSH, mDNS and Tailscale
+  rules) and the remaining system defaults are now applied the upstream way.
 
 ## v0.1.0-preview.1 — Omarchy Spark developer preview
 

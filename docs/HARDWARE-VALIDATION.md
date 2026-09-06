@@ -134,3 +134,20 @@ the LazyVim configuration were installed but not exercised. localsend was not
 attempted: its
 recipe builds a Flutter app through fvm, and Flutter publishes no Linux
 aarch64 SDK. The audit afterwards reports 137 of 147 base packages installed.
+
+## Omarchy system setup applied — 2026-09-06
+
+`omarchy-apply-system --install-user jmartin --first-install` from omarchy
+4.0.2-7 ran on the Spark with zero failed steps. Snapper was skipped on the
+ext4 root, the ARM pacman configuration was kept, the NVIDIA step installed
+only libva-nvidia-driver and the modprobe file and left the initramfs
+drop-ins untouched, and the lock-screen PAM file, faillock limit, SDDM PAM
+cleanup, SSH keepalive, PAM PATH, Chromium policies and updatedb settings
+were all written. cups, systemd-resolved, systemd-oomd and the kernel-modules
+cleanup service are enabled and NetworkManager-wait-online is masked. ufw was
+enabled and then started: a fresh SSH connection, mDNS resolution of the
+hostname and the running Docker containers all still worked, with the SSH,
+mDNS, LocalSend and Docker DNS rules present and ufw-docker's block in
+after.rules. systemd-resolved starts on the next boot; DNS through it, the
+lock screen's unlock, and the firewall at boot were not yet observed.
+Omarchy's aarch64 package repository was synced and holds only omarchy-keyring.
