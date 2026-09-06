@@ -14,7 +14,7 @@ JetBrains Mono installed.
 
 The wordmark is Omarchy's MIT-licensed logo with new `s`, `p` and `k` letters
 drawn on its 15-pixel stair-step grid; `a` and `r` reuse the original glyphs.
-The spark glyph and the bracket icon are original. Colors come from Omarchy's
+The lightning-bolt glyph and the bracket icon are original. Colors come from Omarchy's
 `themes/tokyo-night/colors.toml`; the amber is that theme's yellow. See
 THIRD_PARTY.md for provenance. NVIDIA and DGX Spark are named in plain text
 only; no NVIDIA logo or trademark artwork is used.

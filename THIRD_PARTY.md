@@ -12,7 +12,7 @@ describe the packaged software; they are not a grant to redistribute its binarie
 - The artwork under docs/media extends the Omarchy wordmark from basecamp/omarchy
   (MIT, notice retained): the letters s, p and k are new, drawn on the same
   15-pixel stair-step grid, and a and r reuse the original glyphs. Colors are the
-  Tokyo Night theme values shipped with Omarchy. The spark glyph and bracket icon
+  Tokyo Night theme values shipped with Omarchy. The lightning-bolt glyph and bracket icon
   are original. No NVIDIA logo or trademark artwork is used or imitated; the
   words NVIDIA and DGX Spark appear only as plain text naming the hardware.
 - Kernel packaging derives from RageLtd/linux-dgx-spark; its MIT license remains
