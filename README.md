@@ -7,7 +7,7 @@ compute and development tools.
 
 [![Source tests](https://github.com/jdvmi00/omarchy-spark/actions/workflows/tests.yml/badge.svg)](https://github.com/jdvmi00/omarchy-spark/actions/workflows/tests.yml)
 
-**[Developer preview: v0.1.0-preview.2](https://github.com/jdvmi00/omarchy-spark/releases/tag/v0.1.0-preview.2).** This is a source release for developers,
+**[Developer preview: v0.1.0-preview.3](https://github.com/jdvmi00/omarchy-spark/releases/tag/v0.1.0-preview.3).** This is a source release for developers,
 not an installer or a supported replacement for DGX OS. One physical Spark has
 booted from an external SSD with accelerated Omarchy, native CUDA, GPU containers
 and an AI Workbench GPU project. Full factory software parity is still in progress.

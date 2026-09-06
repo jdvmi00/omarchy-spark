@@ -29,9 +29,9 @@ external-drive installation and test on another Spark. Exact test scope and
 remaining release requirements are public.
 
 - [Repository and getting started](https://github.com/jdvmi00/omarchy-spark)
-- [Developer preview release](https://github.com/jdvmi00/omarchy-spark/releases/tag/v0.1.0-preview.2)
-- [Hardware evidence](https://github.com/jdvmi00/omarchy-spark/blob/v0.1.0-preview.2/docs/HARDWARE-VALIDATION.md)
-- [Contribution guide](https://github.com/jdvmi00/omarchy-spark/blob/v0.1.0-preview.2/CONTRIBUTING.md)
+- [Developer preview release](https://github.com/jdvmi00/omarchy-spark/releases/tag/v0.1.0-preview.3)
+- [Hardware evidence](https://github.com/jdvmi00/omarchy-spark/blob/v0.1.0-preview.3/docs/HARDWARE-VALIDATION.md)
+- [Contribution guide](https://github.com/jdvmi00/omarchy-spark/blob/v0.1.0-preview.3/CONTRIBUTING.md)
 
 ---
 

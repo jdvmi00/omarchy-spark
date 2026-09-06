@@ -11,7 +11,7 @@ Install Python 3.11 or newer, PyYAML, Git, Bash and patch using your distributio
 package manager. In a fresh directory:
 
 ```sh
-git clone --branch v0.1.0-preview.2 https://github.com/jdvmi00/omarchy-spark.git
+git clone --branch v0.1.0-preview.3 https://github.com/jdvmi00/omarchy-spark.git
 cd omarchy-spark
 python3 scripts/prepare-test-sources.py
 python3 -m unittest discover -s tests -p 'test_*.py' -v
