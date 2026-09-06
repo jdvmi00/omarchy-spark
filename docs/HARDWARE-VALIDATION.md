@@ -57,8 +57,9 @@ Audible audio, Bluetooth pairing, RDMA throughput/GPU-direct networking, suspend
 sustained thermals, comprehensive Nsight workflows, authenticated
 Dashboard telemetry/notebooks, private registry/remote Workbench integrations,
 firmware installation, a complete default application set, and update/rollback.
-No firmware was flashed. The external drive negotiated USB 2.0 during bring-up;
-storage performance is not representative of its advertised maximum.
+No firmware was flashed. The external drive negotiated USB 2.0 during bring-up
+because of its cable; with a 10 Gb/s-rated USB-C cable on the same port it
+links at 20 Gb/s and reads 1.6 GB/s with direct I/O (2026-09-06).
 
 ## Post-review corrections re-checked — 2026-09-06
 
