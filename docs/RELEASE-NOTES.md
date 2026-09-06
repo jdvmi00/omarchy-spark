@@ -24,6 +24,11 @@ package build or independent hardware replication.
   token and with a wrong token are refused. Tokens are still never printed.
 - New host-side regression tests cover each change; a SECURITY.md describes
   private reporting.
+- Base package parity: `scripts/audit-base-packages.py` and the generated
+  `manifests/omarchy-base-arm-status.json` replace the dated research list.
+  A `ttfx` recipe (upstream's, unchanged) restores the Omarchy screensaver,
+  whose launcher exits silently without it. Every base package the Arch ARM
+  repos offer is now installed on the test machine.
 
 The release also adds a [getting-started guide](GETTING-STARTED.md), a
 [community announcement draft](ANNOUNCEMENT.md), and explicit

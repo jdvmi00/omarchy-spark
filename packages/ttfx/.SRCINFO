@@ -1,0 +1,16 @@
+pkgbase = ttfx
+	pkgdesc = Terminal text effects as a single static binary — Rust port of terminaltexteffects
+	pkgver = 0.3.2
+	pkgrel = 1
+	url = https://github.com/omacom-io/ttfx
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	makedepends = cargo
+	depends = gcc-libs
+	depends = glibc
+	options = !debug
+	source = ttfx-0.3.2.tar.gz::https://github.com/omacom-io/ttfx/archive/refs/tags/v0.3.2.tar.gz
+	sha256sums = d0c0df4867e7f03142fb7f77c66670d0e8da15534239c1a7abfd89f19dfc00f6
+
+pkgname = ttfx

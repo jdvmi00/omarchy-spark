@@ -68,6 +68,23 @@ For large vendor payloads, `scripts/fetch-sources.py MANIFEST DESTINATION` can
 prefetch and verify the locked source lists. Recipes still verify their own
 sources. Download URLs and checksums do not establish redistribution rights.
 
+## Base package audit
+
+Omarchy's ISO installer applies `install/omarchy-base.packages`; the port
+tracks how far the test machine is from that list. On an Arch ARM host with
+the fetched upstream tree, probe read-only, then classify against the
+omarchy-pkgs recipes:
+
+```sh
+python3 scripts/audit-base-packages.py probe upstream/omarchy/install/omarchy-base.packages > probe.json
+python3 scripts/audit-base-packages.py classify probe.json --pkgbuilds <omarchy-pkgs>/pkgbuilds \
+  > manifests/omarchy-base-arm-status.json
+```
+
+The manifest lists what is installed, what the repos offer but is missing, and
+tiers the rest by whether an upstream recipe builds on aarch64. Packages in
+the `omarchy-recipe` tier belong under `packages/` here; `ttfx` was the first.
+
 ## Native integration
 
 On an already configured Arch Spark, the Workbench README documents

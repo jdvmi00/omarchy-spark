@@ -87,3 +87,16 @@ pacman.
   second time. No tokens were printed or recorded.
 
 This remains a single-machine result; no second machine has reproduced it.
+
+## Base packages and screensaver — 2026-09-06
+
+The 28 packages from Omarchy's base list that the Arch ARM repos offer but the
+bring-up had skipped were installed (162 packages with dependencies, including
+CUPS, fcitx5, ufw, gpu-screen-recorder, LibreOffice and Kdenlive). `ttfx` 0.3.2
+was built natively from upstream's recipe with Rust 1.98 and installed. With it
+present, a forced screensaver launch inside the running Hyprland session opened
+a fullscreen `org.omarchy.screensaver` window with ttfx running, and stopped
+cleanly. The shell's 150-second idle timer was not observed. Omarchy 4 handles
+idle and lock in its own shell; `hypridle` and `hyprlock` are intentionally
+absent. The audit afterwards reports 124 of 147 base packages installed and
+none missing that the repos provide.
