@@ -1,5 +1,17 @@
 # Release notes
 
+## Unreleased changes after v0.1.0-preview.3
+
+- `nvidia-ai-workbench` 0.169.2.16-7 to -9: the service waits for network
+  connectivity before starting; the desktop app launches inside a bubblewrap
+  view that satisfies its Ubuntu-only OS check, disables the vendor
+  self-updater and protects the helper links. Updates go through pacman.
+- `dgx-dashboard` 0.25.11-3: the browser launcher shipped without its
+  executable bit, so the desktop entry failed; fixed in the recipe.
+- `localsend` 1.18.2-1 from LocalSend's official Linux arm64 release, which
+  restores Omarchy's Share menu.
+- Internal NVMe dual boot beside DGX OS, scripted (docs/DUAL-BOOT.md).
+
 ## v0.1.0-preview.3 — Clean build, base packages and system setup
 
 Source-only release. Every recipe now builds from the committed tree in a

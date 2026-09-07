@@ -1,0 +1,45 @@
+# Omarchy Spark: LocalSend from its official Linux binary releases. Upstream
+# omarchy-pkgs builds it from source with Flutter through fvm, and Flutter
+# publishes no Linux aarch64 SDK, so the port packages the release bundle the
+# LocalSend project itself ships for arm64 (and x86-64, for parity).
+pkgname=localsend
+pkgver=1.18.2
+pkgrel=1
+pkgdesc="An open source cross-platform alternative to AirDrop"
+url="https://github.com/localsend/localsend"
+license=('Apache-2.0')
+arch=('x86_64' 'aarch64')
+depends=('gtk3' 'libayatana-appindicator' 'libayatana-indicator' 'ayatana-ido' 'libdbusmenu-glib' 'libepoxy' 'hicolor-icon-theme'
+         'pango' 'cairo' 'gdk-pixbuf2' 'glib2' 'at-spi2-core' 'gcc-libs')
+options=('!strip')
+source=("LICENSE-${pkgver}::${url}/raw/v${pkgver}/LICENSE")
+source_aarch64=("LocalSend-${pkgver}-linux-arm-64.tar.gz::${url}/releases/download/v${pkgver}/LocalSend-${pkgver}-linux-arm-64.tar.gz")
+source_x86_64=("LocalSend-${pkgver}-linux-x86-64.tar.gz::${url}/releases/download/v${pkgver}/LocalSend-${pkgver}-linux-x86-64.tar.gz")
+noextract=("LocalSend-${pkgver}-linux-arm-64.tar.gz" "LocalSend-${pkgver}-linux-x86-64.tar.gz")
+sha256sums=('38514afa30358fc21ef37551f3119b27d820427ece3c6f0ae014c7e47338c087')
+sha256sums_aarch64=('dd61f74f1ce3f4e25aca41cd3ce650d6a99353d7baba81a8139807275b88e606')
+sha256sums_x86_64=('287690a9a8eb6da9c83cc97b3e3030ac67daf32a7331fcf307d0939300658d16')
+
+package() {
+  local bundle=$(ls "$srcdir"/LocalSend-*-linux-*.tar.gz | head -1)
+  install -dm755 "$pkgdir/usr/lib/$pkgname"
+  bsdtar -xf "$bundle" -C "$pkgdir/usr/lib/$pkgname"
+  # The bundle's binary already carries RUNPATH $ORIGIN/lib; keep the layout
+  # upstream's recipe produces: app, lib/ and data/ under /usr/lib/localsend.
+  chmod -R u+rwX,go+rX,go-w "$pkgdir/usr/lib/$pkgname"
+  install -dm755 "$pkgdir/usr/bin"
+  ln -s "/usr/lib/$pkgname/localsend_app" "$pkgdir/usr/bin/$pkgname"
+  install -Dm644 "$pkgdir/usr/lib/$pkgname/data/flutter_assets/assets/img/logo-512.png" \
+    "$pkgdir/usr/share/icons/hicolor/512x512/apps/$pkgname.png"
+  install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/$pkgname.desktop" <<END
+[Desktop Entry]
+Type=Application
+Name=LocalSend
+Comment=$pkgdesc
+Exec=$pkgname
+Icon=$pkgname
+Terminal=false
+Categories=Utility;Network;
+END
+  install -Dm644 "$srcdir/LICENSE-$pkgver" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -1,7 +1,7 @@
 pkgbase = dgx-dashboard
 	pkgdesc = NVIDIA DGX Dashboard (experimental Arch integration)
 	pkgver = 0.25.11
-	pkgrel = 2
+	pkgrel = 3
 	url = https://docs.nvidia.com/dgx/dgx-spark/dgx-dashboard.html
 	arch = aarch64
 	license = custom:NVIDIA

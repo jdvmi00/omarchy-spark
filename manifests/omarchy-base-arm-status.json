@@ -4,9 +4,9 @@
   "host_arch": "aarch64",
   "counts": {
     "total": 147,
-    "installed": 137,
+    "installed": 138,
     "available_not_installed": 0,
-    "unavailable": 10
+    "unavailable": 9
   },
   "available_not_installed": [],
   "unavailable": [
@@ -19,11 +19,6 @@
       "name": "dotnet-runtime",
       "tier": "external",
       "note": "no omarchy-pkgs recipe; AUR or vendor source"
-    },
-    {
-      "name": "localsend",
-      "tier": "external",
-      "note": "Flutter app built through fvm; Flutter publishes no Linux aarch64 SDK"
     },
     {
       "name": "obs-studio",
@@ -131,6 +126,7 @@
     "libyaml",
     "libreoffice-fresh",
     "llvm",
+    "localsend",
     "lua51",
     "luarocks",
     "man-db",

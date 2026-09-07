@@ -1,6 +1,6 @@
 pkgname=dgx-dashboard
 pkgver=0.25.11
-pkgrel=2
+pkgrel=3
 pkgdesc='NVIDIA DGX Dashboard (experimental Arch integration)'
 arch=('aarch64')
 url='https://docs.nvidia.com/dgx/dgx-spark/dgx-dashboard.html'
@@ -23,6 +23,9 @@ package() {
   # Preserve paths embedded in the vendor binaries. Package files remain
   # root-owned; only the runtime notebook port map is service-writable.
   cp -a opt usr "${pkgdir}/"
+  # The vendor archive carries the browser launcher without an executable bit,
+  # so the desktop entry fails with permission denied; fix it here.
+  chmod 755 "${pkgdir}/usr/bin/dgx-dashboard"
   install -Dm644 etc/dbus-1/system.d/com.nvidia.dgx.dashboard.admin1.conf \
     "${pkgdir}/usr/share/dbus-1/system.d/com.nvidia.dgx.dashboard.admin1.conf"
   install -Dm644 etc/logrotate.d/dgx-dashboard "${pkgdir}/etc/logrotate.d/dgx-dashboard"

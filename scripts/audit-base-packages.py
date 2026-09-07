@@ -30,7 +30,7 @@ NOT_APPLICABLE = {
 }
 # Upstream recipe declares aarch64 but its toolchain has no ARM64 Linux build.
 BLOCKED = {
-    'localsend': 'Flutter app built through fvm; Flutter publishes no Linux aarch64 SDK',
+    'localsend': 'Flutter app built through fvm; Flutter publishes no Linux aarch64 SDK. The port packages LocalSend\'s own Linux arm64 release instead (packages/localsend)',
 }
 
 

@@ -205,3 +205,13 @@ binds a compatibility file over `/etc/os-release` for the app only, its log
 reports the OS supported and Workbench installed, and it opens its Locations
 Manager. nvidia-ai-workbench 0.169.2.16-8 ships that launcher as
 `/usr/bin/nvidia-ai-workbench` and points the desktop entry at it.
+
+## Dashboard launcher and Share — 2026-09-06
+
+The DGX Dashboard desktop entry failed with permission denied: NVIDIA's
+archive ships `/usr/bin/dgx-dashboard` without an executable bit and the
+recipe copied it as-is. dgx-dashboard 0.25.11-3 sets the mode; the entry now
+opens Chromium on the Dashboard. Omarchy's Share menu runs `localsend`, which
+the port could not build from source; `localsend` 1.18.2-1 packages the
+project's own Linux arm64 bundle and the app starts on the desktop. Sending to
+a peer was not exercised.
