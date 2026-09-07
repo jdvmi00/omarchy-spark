@@ -260,11 +260,27 @@ VS Code, Ghostty, Zed, Obsidian and Sublime Text each opened a window
 (`hyprctl clients` listed all seven); their logs held only first-run noise.
 Interactive use beyond opening was not tested.
 
-`omarchy-settings` 4.0.2-5 applied the menu patch: the installed menu carries
-20 `uname -m` guards and the Spotify web-app entry. The Install menu audit was
-re-run against the machine: 34 entries work from the repositories, 12 are
-packaged by the port, 13 have no ARM build and are hidden, 8 are not
-applicable and hidden. The base package audit reports 139 of 147.
+`omarchy-settings` 4.0.2-5 applied the menu patch: the installed menu carried
+20 `uname -m` guards and the Spotify web-app entry. The base package audit
+reports 139 of 147.
+
+## Browsers from the AUR — 2026-09-07
+
+Google Chrome 152 had already been installed on the machine with `yay` on
+2026-09-06: the AUR `google-chrome` recipe declares aarch64 and fetches
+Google's arm64 `.deb`, and the installed binary is a native aarch64
+executable. That contradicted the audit, which had only checked omarchy-pkgs
+recipes for ARM support, and the menu patch, which hid Chrome. Fetching the
+AUR recipe of every package the ARM repositories lack showed four browsers
+with ARM64 builds (google-chrome, brave-bin, brave-origin-bin,
+zen-browser-bin); everything else hidden is x86-only on the AUR too. Brave
+1.94.121 and Zen 1.22b were then built and installed with `yay`, the way
+Omarchy's browser installer does, and both opened windows in the session.
+
+`omarchy-settings` 4.0.2-6 and `omarchy` 4.0.2-9 drop the four browser
+guards: the installed menu now carries 16 guards. The audit after this reads
+34 work, 12 packaged by the port, 4 AUR with an ARM64 build, 9 no ARM build,
+8 not applicable, 8 interactive; 16 entries hidden on aarch64.
 
 ## Ollama with CUDA — 2026-09-07
 

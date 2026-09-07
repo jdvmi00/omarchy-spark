@@ -13,7 +13,7 @@ pkgname='omarchy-settings'
 _tag=''
 _commit='346e69e1cec6c4e8924531874af6ba010a1bc99e'
 pkgver=4.0.2
-pkgrel=5
+pkgrel=6
 pkgdesc='Omarchy user defaults, /etc/skel content, fonts, plymouth theme, and support helpers'
 # Arch-specific because the shipped /etc tree is not the same on every
 # architecture: the Limine, mkinitcpio, zram and oomd drop-ins belong to the
@@ -121,13 +121,13 @@ _etc_override_paths=(
 # build from a local source tree instead (mirrors omarchy-zsh/omarchy-fish DX).
 if [[ -n "${OMARCHY_SRC:-}" ]]; then
   source=('omarchy-menu-arm.patch')
-  sha256sums=('e0cba286fe5bd9f198b897ffc7a466038d75d65dd46da09ee1a12855666f71a7')
+  sha256sums=('7e7b6f9a5c8c583879b22c0130133ffdaad8adc4bc48f1738152cc4bc6897c79')
   sha256sums=()
 else
   source=("omarchy::git+https://github.com/basecamp/omarchy.git#commit=${_commit}"
           "omarchy-menu-arm.patch")
   sha256sums=('ed1ca61045f73e313c3e73874d324945e2b5357e6510664eab25783b26138197'
-              'e0cba286fe5bd9f198b897ffc7a466038d75d65dd46da09ee1a12855666f71a7')
+              '7e7b6f9a5c8c583879b22c0130133ffdaad8adc4bc48f1738152cc4bc6897c79')
 fi
 
 prepare() {

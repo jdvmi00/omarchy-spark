@@ -31,12 +31,19 @@
 - `ollama` and `ollama-cuda` 0.33.3 built from source with the port's CUDA 13
   toolkit and GCC 15 host compiler for the GB10 (sm_121), so Install → AI →
   Ollama installs a GPU-accelerated Ollama.
-- `omarchy-settings` 4.0.2-5 applies `patches/omarchy-menu-arm.patch`: on
-  aarch64 the Install menu hides the 20 entries with no ARM path (Chrome,
-  Edge, Brave, Zen, Cursor, Dropbox, Spotify, Grok, LM Studio, the Wine and
+- `omarchy-settings` 4.0.2-6 applies `patches/omarchy-menu-arm.patch`: on
+  aarch64 the Install menu hides the 16 entries with no ARM path (Edge,
+  Cursor, Dropbox, Spotify, Grok, LM Studio, Xbox controllers, the Wine and
   Steam gaming stack, the Windows VM) and adds a Spotify web app entry. The
-  x86 menu is unchanged. `omarchy` 4.0.2-8 carries the same change in the
-  full ARM patch.
+  x86 menu is unchanged. `omarchy` 4.0.2-9 carries the same change in the
+  full ARM patch. Release -5/-8 of the same patch also hid Chrome, Brave,
+  Brave Origin and Zen; that was wrong, since their AUR recipes fetch the
+  vendors' ARM64 builds and Omarchy's browser installer uses the AUR. All
+  four were built with yay on the Spark and open.
+- The Install menu audit now consults the AUR recipe of every package the
+  ARM repositories lack (`audit-install-menu.py aur`, recorded in
+  `manifests/omarchy-install-menu-aur-arch.json`) instead of assuming that
+  anything outside omarchy-pkgs has no ARM build.
 - OBS Studio and Pinta remain unpackaged: OBS needs a native ARM build that
   was not attempted, and Pinta needs .NET, which Arch Linux ARM does not ship.
 

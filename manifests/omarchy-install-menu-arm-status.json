@@ -5,7 +5,8 @@
     "interactive": 8,
     "works": 34,
     "not-applicable": 8,
-    "no-arm-build": 13,
+    "no-arm-build": 9,
+    "aur-arm64": 4,
     "port-recipe": 12
   },
   "entries": [
@@ -216,12 +217,12 @@
         "google-chrome"
       ],
       "note": "",
-      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present google-chrome",
+      "when": "! omarchy-pkg-present google-chrome",
       "package_status": {
-        "google-chrome": "no-arm-build (installed locally on the test machine)"
+        "google-chrome": "aur-arm64 (installed locally on the test machine)"
       },
-      "tier": "no-arm-build",
-      "hidden_on_aarch64": true
+      "tier": "aur-arm64",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.browser.edge",
@@ -244,12 +245,12 @@
         "brave-bin"
       ],
       "note": "",
-      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present brave-bin",
+      "when": "! omarchy-pkg-present brave-bin",
       "package_status": {
-        "brave-bin": "no-arm-build"
+        "brave-bin": "aur-arm64 (installed locally on the test machine)"
       },
-      "tier": "no-arm-build",
-      "hidden_on_aarch64": true
+      "tier": "aur-arm64",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.browser.brave-origin",
@@ -258,12 +259,12 @@
         "brave-origin-bin"
       ],
       "note": "",
-      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present brave-origin-bin",
+      "when": "! omarchy-pkg-present brave-origin-bin",
       "package_status": {
-        "brave-origin-bin": "no-arm-build"
+        "brave-origin-bin": "aur-arm64"
       },
-      "tier": "no-arm-build",
-      "hidden_on_aarch64": true
+      "tier": "aur-arm64",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.browser.firefox",
@@ -286,12 +287,12 @@
         "zen-browser-bin"
       ],
       "note": "",
-      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present zen-browser-bin",
+      "when": "! omarchy-pkg-present zen-browser-bin",
       "package_status": {
-        "zen-browser-bin": "no-arm-build"
+        "zen-browser-bin": "aur-arm64 (installed locally on the test machine)"
       },
-      "tier": "no-arm-build",
-      "hidden_on_aarch64": true
+      "tier": "aur-arm64",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.1password",
@@ -323,7 +324,7 @@
       "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present dropbox",
       "package_status": {
         "dropbox": "x86-only-recipe",
-        "dropbox-cli": "x86-only-recipe",
+        "dropbox-cli": "aur-arm64",
         "libappindicator-gtk3": "no-arm-build (installed locally on the test machine)",
         "python-gpgme": "available",
         "nautilus-dropbox": "x86-only-recipe"
@@ -774,11 +775,11 @@
         "libretro-shaders-slang": "available",
         "libretro-snes9x": "available",
         "libretro-yabause": "available",
-        "libretro-cap32-git": "buildable",
-        "libretro-fbneo-git": "buildable",
+        "libretro-cap32-git": "aur-arm64",
+        "libretro-fbneo-git": "aur-arm64",
         "libretro-uae-git": "x86-only-recipe",
         "libretro-vice-x128-git": "no-arm-build",
-        "libretro-vice-x64-git": "no-arm-build",
+        "libretro-vice-x64-git": "aur-arm64",
         "libretro-vice-x64dtv-git": "no-arm-build",
         "libretro-vice-x64sc-git": "no-arm-build",
         "libretro-vice-xcbm2-git": "no-arm-build",
@@ -787,8 +788,8 @@
         "libretro-vice-xplus4-git": "no-arm-build",
         "libretro-vice-xscpu64-git": "no-arm-build",
         "libretro-vice-xvic-git": "no-arm-build",
-        "libretro-database-git": "buildable",
-        "retroarch-joypad-autoconfig-git": "buildable"
+        "libretro-database-git": "aur-arm64",
+        "retroarch-joypad-autoconfig-git": "aur-arm64"
       },
       "tier": "no-arm-build",
       "hidden_on_aarch64": true
@@ -842,7 +843,7 @@
       "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present xpadneo-dkms",
       "package_status": {
         "linux-headers": "no-arm-build (installed locally on the test machine)",
-        "xpadneo-dkms": "x86-only-recipe"
+        "xpadneo-dkms": "aur-arm64"
       },
       "tier": "no-arm-build",
       "hidden_on_aarch64": true

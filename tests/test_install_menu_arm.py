@@ -6,14 +6,15 @@ import subprocess
 import unittest
 
 MENU = Path(__file__).resolve().parents[1] / 'upstream/omarchy/default/omarchy/omarchy-menu.jsonc'
-HIDDEN = ['install.windows', 'install.browser.chrome', 'install.browser.edge', 'install.browser.brave',
-          'install.browser.brave-origin', 'install.browser.zen', 'install.service.dropbox', 'install.service.spotify',
+HIDDEN = ['install.windows', 'install.browser.edge', 'install.service.dropbox', 'install.service.spotify',
           'install.editor.cursor', 'install.ai.grok-bot', 'install.ai.lm-studio', 'install.gaming.steam',
           'install.gaming.retroarch', 'install.gaming.minecraft', 'install.gaming.geforce-now',
           'install.gaming.xbox-controllers', 'install.gaming.battlenet', 'install.gaming.lutris',
           'install.gaming.heroic', 'install.gaming.retro-launcher']
+# Chrome, Brave, Brave Origin and Zen stay: their AUR recipes fetch the vendors' ARM64 builds.
 KEPT = ['install.terminal.ghostty', 'install.editor.zed', 'install.service.bitwarden', 'install.ai.ollama',
-        'install.browser.firefox', 'install.editor.vscode', 'install.service.1password']
+        'install.browser.firefox', 'install.editor.vscode', 'install.service.1password', 'install.browser.chrome',
+        'install.browser.brave', 'install.browser.brave-origin', 'install.browser.zen']
 
 
 def load():

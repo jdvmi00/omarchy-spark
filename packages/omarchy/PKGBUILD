@@ -13,7 +13,7 @@ pkgname='omarchy'
 _tag=''
 _commit='346e69e1cec6c4e8924531874af6ba010a1bc99e'
 pkgver=4.0.2
-pkgrel=8
+pkgrel=9
 pkgdesc='Beautiful, modern, and opinionated Arch Linux by DHH'
 # The payload is architecture-independent, but the dependency set is not: the
 # boot stack differs per architecture (see depends_x86_64 / depends_aarch64),
@@ -92,12 +92,12 @@ makedepends=(
 # build from a local source tree instead (mirrors omarchy-zsh/omarchy-fish DX).
 if [[ -n "${OMARCHY_SRC:-}" ]]; then
   source=('omarchy-spark-arm.patch')
-  sha256sums=('df40f275fa0b71462940dd8e01e23fdbad13b0c5f54af09c43d5489ff5b3766c')
+  sha256sums=('c47a04b7dd294447481dfb1168468cd5c3a5359bad18b4427c5f08ffe6276177')
 else
   source=("omarchy::git+https://github.com/basecamp/omarchy.git#commit=${_commit}"
           "omarchy-spark-arm.patch")
   sha256sums=('ed1ca61045f73e313c3e73874d324945e2b5357e6510664eab25783b26138197'
-              'df40f275fa0b71462940dd8e01e23fdbad13b0c5f54af09c43d5489ff5b3766c')
+              'c47a04b7dd294447481dfb1168468cd5c3a5359bad18b4427c5f08ffe6276177')
 fi
 
 prepare() {

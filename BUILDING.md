@@ -123,7 +123,10 @@ aarch64 are now present, copied unchanged from omarchy-pkgs.
 
 `scripts/audit-install-menu.py` does the same for Omarchy's Install menu:
 `extract` maps each entry to the packages its helper script adds, `probe` checks
-them on the ARM host, `classify` tiers the entries into
+them on the ARM host, `aur` fetches the architectures each missing package's
+AUR recipe declares (into `manifests/omarchy-install-menu-aur-arch.json`,
+since Omarchy's browser installer and `omarchy-pkg-aur-add` use the AUR),
+`classify --aur` tiers the entries into
 `manifests/omarchy-install-menu-arm-status.json`, and `render` writes
 docs/INSTALL-MENU.md from it. The manifest also records which entries the
 port's menu patch hides on aarch64.

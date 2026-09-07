@@ -5,14 +5,19 @@
             each install entry to the packages it would add
   probe     on an Arch Linux ARM host: read that JSON, report each package as
             installed, available or unavailable; nothing is installed
-  classify  anywhere: merge the probe with omarchy-pkgs recipes and the port's
+  aur       anywhere with network: for every package the probe found
+            unavailable, fetch its AUR recipe and record the architectures it
+            declares (Omarchy falls back to the AUR for packages its own
+            repository lacks)
+  classify  anywhere: merge the probe, the AUR architectures and the port's
             recipes into the tracked manifest, noting which entries the port's
             menu patch hides on aarch64
   render    anywhere: write docs/INSTALL-MENU.md from the manifest
 
 Entries are tiered by their worst package: works (all installed or available),
-port-recipe (the port already packages it), buildable (an omarchy-pkgs recipe
-declares aarch64), no-arm-build (AUR or vendor binary with no ARM recipe here),
+port-recipe (the port already packages it), aur-arm64 (the AUR recipe fetches
+or builds an ARM64 version, so Omarchy's normal AUR path works), buildable (an
+omarchy-pkgs recipe declares aarch64), no-arm-build (no ARM recipe anywhere),
 interactive (the entry asks what to install), or not-applicable (x86 gaming
 stacks, Windows VM).
 """
@@ -141,6 +146,24 @@ def probe(args):
     print()
 
 
+def aur(args):
+    import urllib.request
+    data = json.load(open(args.probe))
+    names = sorted(n for n, st in data['status'].items() if st in ('unavailable', 'installed-local'))
+    arches = {}
+    for name in names:
+        url = f'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h={name}'
+        try:
+            text = urllib.request.urlopen(url, timeout=30).read().decode('utf-8', 'replace')
+        except Exception:
+            arches[name] = None
+            continue
+        m = re.search(r"^arch=\(([^)]*)\)", text, re.M | re.S)
+        arches[name] = shlex.split(m.group(1).replace('\n', ' ')) if m else []
+    json.dump({'fetched': __import__('datetime').date.today().isoformat(), 'arch': arches}, sys.stdout, indent=2)
+    print()
+
+
 def hidden_on(when, arch):
     """Evaluate a menu `when` condition the way omarchy-menu does, with uname stubbed."""
     if not when:
@@ -161,6 +184,7 @@ def classify(args):
         if m:
             ported.update(shlex.split(m.group(1)))
     pkgbuilds = Path(args.pkgbuilds) if args.pkgbuilds else None
+    aur_arch = json.load(open(args.aur))['arch'] if getattr(args, 'aur', None) else {}
     counts = {}
     for e in data['entries']:
         pkgs = {}
@@ -170,6 +194,8 @@ def classify(args):
             if st in ('unavailable', 'installed-local'):
                 if name in ported:
                     st = 'port-recipe'
+                elif aur_arch.get(name) and ({'aarch64', 'any'} & set(aur_arch[name])):
+                    st = 'aur-arm64'
                 elif pkgbuilds and (pkgbuilds / name / 'PKGBUILD').exists():
                     arch = re.search(r"^arch=\((.*)\)", (pkgbuilds / name / 'PKGBUILD').read_text(), re.M)
                     st = 'buildable' if arch and ('aarch64' in arch.group(1) or "'any'" in arch.group(1)) else 'x86-only-recipe'
@@ -186,10 +212,10 @@ def classify(args):
         elif not pkgs:
             tier = 'works' if e['note'] else 'unknown'
         else:
-            order = ['no-arm-build', 'x86-only-recipe', 'buildable', 'port-recipe', 'available', 'installed']
+            order = ['no-arm-build', 'x86-only-recipe', 'buildable', 'port-recipe', 'aur-arm64', 'available', 'installed']
             worst = min((v.split(' ')[0] for v in pkgs.values()), key=order.index)
-            tier = {'installed': 'works', 'available': 'works', 'port-recipe': 'port-recipe', 'buildable': 'buildable',
-                    'x86-only-recipe': 'no-arm-build', 'no-arm-build': 'no-arm-build'}[worst]
+            tier = {'installed': 'works', 'available': 'works', 'aur-arm64': 'aur-arm64', 'port-recipe': 'port-recipe',
+                    'buildable': 'buildable', 'x86-only-recipe': 'no-arm-build', 'no-arm-build': 'no-arm-build'}[worst]
         e['tier'] = tier
         e['hidden_on_aarch64'] = hidden_on(e.get('when', ''), 'aarch64') and not hidden_on(e.get('when', ''), 'x86_64')
         counts[tier] = counts.get(tier, 0) + 1
@@ -203,6 +229,8 @@ TIERS = [
     ('works', 'Works', "every package is installed from or available in Arch Linux ARM's repositories, "
                        'or the entry installs a mise toolchain or only configuration.'),
     ('port-recipe', 'Packaged by the port', 'Arch Linux ARM lacks at least one package; the port builds it under `packages/`.'),
+    ('aur-arm64', 'AUR with an ARM64 build', "the AUR recipe declares aarch64 and fetches the vendor's ARM64 build, so "
+                                             "Omarchy's normal AUR fallback installs it."),
     ('buildable', 'Buildable', 'an omarchy-pkgs recipe declares aarch64 but nobody has built it for the port yet.'),
     ('no-arm-build', 'No ARM build', 'an AUR or vendor binary with no ARM64 recipe; would fail with "target not found".'),
     ('interactive', 'Interactive', 'asks what to install; outcome depends on the choice.'),
@@ -217,10 +245,13 @@ RENDER_TAIL = '''## What the port does about each tier
 - Hidden entries are removed from the menu on aarch64 by the port's menu patch
   (`patches/omarchy-menu-arm.patch`, applied by `omarchy-settings`), so users
   do not pick an install that cannot succeed. The x86 menu is unchanged.
+- AUR entries stay in the menu: Chrome, Brave, Brave Origin and Zen publish
+  ARM64 Linux builds and their AUR recipes fetch them, so Omarchy's install
+  flow builds them with yay as on x86.
 - Spotify is replaced on aarch64 by a Spotify web app entry (Omarchy's own
   `omarchy-webapp-install`); LM Studio has no ARM64 Linux build and Ollama is
-  the port's alternative; Chrome, Edge, Brave, Zen, Cursor and Dropbox publish
-  no ARM64 Linux binaries.
+  the port's alternative; Edge, Cursor, Grok and Dropbox publish no ARM64
+  Linux binaries.
 - The Omarchy preinstalls entry still lists OBS Studio and Pinta, which have no
   ARM recipe here: OBS would need a native build and Pinta needs .NET, which
   Arch Linux ARM does not ship.
@@ -268,7 +299,9 @@ def main():
     sub = parser.add_subparsers(dest='command', required=True)
     e = sub.add_parser('extract'); e.add_argument('menu'); e.add_argument('bindir'); e.set_defaults(run=extract)
     p = sub.add_parser('probe'); p.add_argument('extract'); p.set_defaults(run=probe)
-    c = sub.add_parser('classify'); c.add_argument('probe'); c.add_argument('--pkgbuilds'); c.set_defaults(run=classify)
+    a = sub.add_parser('aur'); a.add_argument('probe'); a.set_defaults(run=aur)
+    c = sub.add_parser('classify'); c.add_argument('probe'); c.add_argument('--pkgbuilds'); c.add_argument('--aur')
+    c.set_defaults(run=classify)
     r = sub.add_parser('render'); r.add_argument('manifest'); r.add_argument('out'); r.set_defaults(run=render)
     args = parser.parse_args()
     args.run(args)

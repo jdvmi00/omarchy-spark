@@ -50,11 +50,12 @@
   docs/INSTALL-MENU.md audits all 75 entries: 34 work from the ARM repos, 12
   are packaged by the port (Ghostty, VS Code, Zed, Sublime Text, Emacs,
   1Password, Bitwarden, NordVPN, Once, ChatGPT desktop, Voxtype dictation,
-  Ollama), 13 have no ARM build, 8 are x86 gaming or the Windows VM and 8 are
-  interactive. The port's menu patch hides the 20 entries that cannot work on
-  aarch64 (Chrome, Edge, Brave, Zen, Cursor, Dropbox, Spotify, Grok, LM Studio,
-  Steam and the Wine gaming stack, the Windows VM) and offers Spotify as a web
-  app instead. The port-packaged entries only succeed on a machine that has
+  Ollama), 4 install through Omarchy's AUR path because their AUR recipes fetch
+  the vendors' ARM64 builds (Chrome, Brave, Brave Origin, Zen), 9 have no ARM
+  build, 8 are x86 gaming or the Windows VM and 8 are interactive. The port's
+  menu patch hides the 16 entries that cannot work on aarch64 (Edge, Cursor,
+  Dropbox, Spotify, Grok, LM Studio, Xbox controllers, Steam and the Wine
+  gaming stack, the Windows VM) and offers Spotify as a web app instead. The port-packaged entries only succeed on a machine that has
   built the recipes or added a repository serving them; there is no hosted
   package repository yet, so on a fresh install they still fail with "target
   not found". The Omarchy preinstalls entry still lists OBS Studio and Pinta,

@@ -12,11 +12,12 @@ the entry on aarch64.
 | --- | --- |
 | Works | 34 |
 | Packaged by the port | 12 |
+| AUR with an ARM64 build | 4 |
 | Buildable | 0 |
-| No ARM build | 13 |
+| No ARM build | 9 |
 | Interactive | 8 |
 | Not applicable | 8 |
-| of which hidden on aarch64 | 20 |
+| of which hidden on aarch64 | 16 |
 
 ## Works (34)
 
@@ -78,31 +79,38 @@ Arch Linux ARM lacks at least one package; the port builds it under `packages/`.
 | ai.dictation | wtype, voxtype-bin (port-recipe, local) | shown |  |
 | ai.ollama | ollama-cuda (port-recipe, local) | shown | inline: picks ollama-cuda when nvidia-smi is present |
 
+## AUR with an ARM64 build (4)
+
+the AUR recipe declares aarch64 and fetches the vendor's ARM64 build, so Omarchy's normal AUR fallback installs it.
+
+| Entry | Packages | On aarch64 | Note |
+| --- | --- | --- | --- |
+| browser.chrome | google-chrome (aur-arm64, local) | shown |  |
+| browser.brave | brave-bin (aur-arm64, local) | shown |  |
+| browser.brave-origin | brave-origin-bin (aur-arm64) | shown |  |
+| browser.zen | zen-browser-bin (aur-arm64, local) | shown |  |
+
 ## Buildable (0)
 
 an omarchy-pkgs recipe declares aarch64 but nobody has built it for the port yet.
 
 None.
 
-## No ARM build (13)
+## No ARM build (9)
 
 an AUR or vendor binary with no ARM64 recipe; would fail with "target not found".
 
 | Entry | Packages | On aarch64 | Note |
 | --- | --- | --- | --- |
 | preinstalls | aether (port-recipe, local), cliamp (port-recipe, local), libreoffice-fresh, xournalpp, pinta (no-arm-build), obsidian (port-recipe, local), obs-studio (no-arm-build), kdenlive, moonlight-qt, lazydocker, omacut (port-recipe, local), omacalc (port-recipe, local), omawrite (port-recipe, local) | shown |  |
-| browser.chrome | google-chrome (no-arm-build, local) | hidden |  |
 | browser.edge | microsoft-edge-stable-bin (no-arm-build) | hidden |  |
-| browser.brave | brave-bin (no-arm-build) | hidden |  |
-| browser.brave-origin | brave-origin-bin (no-arm-build) | hidden |  |
-| browser.zen | zen-browser-bin (no-arm-build) | hidden |  |
-| service.dropbox | dropbox (x86-only-recipe), dropbox-cli (x86-only-recipe), libappindicator-gtk3 (no-arm-build, local), python-gpgme, nautilus-dropbox (x86-only-recipe) | hidden |  |
+| service.dropbox | dropbox (x86-only-recipe), dropbox-cli (aur-arm64), libappindicator-gtk3 (no-arm-build, local), python-gpgme, nautilus-dropbox (x86-only-recipe) | hidden |  |
 | service.spotify | spotify (x86-only-recipe) | hidden |  |
 | editor.cursor | cursor-bin (x86-only-recipe) | hidden |  |
 | ai.grok-bot | grok-bot (x86-only-recipe) | hidden |  |
 | ai.lm-studio | lmstudio-bin (x86-only-recipe) | hidden |  |
-| gaming.retroarch | retroarch, retroarch-assets-glui, retroarch-assets-ozone, retroarch-assets-xmb, libretro-beetle-pce, libretro-beetle-pce-fast, libretro-beetle-psx, libretro-beetle-psx-hw, libretro-beetle-supergrafx, libretro-blastem, libretro-bsnes, libretro-bsnes-hd, libretro-core-info, libretro-desmume, libretro-dolphin, libretro-flycast, libretro-gambatte, libretro-genesis-plus-gx, libretro-kronos, libretro-mame, libretro-melonds, libretro-mesen, libretro-mesen-s, libretro-mgba, libretro-mupen64plus-next, libretro-nestopia, libretro-overlays, libretro-parallel-n64, libretro-picodrive, libretro-play, libretro-ppsspp (no-arm-build), libretro-sameboy, libretro-scummvm, libretro-shaders-slang, libretro-snes9x, libretro-yabause, libretro-cap32-git (buildable), libretro-fbneo-git (buildable), libretro-uae-git (x86-only-recipe), libretro-vice-x128-git (no-arm-build), libretro-vice-x64-git (no-arm-build), libretro-vice-x64dtv-git (no-arm-build), libretro-vice-x64sc-git (no-arm-build), libretro-vice-xcbm2-git (no-arm-build), libretro-vice-xcbm5x0-git (no-arm-build), libretro-vice-xpet-git (no-arm-build), libretro-vice-xplus4-git (no-arm-build), libretro-vice-xscpu64-git (no-arm-build), libretro-vice-xvic-git (no-arm-build), libretro-database-git (buildable), retroarch-joypad-autoconfig-git (buildable) | hidden |  |
-| gaming.xbox-controllers | linux-headers (no-arm-build, local), xpadneo-dkms (x86-only-recipe) | hidden |  |
+| gaming.retroarch | retroarch, retroarch-assets-glui, retroarch-assets-ozone, retroarch-assets-xmb, libretro-beetle-pce, libretro-beetle-pce-fast, libretro-beetle-psx, libretro-beetle-psx-hw, libretro-beetle-supergrafx, libretro-blastem, libretro-bsnes, libretro-bsnes-hd, libretro-core-info, libretro-desmume, libretro-dolphin, libretro-flycast, libretro-gambatte, libretro-genesis-plus-gx, libretro-kronos, libretro-mame, libretro-melonds, libretro-mesen, libretro-mesen-s, libretro-mgba, libretro-mupen64plus-next, libretro-nestopia, libretro-overlays, libretro-parallel-n64, libretro-picodrive, libretro-play, libretro-ppsspp (no-arm-build), libretro-sameboy, libretro-scummvm, libretro-shaders-slang, libretro-snes9x, libretro-yabause, libretro-cap32-git (aur-arm64), libretro-fbneo-git (aur-arm64), libretro-uae-git (x86-only-recipe), libretro-vice-x128-git (no-arm-build), libretro-vice-x64-git (aur-arm64), libretro-vice-x64dtv-git (no-arm-build), libretro-vice-x64sc-git (no-arm-build), libretro-vice-xcbm2-git (no-arm-build), libretro-vice-xcbm5x0-git (no-arm-build), libretro-vice-xpet-git (no-arm-build), libretro-vice-xplus4-git (no-arm-build), libretro-vice-xscpu64-git (no-arm-build), libretro-vice-xvic-git (no-arm-build), libretro-database-git (aur-arm64), retroarch-joypad-autoconfig-git (aur-arm64) | hidden |  |
+| gaming.xbox-controllers | linux-headers (no-arm-build, local), xpadneo-dkms (aur-arm64) | hidden |  |
 
 ## Interactive (8)
 
@@ -143,10 +151,13 @@ x86-only gaming stacks or a Windows VM.
 - Hidden entries are removed from the menu on aarch64 by the port's menu patch
   (`patches/omarchy-menu-arm.patch`, applied by `omarchy-settings`), so users
   do not pick an install that cannot succeed. The x86 menu is unchanged.
+- AUR entries stay in the menu: Chrome, Brave, Brave Origin and Zen publish
+  ARM64 Linux builds and their AUR recipes fetch them, so Omarchy's install
+  flow builds them with yay as on x86.
 - Spotify is replaced on aarch64 by a Spotify web app entry (Omarchy's own
   `omarchy-webapp-install`); LM Studio has no ARM64 Linux build and Ollama is
-  the port's alternative; Chrome, Edge, Brave, Zen, Cursor and Dropbox publish
-  no ARM64 Linux binaries.
+  the port's alternative; Edge, Cursor, Grok and Dropbox publish no ARM64
+  Linux binaries.
 - The Omarchy preinstalls entry still lists OBS Studio and Pinta, which have no
   ARM recipe here: OBS would need a native build and Pinta needs .NET, which
   Arch Linux ARM does not ship.

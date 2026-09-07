@@ -1,5 +1,5 @@
 diff --git i/default/omarchy/omarchy-menu.jsonc w/default/omarchy/omarchy-menu.jsonc
-index dc710b2..a53ffb8 100644
+index dc710b2..37807dc 100644
 --- i/default/omarchy/omarchy-menu.jsonc
 +++ w/default/omarchy/omarchy-menu.jsonc
 @@ -202,17 +202,18 @@
@@ -9,17 +9,13 @@ index dc710b2..a53ffb8 100644
 -  "install.windows": {"icon":"󰍲","label":"Windows","when":"[[ ! -f $HOME/.local/share/applications/windows-vm.desktop ]]","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-windows-vm install'"},
 +  "install.windows": {"icon":"󰍲","label":"Windows","when":"[[ $(uname -m) != aarch64 ]] && [[ ! -f $HOME/.local/share/applications/windows-vm.desktop ]]","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-windows-vm install'"},
    "install.preinstalls": {"icon":"󰏓","label":"Preinstalls","when":"[[ -f $HOME/.local/state/omarchy/preinstalls-removed ]]","action":"omarchy-launch-floating-terminal-with-presentation omarchy-install-preinstalls"},
--  "install.browser.chrome": {"icon":"","label":"Chrome","when":"! omarchy-pkg-present google-chrome","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser chrome'"},
+   "install.browser.chrome": {"icon":"","label":"Chrome","when":"! omarchy-pkg-present google-chrome","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser chrome'"},
 -  "install.browser.edge": {"icon":"󰇩","label":"Edge","when":"! omarchy-pkg-present microsoft-edge-stable-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser edge'"},
--  "install.browser.brave": {"icon":"","label":"Brave","when":"! omarchy-pkg-present brave-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser brave'"},
--  "install.browser.brave-origin": {"icon":"","label":"Brave Origin","when":"! omarchy-pkg-present brave-origin-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser brave-origin'"},
-+  "install.browser.chrome": {"icon":"","label":"Chrome","when":"[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present google-chrome","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser chrome'"},
 +  "install.browser.edge": {"icon":"󰇩","label":"Edge","when":"[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present microsoft-edge-stable-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser edge'"},
-+  "install.browser.brave": {"icon":"","label":"Brave","when":"[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present brave-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser brave'"},
-+  "install.browser.brave-origin": {"icon":"","label":"Brave Origin","when":"[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present brave-origin-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser brave-origin'"},
+   "install.browser.brave": {"icon":"","label":"Brave","when":"! omarchy-pkg-present brave-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser brave'"},
+   "install.browser.brave-origin": {"icon":"","label":"Brave Origin","when":"! omarchy-pkg-present brave-origin-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser brave-origin'"},
    "install.browser.firefox": {"icon":"","label":"Firefox","when":"! omarchy-pkg-present firefox","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser firefox'"},
--  "install.browser.zen": {"icon":"󰖟","label":"Zen","when":"! omarchy-pkg-present zen-browser-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser zen'"},
-+  "install.browser.zen": {"icon":"󰖟","label":"Zen","when":"[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present zen-browser-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser zen'"},
+   "install.browser.zen": {"icon":"󰖟","label":"Zen","when":"! omarchy-pkg-present zen-browser-bin","action":"omarchy-launch-floating-terminal-with-presentation 'omarchy-install-browser zen'"},
    "install.service.1password": {"icon":"󰢁","label":"1Password","when":"! omarchy-pkg-present 1password","action":"omarchy-launch-floating-terminal-with-presentation omarchy-install-service-1password"},
 -  "install.service.dropbox": {"icon":"","label":"Dropbox","when":"! omarchy-pkg-present dropbox","action":"omarchy-launch-floating-terminal-with-presentation omarchy-install-service-dropbox"},
 -  "install.service.spotify": {"icon":"󰓇","label":"Spotify","when":"! omarchy-pkg-present spotify","action":"omarchy-launch-floating-terminal-with-presentation omarchy-install-service-spotify"},

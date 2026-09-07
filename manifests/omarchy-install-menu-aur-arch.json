@@ -1,0 +1,192 @@
+{
+  "fetched": "2026-09-07",
+  "arch": {
+    "1password": [
+      "x86_64"
+    ],
+    "1password-cli": [
+      "x86_64",
+      "i686",
+      "arm",
+      "armv6h",
+      "aarch64"
+    ],
+    "aether": [
+      "x86_64",
+      "aarch64"
+    ],
+    "bitwarden": [
+      "x86_64",
+      "aarch64"
+    ],
+    "brave-bin": [
+      "x86_64",
+      "aarch64"
+    ],
+    "brave-origin-bin": [
+      "x86_64",
+      "aarch64"
+    ],
+    "cliamp": [
+      "x86_64",
+      "aarch64"
+    ],
+    "cursor-bin": [
+      "x86_64"
+    ],
+    "dropbox": [
+      "x86_64"
+    ],
+    "dropbox-cli": [
+      "any"
+    ],
+    "ghostty": [
+      "x86_64",
+      "aarch64",
+      "i686"
+    ],
+    "google-chrome": [
+      "x86_64",
+      "aarch64"
+    ],
+    "grok-bot": [
+      "x86_64"
+    ],
+    "heroic-games-launcher-bin": [
+      "x86_64"
+    ],
+    "libappindicator-gtk3": null,
+    "libretro-cap32-git": [
+      "aarch64",
+      "armv7h",
+      "i486",
+      "i686",
+      "pentium4",
+      "x86_64"
+    ],
+    "libretro-database-git": [
+      "any"
+    ],
+    "libretro-fbneo-git": [
+      "aarch64",
+      "armv7h",
+      "i486",
+      "i686",
+      "pentium4",
+      "x86_64"
+    ],
+    "libretro-ppsspp": null,
+    "libretro-uae-git": [
+      "i686",
+      "x86_64",
+      "arm",
+      "armv6h",
+      "armv7h"
+    ],
+    "libretro-vice-x128-git": null,
+    "libretro-vice-x64-git": [
+      "i686",
+      "x86_64",
+      "arm",
+      "armv6h",
+      "armv7h",
+      "aarch64"
+    ],
+    "libretro-vice-x64dtv-git": null,
+    "libretro-vice-x64sc-git": null,
+    "libretro-vice-xcbm2-git": null,
+    "libretro-vice-xcbm5x0-git": null,
+    "libretro-vice-xpet-git": null,
+    "libretro-vice-xplus4-git": null,
+    "libretro-vice-xscpu64-git": null,
+    "libretro-vice-xvic-git": null,
+    "linux-headers": null,
+    "lmstudio-bin": [
+      "x86_64"
+    ],
+    "microsoft-edge-stable-bin": [
+      "x86_64"
+    ],
+    "minecraft-launcher": [
+      "x86_64"
+    ],
+    "nautilus-dropbox": [
+      "x86_64"
+    ],
+    "nordvpn-bin": [
+      "x86_64",
+      "i686",
+      "armv7h",
+      "aarch64",
+      "armeabi"
+    ],
+    "obs-studio": [
+      "i686",
+      "x86_64"
+    ],
+    "obsidian": [
+      "x86_64",
+      "aarch64"
+    ],
+    "ollama-cuda": null,
+    "omacalc": null,
+    "omacut": null,
+    "omarchy-emacs": [
+      "any"
+    ],
+    "omawrite": null,
+    "omazed": [
+      "any"
+    ],
+    "once-bin": [
+      "x86_64",
+      "aarch64"
+    ],
+    "openai-codex-desktop": [
+      "x86_64",
+      "aarch64"
+    ],
+    "pinta": [
+      "x86_64"
+    ],
+    "retroarch-joypad-autoconfig-git": [
+      "any"
+    ],
+    "spotify": [
+      "x86_64"
+    ],
+    "steam": null,
+    "sublime-text-4": [
+      "x86_64",
+      "aarch64"
+    ],
+    "umu-launcher": [
+      "x86_64"
+    ],
+    "visual-studio-code-bin": [
+      "x86_64",
+      "aarch64",
+      "armv7h"
+    ],
+    "voxtype-bin": [
+      "x86_64"
+    ],
+    "wine-gecko": null,
+    "wine-mono": null,
+    "wine-staging": [
+      "x86_64",
+      "i686"
+    ],
+    "winetricks": null,
+    "xpadneo-dkms": [
+      "any"
+    ],
+    "zed": [
+      "x86_64"
+    ],
+    "zen-browser-bin": [
+      "x86_64",
+      "aarch64"
+    ]
+  }
+}
