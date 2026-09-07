@@ -186,3 +186,14 @@ afterwards. Direct reads from the NVMe run about 8.3 GB/s. The external SSD
 remains intact as a fallback. Booting DGX OS through the new menu entry was
 not exercised; its own firmware entry still exists. The procedure is in
 docs/DUAL-BOOT.md and image/nvme-*.sh.
+
+## Workbench after the NVMe boot — 2026-09-06
+
+The desktop app reported a compatibility error. The backend log showed every
+outbound lookup going to a refused localhost resolver: the unit orders after
+`network-online.target`, which Omarchy's masking of NetworkManager-wait-online
+now reaches 0.05 s after NetworkManager starts, and the backend came up two
+seconds later, before DHCP. Host DNS itself was fine. Restarting the service
+fixed it immediately, and the model catalog loaded. nvidia-ai-workbench
+0.169.2.16-7 adds a non-fatal `nm-online` wait to the unit; it was installed
+and the service restarted through the new unit.

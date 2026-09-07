@@ -38,7 +38,10 @@
   credentials and full desktop project interaction remain unvalidated. The
   package README lists the exact privileged commands and an example sudoers
   rule, but installs no policy; the backend uses one fixed loopback port and
-  supports a single user per host.
+  supports a single user per host. Since Omarchy masks
+  NetworkManager-wait-online, services that need DNS at boot must wait for
+  it themselves; the Workbench unit does so from release 7, and other
+  network-dependent units (Dashboard) have not been checked for the same.
 - Bluetooth/audio devices and RDMA interfaces are detected; practical playback,
   pairing and peer throughput have not been established.
 - Firmware discovery works; firmware maintenance and recovery are unvalidated.

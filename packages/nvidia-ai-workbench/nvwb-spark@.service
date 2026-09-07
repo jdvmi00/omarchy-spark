@@ -7,6 +7,10 @@ ConditionPathExists=/home/%i/.nvwb/config.yaml
 
 [Service]
 User=%i
+# network-online.target is reached immediately when NetworkManager-wait-online
+# is masked (Omarchy does that), so wait for connectivity here; the backend's
+# resolver otherwise falls back to localhost for the life of the process.
+ExecStartPre=-/usr/bin/nm-online -q --timeout=30
 WorkingDirectory=/home/%i
 Environment=HOME=/home/%i
 Environment=PATH=/usr/lib/nvwb-spark/compat:/usr/local/sbin:/usr/local/bin:/usr/bin

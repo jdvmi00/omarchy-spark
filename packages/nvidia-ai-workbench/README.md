@@ -5,7 +5,11 @@ Debian package. Arch package release 2 removes group/world write permission from
 the vendor payload. Release 4 adds native backend provisioning and scoped
 compatibility helpers; it does not install an Ubuntu host or VM. Release 6
 reorders the setup helper so that every check precedes any change and removes
-its global `daemon-reload`.
+its global `daemon-reload`. Release 7 makes the service wait for connectivity
+with `nm-online` before starting: Omarchy masks NetworkManager-wait-online, so
+`network-online.target` no longer means a resolver exists, and a backend started
+before DHCP kept a localhost resolver for its whole life, which surfaced in the
+desktop app as a compatibility error once the catalog and NGC were unreachable.
 
 ## Why the adapters exist
 

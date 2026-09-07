@@ -1,7 +1,7 @@
 pkgbase = nvidia-ai-workbench
 	pkgdesc = NVIDIA AI Workbench desktop matching the Spark installation
 	pkgver = 0.169.2.16
-	pkgrel = 6
+	pkgrel = 7
 	url = https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/
 	arch = aarch64
 	license = custom:NVIDIA
@@ -34,7 +34,7 @@ pkgbase = nvidia-ai-workbench
 	sha256sums = b65f064796108f74391ea185c2c96173d38ee2ceaff89feac5d5c1e1612f1f38
 	sha256sums = 96a1e6d6f0afafd45fa103a7ce8b06e0a2cf7873d9f632fb79d0cce1a449309c
 	sha256sums = 6f0a4c43865ec66f242118ed7c79a79ab9b59c00a24e943c07dd615d19cc5690
-	sha256sums = 914be4d47b97ab0579ad29dbe0015b74e33e9f494f67e0c6cbc385102bf7e97a
+	sha256sums = a706fdbefc8d5fb206c1812998d0b064c01a4d56dc06b68eff0f8792b6e02ef0
 	sha256sums = ed7c34d37806ac15ce169da151b7c38b443bd5ff165966b057fe2d40a1a683c0
 	sha256sums = 075fadd307a5d9a6cd773304f73c70bea90cc7a82dc50e0122d8db1e22491485
 	sha256sums = 54a760efb457d5a47d034639b02152364ce39fb9156b1023ef56d75e8b083461
