@@ -197,3 +197,11 @@ seconds later, before DHCP. Host DNS itself was fine. Restarting the service
 fixed it immediately, and the model catalog loaded. nvidia-ai-workbench
 0.169.2.16-7 adds a non-fatal `nm-online` wait to the unit; it was installed
 and the service restarted through the new unit.
+
+The desktop app separately showed "Cannot install on your operating system".
+Its code runs `cat /etc/*-release` and requires Ubuntu's `DISTRIB_*` lines
+before contacting the backend. Launched through a bubblewrap wrapper that
+binds a compatibility file over `/etc/os-release` for the app only, its log
+reports the OS supported and Workbench installed, and it opens its Locations
+Manager. nvidia-ai-workbench 0.169.2.16-8 ships that launcher as
+`/usr/bin/nvidia-ai-workbench` and points the desktop entry at it.

@@ -1,0 +1,10 @@
+#!/bin/bash
+# Launch the vendor desktop app with a private view of /etc/os-release. On
+# Linux the app runs `cat /etc/*-release` and refuses to proceed unless the
+# output contains DISTRIB_ID=Ubuntu with a supported DISTRIB_RELEASE, before it
+# ever talks to the backend. bubblewrap binds the compatibility file over
+# /etc/os-release for the app's process tree only; the host file is untouched
+# and everything else is the real filesystem, as for the system service.
+exec /usr/bin/bwrap --dev-bind / / \
+  --ro-bind /usr/lib/nvwb-spark/compat/desktop-os-release /etc/os-release \
+  --die-with-parent -- "/opt/NVIDIA AI Workbench/nvidia-ai-workbench" "$@"

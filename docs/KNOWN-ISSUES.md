@@ -33,8 +33,9 @@
   into an empty list by NVIDIA's UI. Check the status helper's exit code and
   timestamp. The UI may offer Update, but its combined update/reboot operation
   returns Access denied. Native installation/rollback is not implemented.
-- Workbench's native backend uses scoped compatibility adapters. Its vendor
-  installer/self-updater still assumes Ubuntu. Remote locations, private
+- Workbench's native backend and desktop app use scoped compatibility views
+  (the service's mount namespace and the launcher's bubblewrap bind). Its
+  vendor installer/self-updater still assumes Ubuntu. Remote locations, private
   credentials and full desktop project interaction remain unvalidated. The
   package README lists the exact privileged commands and an example sudoers
   rule, but installs no policy; the backend uses one fixed loopback port and

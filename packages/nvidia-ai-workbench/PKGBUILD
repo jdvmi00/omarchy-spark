@@ -1,12 +1,12 @@
 pkgname=nvidia-ai-workbench
 pkgver=0.169.2.16
-pkgrel=7
+pkgrel=8
 pkgdesc='NVIDIA AI Workbench desktop matching the Spark installation'
 arch=('aarch64')
 url='https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/'
 license=('custom:NVIDIA')
 depends=('glibc' 'gcc-libs' 'gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils'
-         'at-spi2-core' 'util-linux-libs' 'libsecret' 'alsa-lib' 'python' 'python-yaml')
+         'at-spi2-core' 'util-linux-libs' 'libsecret' 'alsa-lib' 'python' 'python-yaml' 'bubblewrap')
 options=('!strip' '!debug')
 source=(
   https://workbench.download.nvidia.com/stable/linux/debian/pool/proprietary/n/nvidia-ai-workbench/NVIDIA-AI-Workbench-0.169.2-16-arm64.deb
@@ -17,6 +17,8 @@ source=(
   dpkg-query
   workbench-os-release
   nvidia-smi
+  workbench-desktop-os-release
+  nvidia-ai-workbench-spark
 )
 sha256sums=(
   SKIP
@@ -27,9 +29,13 @@ sha256sums=(
   ed7c34d37806ac15ce169da151b7c38b443bd5ff165966b057fe2d40a1a683c0
   075fadd307a5d9a6cd773304f73c70bea90cc7a82dc50e0122d8db1e22491485
   54a760efb457d5a47d034639b02152364ce39fb9156b1023ef56d75e8b083461
+  66f625ff959eb95682fa091d06a9c99f0d75d2ef8183754534cfcc317d626076
+  74d33ba16e45e7b5f674372c78a666d74acda3d2347b1149f092eff70901b600
 )
 sha512sums=(
   8f9a90c09e53526bdcf75b9e51a30676dc0de791cd8908386f17d60216762df0919b280b7ecc30a46308ddb95bf13eb0dd74325f6f0b95e9de8afb3c76cb1449
+  SKIP
+  SKIP
   SKIP
   SKIP
   SKIP
@@ -51,8 +57,12 @@ package() {
   done
   # Vendor archives contain world-writable assets; keep installed code root-owned.
   chmod -R go-w "${pkgdir}"
-  install -dm755 "${pkgdir}/usr/bin"
-  ln -s '/opt/NVIDIA AI Workbench/nvidia-ai-workbench' "${pkgdir}/usr/bin/nvidia-ai-workbench"
+  # The desktop app runs `cat /etc/*-release` and refuses non-Ubuntu hosts before
+  # contacting the backend; the launcher gives it a private view of os-release
+  # through bubblewrap, like the service's namespace, and the desktop entry uses it.
+  install -Dm755 "${srcdir}/nvidia-ai-workbench-spark" "${pkgdir}/usr/bin/nvidia-ai-workbench"
+  install -Dm644 "${srcdir}/workbench-desktop-os-release" "${pkgdir}/usr/lib/nvwb-spark/compat/desktop-os-release"
+  sed -i 's#^Exec=.*#Exec=/usr/bin/nvidia-ai-workbench %U#' "${pkgdir}/usr/share/applications/nvidia-ai-workbench.desktop"
   # The Spark kernel supports user namespaces. Keep the normal Electron
   # namespace sandbox; do not add the vendor postinst's setuid fallback.
   chmod 0755 "${pkgdir}/opt/NVIDIA AI Workbench/chrome-sandbox"

@@ -10,6 +10,16 @@ with `nm-online` before starting: Omarchy masks NetworkManager-wait-online, so
 `network-online.target` no longer means a resolver exists, and a backend started
 before DHCP kept a localhost resolver for its whole life, which surfaced in the
 desktop app as a compatibility error once the catalog and NGC were unreachable.
+Release 8 gives the desktop app its own compatibility view: on Linux it runs
+`cat /etc/*-release` and stops at "Cannot install on your operating system"
+unless it finds `DISTRIB_ID=Ubuntu` with a supported `DISTRIB_RELEASE`, before
+it ever contacts the backend. `/usr/bin/nvidia-ai-workbench` is now a launcher
+that binds a compatibility file over `/etc/os-release` for the app's process
+tree only, through bubblewrap, and the desktop entry uses it. The host file is
+untouched. Inside that view the app reports the OS supported and Workbench
+installed, and proceeds to its normal windows. It still tries to take ownership
+of the helper binaries in `~/.nvwb/bin`, which are root-owned behind the port's
+links; that fails harmlessly and is logged as an unhandled rejection.
 
 ## Why the adapters exist
 
