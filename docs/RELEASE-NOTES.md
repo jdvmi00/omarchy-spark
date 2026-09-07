@@ -16,7 +16,7 @@
   build it.
 - Firmware updates verified from the port through fwupd and LVFS.
 - `scripts/audit-install-menu.py` and docs/INSTALL-MENU.md: every Omarchy
-  Install menu entry classified for ARM (36 of 74 work as-is).
+  Install menu entry classified for ARM (34 of 74 work as-is).
 
 ## v0.1.0-preview.3 — Clean build, base packages and system setup
 

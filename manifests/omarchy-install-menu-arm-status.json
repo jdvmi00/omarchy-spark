@@ -3,10 +3,11 @@
   "host_arch": "aarch64",
   "counts": {
     "interactive": 7,
-    "works": 36,
+    "works": 34,
     "not-applicable": 8,
-    "no-arm-build": 15,
-    "buildable": 8
+    "no-arm-build": 16,
+    "buildable": 8,
+    "port-recipe": 1
   },
   "entries": [
     {
@@ -165,8 +166,8 @@
       ],
       "note": "",
       "package_status": {
-        "aether": "installed",
-        "cliamp": "installed",
+        "aether": "port-recipe (installed locally on the test machine)",
+        "cliamp": "port-recipe (installed locally on the test machine)",
         "libreoffice-fresh": "installed",
         "xournalpp": "installed",
         "pinta": "no-arm-build",
@@ -175,9 +176,9 @@
         "kdenlive": "installed",
         "moonlight-qt": "installed",
         "lazydocker": "installed",
-        "omacut": "installed",
-        "omacalc": "installed",
-        "omawrite": "installed"
+        "omacut": "port-recipe (installed locally on the test machine)",
+        "omacalc": "port-recipe (installed locally on the test machine)",
+        "omawrite": "port-recipe (installed locally on the test machine)"
       },
       "tier": "no-arm-build"
     },
@@ -189,9 +190,9 @@
       ],
       "note": "",
       "package_status": {
-        "google-chrome": "installed"
+        "google-chrome": "no-arm-build (installed locally on the test machine)"
       },
-      "tier": "works"
+      "tier": "no-arm-build"
     },
     {
       "entry": "install.browser.edge",
@@ -487,9 +488,9 @@
       ],
       "note": "",
       "package_status": {
-        "ghostty": "installed"
+        "ghostty": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "works"
+      "tier": "port-recipe"
     },
     {
       "entry": "install.terminal.kitty",
@@ -730,7 +731,7 @@
       ],
       "note": "",
       "package_status": {
-        "linux-headers": "installed",
+        "linux-headers": "no-arm-build (installed locally on the test machine)",
         "xpadneo-dkms": "x86-only-recipe"
       },
       "tier": "no-arm-build"

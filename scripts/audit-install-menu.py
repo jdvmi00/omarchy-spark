@@ -125,7 +125,10 @@ def probe(args):
     status = {}
     for name in names:
         if subprocess.run(['pacman', '-T', name], capture_output=True).returncode == 0:
-            status[name] = 'installed'
+            # Installed from outside the configured repositories counts as unavailable
+            # for anyone else: the test machine's local builds are not the port's.
+            in_repo = subprocess.run(['pacman', '-Si', name], capture_output=True).returncode == 0
+            status[name] = 'installed' if in_repo else 'installed-local'
         elif subprocess.run(['pacman', '-Sp', name], capture_output=True).returncode == 0:
             status[name] = 'available'
         else:
@@ -146,7 +149,8 @@ def classify(args):
         pkgs = {}
         for name in e['packages']:
             st = data['status'].get(name, 'unknown')
-            if st == 'unavailable':
+            local = st == 'installed-local'
+            if st in ('unavailable', 'installed-local'):
                 if name in ported:
                     st = 'port-recipe'
                 elif pkgbuilds and (pkgbuilds / name / 'PKGBUILD').exists():
@@ -154,6 +158,8 @@ def classify(args):
                     st = 'buildable' if arch and ('aarch64' in arch.group(1) or "'any'" in arch.group(1)) else 'x86-only-recipe'
                 else:
                     st = 'no-arm-build'
+                if local:
+                    st += ' (installed locally on the test machine)'
             pkgs[name] = st
         e['package_status'] = pkgs
         if e['entry'] in NOT_APPLICABLE:
@@ -164,7 +170,7 @@ def classify(args):
             tier = 'works' if e['note'] else 'unknown'
         else:
             order = ['no-arm-build', 'x86-only-recipe', 'buildable', 'port-recipe', 'available', 'installed']
-            worst = min(pkgs.values(), key=order.index)
+            worst = min((v.split(' ')[0] for v in pkgs.values()), key=order.index)
             tier = {'installed': 'works', 'available': 'works', 'port-recipe': 'port-recipe', 'buildable': 'buildable',
                     'x86-only-recipe': 'no-arm-build', 'no-arm-build': 'no-arm-build'}[worst]
         e['tier'] = tier

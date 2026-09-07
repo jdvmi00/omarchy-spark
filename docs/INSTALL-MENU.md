@@ -3,21 +3,21 @@
 Generated from `manifests/omarchy-install-menu-arm-status.json` by
 `scripts/audit-install-menu.py`, which reads the menu and its helper scripts,
 probes each package on the test Spark and tiers every entry by its worst package.
-"Works" means the packages resolve on the test machine; a package installed
-there from outside the configured repositories still counts as installed.
+A package installed on the test machine from outside the configured repositories
+does not count as available; it is marked as installed locally.
 
 | Tier | Entries |
 | --- | --- |
-| Works | 36 |
-| Packaged by the port | 0 |
+| Works | 34 |
+| Packaged by the port | 1 |
 | Buildable | 8 |
-| No ARM build | 15 |
+| No ARM build | 16 |
 | Interactive | 7 |
 | Not applicable | 8 |
 
-## Works (36)
+## Works (34)
 
-every package is installed or in Arch Linux ARM's repositories, or the entry installs a mise toolchain or only configuration.
+every package is installed from or available in Arch Linux ARM's repositories, or the entry installs a mise toolchain or only configuration.
 
 | Entry | Packages | Note |
 | --- | --- | --- |
@@ -27,7 +27,6 @@ every package is installed or in Arch Linux ARM's repositories, or the entry ins
 | style.font.victor | ttf-victor-mono-nerd |  |
 | style.font.bitstream | ttf-bitstream-vera-mono-nerd |  |
 | style.font.iosevka | ttf-iosevka-nerd |  |
-| browser.chrome | google-chrome |  |
 | browser.firefox | firefox |  |
 | service.signal | signal-desktop |  |
 | service.tailscale | tailscale |  |
@@ -36,7 +35,6 @@ every package is installed or in Arch Linux ARM's repositories, or the entry ins
 | editor.vim | vim |  |
 | terminal.alacritty | alacritty |  |
 | terminal.foot | foot |  |
-| terminal.ghostty | ghostty |  |
 | terminal.kitty | kitty |  |
 | development.rails | — | mise-managed toolchain; arm64 availability depends on the tool |
 | development.docker-dbs | — | configuration only, no packages |
@@ -58,6 +56,14 @@ every package is installed or in Arch Linux ARM's repositories, or the entry ins
 | development.elixir.elixir | — | mise-managed toolchain; arm64 availability depends on the tool |
 | development.elixir.phoenix | — | mise-managed toolchain; arm64 availability depends on the tool |
 
+## Packaged by the port (1)
+
+Arch Linux ARM lacks it; the port builds it.
+
+| Entry | Packages | Note |
+| --- | --- | --- |
+| terminal.ghostty | ghostty (port-recipe (installed locally on the test machine)) |  |
+
 ## Buildable (8)
 
 an omarchy-pkgs recipe declares aarch64 but nobody has built it for the port yet.
@@ -73,18 +79,19 @@ an omarchy-pkgs recipe declares aarch64 but nobody has built it for the port yet
 | ai.chatgpt | openai-codex-desktop (buildable) |  |
 | ai.dictation | voxtype-bin (buildable) |  |
 
-## No ARM build (15)
+## No ARM build (16)
 
 an AUR or vendor binary with no ARM64 recipe; fails with "target not found".
 
 | Entry | Packages | Note |
 | --- | --- | --- |
-| preinstalls | pinta (no-arm-build), obsidian (no-arm-build), obs-studio (no-arm-build) |  |
+| preinstalls | aether (port-recipe (installed locally on the test machine)), cliamp (port-recipe (installed locally on the te |  |
+| browser.chrome | google-chrome (no-arm-build (installed locally on the test machine)) |  |
 | browser.edge | microsoft-edge-stable-bin (no-arm-build) |  |
 | browser.brave | brave-bin (no-arm-build) |  |
 | browser.brave-origin | brave-origin-bin (no-arm-build) |  |
 | browser.zen | zen-browser-bin (no-arm-build) |  |
-| service.dropbox | dropbox (x86-only-recipe), dropbox-cli (x86-only-recipe), nautilus-dropbox (x86-only-recip |  |
+| service.dropbox | dropbox (x86-only-recipe), dropbox-cli (x86-only-recipe), nautilus-dropbox (x86-only-recipe) |  |
 | service.spotify | spotify (x86-only-recipe) |  |
 | service.bitwarden | bitwarden (no-arm-build) |  |
 | editor.cursor | cursor-bin (x86-only-recipe) |  |
@@ -92,8 +99,8 @@ an AUR or vendor binary with no ARM64 recipe; fails with "target not found".
 | ai.grok-bot | grok-bot (x86-only-recipe) |  |
 | ai.lm-studio | lmstudio-bin (x86-only-recipe) |  |
 | ai.ollama | ollama-cuda (no-arm-build) | inline: picks ollama-cuda when nvidia-smi is present |
-| gaming.retroarch | libretro-ppsspp (no-arm-build), libretro-cap32-git (buildable), libretro-fbneo-git (builda |  |
-| gaming.xbox-controllers | xpadneo-dkms (x86-only-recipe) |  |
+| gaming.retroarch | libretro-ppsspp (no-arm-build), libretro-cap32-git (buildable), libretro-fbneo-git (buildable), libretro-uae-g |  |
+| gaming.xbox-controllers | linux-headers (no-arm-build (installed locally on the test machine)), xpadneo-dkms (x86-only-recipe) |  |
 
 ## Interactive (7)
 
@@ -121,7 +128,7 @@ x86-only gaming stacks or a Windows VM.
 | gaming.geforce-now | flatpak | Flatpak app published for x86-64 only |
 | gaming.xbox-cloud | — | browser web app; packaging is a Chromium web app |
 | gaming.battlenet | umu-launcher (no-arm-build) | Windows games through Wine/umu, x86-only |
-| gaming.lutris | umu-launcher (no-arm-build), wine-staging (no-arm-build), wine-mono (no-arm-build), wine-g | Wine-based, x86-only |
+| gaming.lutris | umu-launcher (no-arm-build), wine-staging (no-arm-build), wine-mono (no-arm-build), wine-gecko (no-arm-build), | Wine-based, x86-only |
 | gaming.heroic | heroic-games-launcher-bin (x86-only-recipe) | Windows game stores through Wine, x86-only |
 
 ## What to do about each tier
@@ -131,7 +138,8 @@ x86-only gaming stacks or a Windows VM.
   vendor binaries whose recipes already fetch an arm64 download.
 - No-ARM-build entries need a vendor to publish ARM64 Linux builds. Zed, Bitwarden,
   Obsidian, OBS and Pinta do have ARM64 sources or builds and can be packaged like
-  LocalSend; Edge, Brave, Zen, Cursor, Spotify, LM Studio and Dropbox do not, and
-  the port should hide or mark those entries rather than let them fail.
+  LocalSend; Chrome, Edge, Brave, Zen, Cursor, Spotify, LM Studio and Dropbox do
+  not, and the port should hide or mark those entries rather than let them fail.
+  The Chrome on the test machine is a local build outside any repository.
 - Not-applicable entries are the Wine and Steam gaming stack and the Windows VM;
   they have no ARM path and should be hidden on the port.

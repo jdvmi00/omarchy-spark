@@ -48,8 +48,9 @@
   x86-only or AUR binaries (Chrome, Edge, Brave, VS Code, Zed, Spotify, Steam)
   that Arch Linux ARM does not carry; they fail with "target not found". The
   Ghostty terminal is now packaged here from Arch's recipe. docs/INSTALL-MENU.md
-  audits all 74 entries: 36 work, 8 are buildable from omarchy-pkgs recipes,
-  15 have no ARM build, 8 are x86 gaming or the Windows VM, 7 are interactive.
+  audits all 74 entries: 34 work, 1 is packaged by the port, 8 are buildable
+  from omarchy-pkgs recipes, 16 have no ARM build, 8 are x86 gaming or the
+  Windows VM, 7 are interactive.
   The menu itself does not yet hide the entries that cannot work on ARM.
 - Bluetooth/audio devices and RDMA interfaces are detected; practical playback,
   pairing and peer throughput have not been established.
