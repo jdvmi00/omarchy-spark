@@ -13,7 +13,7 @@ pkgname='omarchy-settings'
 _tag=''
 _commit='346e69e1cec6c4e8924531874af6ba010a1bc99e'
 pkgver=4.0.2
-pkgrel=4
+pkgrel=5
 pkgdesc='Omarchy user defaults, /etc/skel content, fonts, plymouth theme, and support helpers'
 # Arch-specific because the shipped /etc tree is not the same on every
 # architecture: the Limine, mkinitcpio, zram and oomd drop-ins belong to the
@@ -120,11 +120,14 @@ _etc_override_paths=(
 # Source: the pinned release commit; set OMARCHY_SRC=/path/to/checkout to
 # build from a local source tree instead (mirrors omarchy-zsh/omarchy-fish DX).
 if [[ -n "${OMARCHY_SRC:-}" ]]; then
-  source=()
+  source=('omarchy-menu-arm.patch')
+  sha256sums=('e0cba286fe5bd9f198b897ffc7a466038d75d65dd46da09ee1a12855666f71a7')
   sha256sums=()
 else
-  source=("omarchy::git+https://github.com/basecamp/omarchy.git#commit=${_commit}")
-  sha256sums=('ed1ca61045f73e313c3e73874d324945e2b5357e6510664eab25783b26138197')
+  source=("omarchy::git+https://github.com/basecamp/omarchy.git#commit=${_commit}"
+          "omarchy-menu-arm.patch")
+  sha256sums=('ed1ca61045f73e313c3e73874d324945e2b5357e6510664eab25783b26138197'
+              'e0cba286fe5bd9f198b897ffc7a466038d75d65dd46da09ee1a12855666f71a7')
 fi
 
 prepare() {
@@ -132,6 +135,14 @@ prepare() {
     rm -rf "$srcdir/omarchy"
     mkdir -p "$srcdir/omarchy"
     cp -a "${OMARCHY_SRC}/." "$srcdir/omarchy/"
+  fi
+  # The Install menu ships in this package: hide entries with no ARM path on
+  # aarch64 and add a Spotify web-app entry (the menu hunk of the ARM patch).
+  cd "$srcdir/omarchy"
+  if patch --dry-run -Np1 < "$srcdir/omarchy-menu-arm.patch" >/dev/null; then
+    patch -Np1 < "$srcdir/omarchy-menu-arm.patch"
+  else
+    patch --dry-run -RNp1 < "$srcdir/omarchy-menu-arm.patch" >/dev/null
   fi
 }
 

@@ -1,0 +1,19 @@
+# Omarchy Spark: Bitwarden CLI from its official Linux arm64 release.
+pkgname=bitwarden-cli
+pkgver=2026.8.0
+pkgrel=1
+pkgdesc="The command line vault (Windows, macOS, & Linux)"
+url="https://bitwarden.com"
+license=('GPL-3.0-only')
+arch=('aarch64')
+depends=('glibc')
+options=('!strip')
+source=("LICENSE_GPL-${pkgver}.txt::https://raw.githubusercontent.com/bitwarden/clients/cli-v${pkgver}/LICENSE_GPL.txt")
+source_aarch64=("bw-linux-arm64-${pkgver}.zip::https://github.com/bitwarden/clients/releases/download/cli-v${pkgver}/bw-linux-arm64-${pkgver}.zip")
+sha256sums=('b98fbb37db5b23bc5cfdcd16793206a5a7120a7b01f75374e5e0888376e4691c')
+sha256sums_aarch64=('74d822a5dceda5896ed8fc07bc61925b29afd98d96a6a3e9e525ae556c3083a8')
+
+package() {
+  install -Dm755 "$srcdir/bw" "$pkgdir/usr/bin/bw"
+  install -Dm644 "$srcdir/LICENSE_GPL-${pkgver}.txt" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

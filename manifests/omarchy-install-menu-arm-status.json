@@ -2,12 +2,11 @@
   "source": "upstream/omarchy default/omarchy/omarchy-menu.jsonc and bin/ at the omarchy commit in upstream-lock.json",
   "host_arch": "aarch64",
   "counts": {
-    "interactive": 7,
+    "interactive": 8,
     "works": 34,
     "not-applicable": 8,
-    "no-arm-build": 16,
-    "buildable": 8,
-    "port-recipe": 1
+    "no-arm-build": 13,
+    "port-recipe": 12
   },
   "entries": [
     {
@@ -15,48 +14,60 @@
       "label": "Package",
       "packages": [],
       "note": "interactive",
+      "when": "",
       "package_status": {},
-      "tier": "interactive"
+      "tier": "interactive",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.aur",
       "label": "AUR",
       "packages": [],
       "note": "interactive",
+      "when": "",
       "package_status": {},
-      "tier": "interactive"
+      "tier": "interactive",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.webapp",
       "label": "Web App",
       "packages": [],
       "note": "interactive",
+      "when": "",
       "package_status": {},
-      "tier": "interactive"
+      "tier": "interactive",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.tui",
       "label": "TUI",
       "packages": [],
       "note": "interactive",
+      "when": "",
       "package_status": {},
-      "tier": "interactive"
+      "tier": "interactive",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.theme",
       "label": "Theme",
       "packages": [],
       "note": "interactive",
+      "when": "",
       "package_status": {},
-      "tier": "interactive"
+      "tier": "interactive",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.background",
       "label": "Background",
       "packages": [],
       "note": "interactive",
+      "when": "",
       "package_status": {},
-      "tier": "interactive"
+      "tier": "interactive",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.font.cascadia",
@@ -65,10 +76,12 @@
         "ttf-cascadia-mono-nerd"
       ],
       "note": "",
+      "when": "",
       "package_status": {
         "ttf-cascadia-mono-nerd": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.font.meslo",
@@ -77,10 +90,12 @@
         "ttf-meslo-nerd"
       ],
       "note": "",
+      "when": "",
       "package_status": {
         "ttf-meslo-nerd": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.font.fira",
@@ -89,10 +104,12 @@
         "ttf-firacode-nerd"
       ],
       "note": "",
+      "when": "",
       "package_status": {
         "ttf-firacode-nerd": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.font.victor",
@@ -101,10 +118,12 @@
         "ttf-victor-mono-nerd"
       ],
       "note": "",
+      "when": "",
       "package_status": {
         "ttf-victor-mono-nerd": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.font.bitstream",
@@ -113,10 +132,12 @@
         "ttf-bitstream-vera-mono-nerd"
       ],
       "note": "",
+      "when": "",
       "package_status": {
         "ttf-bitstream-vera-mono-nerd": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.style.font.iosevka",
@@ -125,10 +146,12 @@
         "ttf-iosevka-nerd"
       ],
       "note": "",
+      "when": "",
       "package_status": {
         "ttf-iosevka-nerd": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.windows",
@@ -139,12 +162,14 @@
         "gum"
       ],
       "note": "x86 Windows virtual machine",
+      "when": "[[ $(uname -m) != aarch64 ]] && [[ ! -f $HOME/.local/share/applications/windows-vm.desktop ]]",
       "package_status": {
         "freerdp": "available",
         "openbsd-netcat": "available",
         "gum": "installed"
       },
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.preinstalls",
@@ -165,13 +190,14 @@
         "omawrite"
       ],
       "note": "",
+      "when": "[[ -f $HOME/.local/state/omarchy/preinstalls-removed ]]",
       "package_status": {
         "aether": "port-recipe (installed locally on the test machine)",
         "cliamp": "port-recipe (installed locally on the test machine)",
         "libreoffice-fresh": "installed",
         "xournalpp": "installed",
         "pinta": "no-arm-build",
-        "obsidian": "no-arm-build",
+        "obsidian": "port-recipe (installed locally on the test machine)",
         "obs-studio": "no-arm-build",
         "kdenlive": "installed",
         "moonlight-qt": "installed",
@@ -180,7 +206,8 @@
         "omacalc": "port-recipe (installed locally on the test machine)",
         "omawrite": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.browser.chrome",
@@ -189,10 +216,12 @@
         "google-chrome"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present google-chrome",
       "package_status": {
         "google-chrome": "no-arm-build (installed locally on the test machine)"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.browser.edge",
@@ -201,10 +230,12 @@
         "microsoft-edge-stable-bin"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present microsoft-edge-stable-bin",
       "package_status": {
         "microsoft-edge-stable-bin": "no-arm-build"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.browser.brave",
@@ -213,10 +244,12 @@
         "brave-bin"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present brave-bin",
       "package_status": {
         "brave-bin": "no-arm-build"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.browser.brave-origin",
@@ -225,10 +258,12 @@
         "brave-origin-bin"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present brave-origin-bin",
       "package_status": {
         "brave-origin-bin": "no-arm-build"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.browser.firefox",
@@ -237,10 +272,12 @@
         "firefox"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present firefox",
       "package_status": {
         "firefox": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.browser.zen",
@@ -249,10 +286,12 @@
         "zen-browser-bin"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present zen-browser-bin",
       "package_status": {
         "zen-browser-bin": "no-arm-build"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.service.1password",
@@ -262,11 +301,13 @@
         "1password-cli"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present 1password",
       "package_status": {
-        "1password": "buildable",
-        "1password-cli": "buildable"
+        "1password": "port-recipe (installed locally on the test machine)",
+        "1password-cli": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.dropbox",
@@ -279,14 +320,16 @@
         "nautilus-dropbox"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present dropbox",
       "package_status": {
         "dropbox": "x86-only-recipe",
         "dropbox-cli": "x86-only-recipe",
-        "libappindicator-gtk3": "available",
+        "libappindicator-gtk3": "no-arm-build (installed locally on the test machine)",
         "python-gpgme": "available",
         "nautilus-dropbox": "x86-only-recipe"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.service.spotify",
@@ -295,10 +338,22 @@
         "spotify"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present spotify",
       "package_status": {
         "spotify": "x86-only-recipe"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
+    },
+    {
+      "entry": "install.service.spotify-web",
+      "label": "Spotify",
+      "packages": [],
+      "note": "interactive",
+      "when": "[[ $(uname -m) == aarch64 ]] && [[ ! -f $HOME/.local/share/applications/Spotify.desktop ]]",
+      "package_status": {},
+      "tier": "interactive",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.signal",
@@ -307,10 +362,12 @@
         "signal-desktop"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present signal-desktop",
       "package_status": {
         "signal-desktop": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.tailscale",
@@ -319,10 +376,12 @@
         "tailscale"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present tailscale",
       "package_status": {
         "tailscale": "installed"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.nordvpn",
@@ -331,10 +390,12 @@
         "nordvpn-bin"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present nordvpn-bin",
       "package_status": {
-        "nordvpn-bin": "buildable"
+        "nordvpn-bin": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.once",
@@ -343,10 +404,12 @@
         "once-bin"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present once-bin",
       "package_status": {
-        "once-bin": "buildable"
+        "once-bin": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.bitwarden",
@@ -356,19 +419,23 @@
         "bitwarden-cli"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present bitwarden",
       "package_status": {
-        "bitwarden": "no-arm-build",
-        "bitwarden-cli": "available"
+        "bitwarden": "port-recipe (installed locally on the test machine)",
+        "bitwarden-cli": "installed"
       },
-      "tier": "no-arm-build"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.service.chromium-account",
       "label": "Chromium Account",
       "packages": [],
       "note": "configuration only, no packages",
+      "when": "[[ -f ~/.config/chromium-flags.conf ]] && ! grep -q oauth2-client-id ~/.config/chromium-flags.conf",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.editor.vscode",
@@ -377,10 +444,12 @@
         "visual-studio-code-bin"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present visual-studio-code-bin",
       "package_status": {
-        "visual-studio-code-bin": "buildable"
+        "visual-studio-code-bin": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.editor.cursor",
@@ -389,10 +458,12 @@
         "cursor-bin"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present cursor-bin",
       "package_status": {
         "cursor-bin": "x86-only-recipe"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.editor.zed",
@@ -402,11 +473,13 @@
         "omazed"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present zed",
       "package_status": {
-        "zed": "no-arm-build",
-        "omazed": "buildable"
+        "zed": "port-recipe (installed locally on the test machine)",
+        "omazed": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "no-arm-build"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.editor.sublime",
@@ -415,10 +488,12 @@
         "sublime-text-4"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present sublime-text-4",
       "package_status": {
-        "sublime-text-4": "buildable"
+        "sublime-text-4": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.editor.helix",
@@ -427,10 +502,12 @@
         "helix"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present helix",
       "package_status": {
         "helix": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.editor.vim",
@@ -439,10 +516,12 @@
         "vim"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present vim",
       "package_status": {
         "vim": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.editor.emacs",
@@ -451,10 +530,12 @@
         "omarchy-emacs"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present omarchy-emacs",
       "package_status": {
-        "omarchy-emacs": "buildable"
+        "omarchy-emacs": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.terminal.alacritty",
@@ -463,10 +544,12 @@
         "alacritty"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present alacritty",
       "package_status": {
         "alacritty": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.terminal.foot",
@@ -475,10 +558,12 @@
         "foot"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present foot",
       "package_status": {
         "foot": "installed"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.terminal.ghostty",
@@ -487,10 +572,12 @@
         "ghostty"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present ghostty",
       "package_status": {
         "ghostty": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "port-recipe"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.terminal.kitty",
@@ -499,10 +586,12 @@
         "kitty"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present kitty",
       "package_status": {
         "kitty": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.ai.chatgpt",
@@ -511,10 +600,12 @@
         "openai-codex-desktop"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present openai-codex-desktop",
       "package_status": {
-        "openai-codex-desktop": "buildable"
+        "openai-codex-desktop": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.ai.dictation",
@@ -524,11 +615,13 @@
         "voxtype-bin"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present voxtype-bin",
       "package_status": {
         "wtype": "installed",
-        "voxtype-bin": "buildable"
+        "voxtype-bin": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "buildable"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.ai.grok-bot",
@@ -537,10 +630,12 @@
         "grok-bot"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present grok-bot",
       "package_status": {
         "grok-bot": "x86-only-recipe"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.ai.lm-studio",
@@ -549,10 +644,12 @@
         "lmstudio-bin"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present lmstudio-bin",
       "package_status": {
         "lmstudio-bin": "x86-only-recipe"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.ai.ollama",
@@ -561,10 +658,12 @@
         "ollama-cuda"
       ],
       "note": "inline: picks ollama-cuda when nvidia-smi is present",
+      "when": "! omarchy-cmd-present ollama",
       "package_status": {
-        "ollama-cuda": "no-arm-build"
+        "ollama-cuda": "port-recipe (installed locally on the test machine)"
       },
-      "tier": "no-arm-build"
+      "tier": "port-recipe",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.gaming.steam",
@@ -573,10 +672,12 @@
         "steam"
       ],
       "note": "Steam is x86-only",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present steam",
       "package_status": {
         "steam": "no-arm-build"
       },
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.retroarch",
@@ -635,6 +736,7 @@
         "retroarch-joypad-autoconfig-git"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present retroarch",
       "package_status": {
         "retroarch": "available",
         "retroarch-assets-glui": "available",
@@ -688,7 +790,8 @@
         "libretro-database-git": "buildable",
         "retroarch-joypad-autoconfig-git": "buildable"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.minecraft",
@@ -697,10 +800,12 @@
         "minecraft-launcher"
       ],
       "note": "official launcher is x86-64 only",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present minecraft-launcher",
       "package_status": {
         "minecraft-launcher": "x86-only-recipe"
       },
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.geforce-now",
@@ -709,18 +814,22 @@
         "flatpak"
       ],
       "note": "Flatpak app published for x86-64 only",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! flatpak info com.nvidia.geforcenow",
       "package_status": {
         "flatpak": "available"
       },
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.xbox-cloud",
       "label": "Xbox Cloud Gaming",
       "packages": [],
       "note": "browser web app; packaging is a Chromium web app",
+      "when": "[[ ! -f \"$HOME/.local/share/applications/Xbox Cloud Gaming.desktop\" ]]",
       "package_status": {},
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.gaming.xbox-controllers",
@@ -730,11 +839,13 @@
         "xpadneo-dkms"
       ],
       "note": "",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present xpadneo-dkms",
       "package_status": {
         "linux-headers": "no-arm-build (installed locally on the test machine)",
         "xpadneo-dkms": "x86-only-recipe"
       },
-      "tier": "no-arm-build"
+      "tier": "no-arm-build",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.battlenet",
@@ -743,10 +854,12 @@
         "umu-launcher"
       ],
       "note": "Windows games through Wine/umu, x86-only",
+      "when": "[[ $(uname -m) != aarch64 ]] && [[ ! -d $HOME/Games/battlenet ]]",
       "package_status": {
         "umu-launcher": "no-arm-build"
       },
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.lutris",
@@ -761,6 +874,7 @@
         "python-protobuf"
       ],
       "note": "Wine-based, x86-only",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present lutris",
       "package_status": {
         "lutris": "available",
         "umu-launcher": "no-arm-build",
@@ -770,7 +884,8 @@
         "winetricks": "no-arm-build",
         "python-protobuf": "available"
       },
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.heroic",
@@ -779,130 +894,162 @@
         "heroic-games-launcher-bin"
       ],
       "note": "Windows game stores through Wine, x86-only",
+      "when": "[[ $(uname -m) != aarch64 ]] && ! omarchy-pkg-present heroic-games-launcher-bin",
       "package_status": {
         "heroic-games-launcher-bin": "x86-only-recipe"
       },
-      "tier": "not-applicable"
+      "tier": "not-applicable",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.gaming.retro-launcher",
       "label": "RetroArch Game Launcher",
       "packages": [],
       "note": "interactive",
+      "when": "[[ $(uname -m) != aarch64 ]]",
       "package_status": {},
-      "tier": "interactive"
+      "tier": "interactive",
+      "hidden_on_aarch64": true
     },
     {
       "entry": "install.development.rails",
       "label": "Ruby on Rails",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/ruby ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.docker-dbs",
       "label": "Docker DB",
       "packages": [],
       "note": "configuration only, no packages",
+      "when": "",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.go",
       "label": "Go",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/go ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.python",
       "label": "Python",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/python ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.zig",
       "label": "Zig",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/zig ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.rust",
       "label": "Rust",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.rustup ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.java",
       "label": "Java",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/java ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.dotnet",
       "label": ".NET",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/dotnet ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.ocaml",
       "label": "OCaml",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.opam ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.clojure",
       "label": "Clojure",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/clojure ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.scala",
       "label": "Scala",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/scala ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.javascript.node",
       "label": "Node.js",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/node ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.javascript.bun",
       "label": "Bun",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/bun ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.javascript.deno",
       "label": "Deno",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/deno ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.php.php",
@@ -914,45 +1061,55 @@
         "xdebug"
       ],
       "note": "",
+      "when": "! omarchy-pkg-present php",
       "package_status": {
         "php": "available",
         "composer": "available",
         "php-sqlite": "available",
         "xdebug": "available"
       },
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.php.laravel",
       "label": "Laravel",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -x $HOME/.config/composer/vendor/bin/laravel ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.php.symfony",
       "label": "Symfony",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "! omarchy-pkg-present symfony-cli",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.elixir.elixir",
       "label": "Elixir",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "[[ ! -d $HOME/.local/share/mise/installs/elixir ]]",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     },
     {
       "entry": "install.development.elixir.phoenix",
       "label": "Phoenix",
       "packages": [],
       "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "when": "! compgen -G \"$HOME/.mix/archives/phx_new*\"",
       "package_status": {},
-      "tier": "works"
+      "tier": "works",
+      "hidden_on_aarch64": false
     }
   ]
 }

@@ -241,3 +241,37 @@ documentation step is disabled because Arch Linux ARM has no pandoc. The four
 split packages install cleanly, `ghostty --version` answers, the desktop entry
 is present, and Omarchy's install flow now finds the package. Man pages are
 not shipped.
+
+## Install menu applications — 2026-09-07
+
+The Install menu audit (docs/INSTALL-MENU.md) was acted on. Ten omarchy-pkgs
+recipes that already fetch ARM64 builds were copied unchanged and built with
+`makepkg` on the Spark (1Password 8.12.34 and its CLI 2.39.0, NordVPN 5.3.0,
+Once 0.3.2, VS Code 1.136.1, Sublime Text 4.4200, Omarchy's Emacs 1.10.1,
+OpenAI Codex desktop, Voxtype 1.0.1, omazed 2.1.1). Three recipes were written
+for vendors that publish ARM64 Linux builds: Zed 1.18.1, Bitwarden 2026.8.0
+with its CLI, and Obsidian 1.13.7 from Arch's recipe with the vendor's bundled
+Electron, since Arch Linux ARM has no Electron. The 1Password and Voxtype
+signature keys could not be fetched from a keyserver on the Spark and were
+imported from the vendors' published key files instead.
+
+Launched from a script in the running Hyprland session, 1Password, Bitwarden,
+VS Code, Ghostty, Zed, Obsidian and Sublime Text each opened a window
+(`hyprctl clients` listed all seven); their logs held only first-run noise.
+Interactive use beyond opening was not tested.
+
+`omarchy-settings` 4.0.2-5 applied the menu patch: the installed menu carries
+20 `uname -m` guards and the Spotify web-app entry. The Install menu audit was
+re-run against the machine: 34 entries work from the repositories, 12 are
+packaged by the port, 13 have no ARM build and are hidden, 8 are not
+applicable and hidden. The base package audit reports 139 of 147.
+
+## Ollama with CUDA — 2026-09-07
+
+`ollama` and `ollama-cuda` 0.33.3 built from source on the Spark in about
+30 minutes with the port's CUDA 13 toolkit, GCC 15 as the CUDA host compiler
+and `CMAKE_CUDA_ARCHITECTURES=121`. After installing both, the service logged
+the GB10 as `CUDA0` (library CUDA, compute 12.1, driver 13.3, 121.7 GiB
+total). A 0.5B test model was pulled, answered a prompt in about four seconds
+and `ollama ps` reported it 100% on the GPU. The model was removed afterwards;
+the service was started for the test but not enabled.

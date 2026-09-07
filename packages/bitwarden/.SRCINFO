@@ -1,0 +1,26 @@
+pkgbase = bitwarden
+	pkgdesc = A secure and free password manager for all of your devices
+	pkgver = 2026.8.0
+	pkgrel = 1
+	url = https://bitwarden.com
+	arch = aarch64
+	license = GPL-3.0-only
+	depends = gtk3
+	depends = nss
+	depends = libxss
+	depends = libxtst
+	depends = alsa-lib
+	depends = at-spi2-core
+	depends = libnotify
+	depends = libsecret
+	depends = libappindicator-gtk3
+	depends = xdg-utils
+	depends = hicolor-icon-theme
+	noextract = bitwarden_2026.8.0_arm64.tar.gz
+	options = !strip
+	source = LICENSE_GPL-2026.8.0.txt::https://raw.githubusercontent.com/bitwarden/clients/desktop-v2026.8.0/LICENSE_GPL.txt
+	sha256sums = b98fbb37db5b23bc5cfdcd16793206a5a7120a7b01f75374e5e0888376e4691c
+	source_aarch64 = bitwarden_2026.8.0_arm64.tar.gz::https://github.com/bitwarden/clients/releases/download/desktop-v2026.8.0/bitwarden_2026.8.0_arm64.tar.gz
+	sha256sums_aarch64 = 5962b5dd1bfe19b3c198a6b4157c4431efe078e573217bffcaafa71147476ebe
+
+pkgname = bitwarden

@@ -1,0 +1,31 @@
+# Omarchy Spark: Arch's obsidian recipe (archlinux/packaging/packages/obsidian at
+# 9793f64d75f9505327ea1611b135c77aee0d3921) adapted to run the Electron that
+# Obsidian's release bundle ships, because Arch Linux ARM packages no Electron.
+# Everything else, including the desktop entry and licence handling, is Arch's.
+pkgname=obsidian
+pkgver=1.13.7
+pkgrel=2.1
+pkgdesc="A powerful knowledge base that works on top of a local folder of plain text Markdown files"
+arch=('aarch64')
+url="https://obsidian.md"
+license=('LicenseRef-Obsidian')
+depends=('fontconfig' 'bash' 'zlib' 'hicolor-icon-theme' 'gtk3' 'nss' 'libxss' 'libxtst' 'alsa-lib' 'at-spi2-core' 'libnotify' 'libxkbcommon' 'xdg-utils')
+install=obsidian.install
+options=(!strip)
+source=("obsidian.sh" "obsidian.desktop" "LICENSE-Obsidian")
+source_aarch64=("https://github.com/obsidianmd/obsidian-releases/releases/download/v${pkgver}/obsidian-${pkgver}-arm64.tar.gz")
+sha256sums=('043427829c8a9ffe14575438c87be13584be386c1f314a38c468b14d77bfb1b1' '99c075af3f34cb358d6e93565686792c45562b17f8002fce0e8a63b83cbbe786' 'd9fdc14f9c2fb95bb38310281268fdad413c1b49fa93213df3184f9b0ca1175c')
+sha256sums_aarch64=('98aac34d1f132a35cf506fc3fa196d595dcdeefdebd44b0cc5faaa7a1a210de2')
+
+package() {
+    cd "$srcdir"
+    install -Dm755 obsidian.sh "$pkgdir"/usr/bin/obsidian
+    install -Dm644 obsidian.desktop -t "$pkgdir"/usr/share/applications/
+    install -dm0755 "$pkgdir"/usr/lib/obsidian
+    cp -a "${pkgname}-${pkgver}-arm64"/. "$pkgdir"/usr/lib/obsidian/
+    chmod -R u+rwX,go+rX,go-w "$pkgdir"/usr/lib/obsidian
+    # Keep the normal Electron namespace sandbox; no setuid helper.
+    chmod 0755 "$pkgdir"/usr/lib/obsidian/chrome-sandbox
+    install -Dm644 "$pkgdir"/usr/lib/obsidian/resources/icon.png "$pkgdir"/usr/share/icons/hicolor/512x512/apps/obsidian.png
+    install -Dm644 LICENSE-Obsidian "$pkgdir"/usr/share/licenses/$pkgname/LICENSE-Obsidian
+}

@@ -27,6 +27,18 @@ describe the packaged software; they are not a grant to redistribute its binarie
   ghostty, 0BSD) at the revision in upstream-lock.json, with documentation
   generation removed because Arch Linux ARM has no pandoc; it does not build
   that package itself.
+- The obsidian recipe is Arch Linux's packaging at the revision in
+  upstream-lock.json, adapted to run the bundled Electron; the ollama recipe is
+  adapted from Arch Linux's packaging (its CUDA build reduced to the GB10);
+  Arch PKGBUILDs are 0BSD. The zed, bitwarden, bitwarden-cli, localsend and
+  obsidian packages install those projects' own official Linux arm64 release
+  bundles, pinned by checksum, under their own licences; nothing is rebuilt or
+  modified, and no binary is redistributed by this repository.
+- Fourteen further recipes copied unchanged from omacom-io/omarchy-pkgs
+  (1password, 1password-cli, nordvpn-bin, once-bin, visual-studio-code-bin,
+  sublime-text-4, omarchy-emacs, openai-codex-desktop, voxtype-bin, omazed and
+  the earlier aether, cliamp, herdr, tzupdate set) fetch vendor or upstream
+  payloads under those vendors' terms.
 - The archiso patch targets RageLtd/arch-dgx-spark-iso at the locked revision.
   The underlying repository is fetched for tests, not vendored or relicensed.
 - graham33/nixos-dgx-spark and omacom/try-omarchy informed the port. They and all

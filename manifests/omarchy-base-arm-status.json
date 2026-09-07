@@ -1,12 +1,12 @@
 {
   "source": "upstream/omarchy/install/omarchy-base.packages at the omarchy commit in upstream-lock.json",
-  "probed": "2026-09-06",
+  "probed": "2026-09-07",
   "host_arch": "aarch64",
   "counts": {
     "total": 147,
-    "installed": 138,
+    "installed": 139,
     "available_not_installed": 0,
-    "unavailable": 9
+    "unavailable": 8
   },
   "available_not_installed": [],
   "unavailable": [
@@ -22,11 +22,6 @@
     },
     {
       "name": "obs-studio",
-      "tier": "external",
-      "note": "no omarchy-pkgs recipe; AUR or vendor source"
-    },
-    {
-      "name": "obsidian",
       "tier": "external",
       "note": "no omarchy-pkgs recipe; AUR or vendor source"
     },
@@ -143,6 +138,7 @@
     "noto-fonts-emoji",
     "nss-mdns",
     "nvim",
+    "obsidian",
     "omacalc",
     "omacut",
     "omawrite",

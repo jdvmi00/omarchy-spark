@@ -6,7 +6,9 @@
   probe     on an Arch Linux ARM host: read that JSON, report each package as
             installed, available or unavailable; nothing is installed
   classify  anywhere: merge the probe with omarchy-pkgs recipes and the port's
-            recipes into the tracked manifest
+            recipes into the tracked manifest, noting which entries the port's
+            menu patch hides on aarch64
+  render    anywhere: write docs/INSTALL-MENU.md from the manifest
 
 Entries are tiered by their worst package: works (all installed or available),
 port-recipe (the port already packages it), buildable (an omarchy-pkgs recipe
@@ -82,7 +84,7 @@ def extract(args):
         if not key.startswith('install.') or not isinstance(value, dict) or 'action' not in value:
             continue
         action = value['action']
-        entry = {'entry': key, 'label': value.get('label', ''), 'packages': [], 'note': ''}
+        entry = {'entry': key, 'label': value.get('label', ''), 'packages': [], 'note': '', 'when': value.get('when', '')}
         if action.startswith('if '):
             entry['packages'] = ['ollama-cuda'] if 'ollama-cuda' in action else []
             entry['note'] = 'inline: picks ollama-cuda when nvidia-smi is present'
@@ -139,10 +141,25 @@ def probe(args):
     print()
 
 
+def hidden_on(when, arch):
+    """Evaluate a menu `when` condition the way omarchy-menu does, with uname stubbed."""
+    if not when:
+        return False
+    script = f'uname() {{ echo {arch}; }}; export -f uname; omarchy-pkg-present() {{ return 1; }}; flatpak() {{ return 1; }}; {when}'
+    env = {'HOME': '/nonexistent', 'PATH': '/usr/bin:/bin'}
+    return subprocess.run(['bash', '-c', script], env=env, capture_output=True).returncode != 0
+
+
 def classify(args):
     data = json.load(open(args.probe))
     root = Path(__file__).resolve().parents[1]
-    ported = {p.name for p in (root / 'packages').iterdir()}
+    ported = set()
+    for recipe in (root / 'packages').glob('*/PKGBUILD'):
+        ported.add(recipe.parent.name)
+        # Split packages: pkgname=(ollama ollama-cuda) lives in packages/ollama.
+        m = re.search(r"^pkgname=\(([^)]*)\)", recipe.read_text(), re.M)
+        if m:
+            ported.update(shlex.split(m.group(1)))
     pkgbuilds = Path(args.pkgbuilds) if args.pkgbuilds else None
     counts = {}
     for e in data['entries']:
@@ -174,11 +191,76 @@ def classify(args):
             tier = {'installed': 'works', 'available': 'works', 'port-recipe': 'port-recipe', 'buildable': 'buildable',
                     'x86-only-recipe': 'no-arm-build', 'no-arm-build': 'no-arm-build'}[worst]
         e['tier'] = tier
+        e['hidden_on_aarch64'] = hidden_on(e.get('when', ''), 'aarch64') and not hidden_on(e.get('when', ''), 'x86_64')
         counts[tier] = counts.get(tier, 0) + 1
     out = {'source': 'upstream/omarchy default/omarchy/omarchy-menu.jsonc and bin/ at the omarchy commit in upstream-lock.json',
            'host_arch': data.get('host_arch'), 'counts': counts, 'entries': data['entries']}
     json.dump(out, sys.stdout, indent=2)
     print()
+
+
+TIERS = [
+    ('works', 'Works', "every package is installed from or available in Arch Linux ARM's repositories, "
+                       'or the entry installs a mise toolchain or only configuration.'),
+    ('port-recipe', 'Packaged by the port', 'Arch Linux ARM lacks at least one package; the port builds it under `packages/`.'),
+    ('buildable', 'Buildable', 'an omarchy-pkgs recipe declares aarch64 but nobody has built it for the port yet.'),
+    ('no-arm-build', 'No ARM build', 'an AUR or vendor binary with no ARM64 recipe; would fail with "target not found".'),
+    ('interactive', 'Interactive', 'asks what to install; outcome depends on the choice.'),
+    ('not-applicable', 'Not applicable', 'x86-only gaming stacks or a Windows VM.'),
+]
+RENDER_TAIL = '''## What the port does about each tier
+
+- Packaged-by-the-port entries install from the recipes under `packages/`;
+  none of them is in Arch Linux ARM's repositories, so a machine without the
+  port's packages built or served from a repository still sees "target not
+  found" for them.
+- Hidden entries are removed from the menu on aarch64 by the port's menu patch
+  (`patches/omarchy-menu-arm.patch`, applied by `omarchy-settings`), so users
+  do not pick an install that cannot succeed. The x86 menu is unchanged.
+- Spotify is replaced on aarch64 by a Spotify web app entry (Omarchy's own
+  `omarchy-webapp-install`); LM Studio has no ARM64 Linux build and Ollama is
+  the port's alternative; Chrome, Edge, Brave, Zen, Cursor and Dropbox publish
+  no ARM64 Linux binaries.
+- The Omarchy preinstalls entry still lists OBS Studio and Pinta, which have no
+  ARM recipe here: OBS would need a native build and Pinta needs .NET, which
+  Arch Linux ARM does not ship.
+- Not-applicable entries are the Wine and Steam gaming stack and the Windows
+  VM; they have no ARM path and are hidden on the port.
+'''
+
+
+def render(args):
+    m = json.load(open(args.manifest))
+    hidden = [e for e in m['entries'] if e.get('hidden_on_aarch64')]
+    out = ['# Omarchy\'s Install menu on the port', '',
+           'Generated from `manifests/omarchy-install-menu-arm-status.json` by',
+           '`scripts/audit-install-menu.py`, which reads the menu (with the port\'s ARM patch',
+           'applied) and its helper scripts, probes each package on the test Spark and tiers',
+           'every entry by its worst package. A package installed on the test machine from',
+           'outside the configured repositories does not count as available to anyone else;',
+           'it is marked as installed locally. "Hidden" means the port\'s menu patch removes',
+           'the entry on aarch64.', '',
+           '| Tier | Entries |', '| --- | --- |']
+    for key, title, _ in TIERS:
+        out.append(f'| {title} | {m["counts"].get(key, 0)} |')
+    out.append(f'| of which hidden on aarch64 | {len(hidden)} |')
+    out.append('')
+    for key, title, blurb in TIERS:
+        rows = [e for e in m['entries'] if e['tier'] == key]
+        out += [f'## {title} ({len(rows)})', '', blurb, '']
+        if not rows:
+            out += ['None.', '']
+            continue
+        out += ['| Entry | Packages | On aarch64 | Note |', '| --- | --- | --- | --- |']
+        for e in rows:
+            pkgs = ', '.join(f'{n} ({st})' if not st.startswith(('installed', 'available')) else n
+                             for n, st in e['package_status'].items()) or '—'
+            pkgs = pkgs.replace(' (installed locally on the test machine)', ', local')
+            shown = 'hidden' if e.get('hidden_on_aarch64') else 'shown'
+            out.append(f"| {e['entry'][8:]} | {pkgs} | {shown} | {e['note']} |")
+        out.append('')
+    out.append(RENDER_TAIL)
+    Path(args.out).write_text('\n'.join(out))
 
 
 def main():
@@ -187,6 +269,7 @@ def main():
     e = sub.add_parser('extract'); e.add_argument('menu'); e.add_argument('bindir'); e.set_defaults(run=extract)
     p = sub.add_parser('probe'); p.add_argument('extract'); p.set_defaults(run=probe)
     c = sub.add_parser('classify'); c.add_argument('probe'); c.add_argument('--pkgbuilds'); c.set_defaults(run=classify)
+    r = sub.add_parser('render'); r.add_argument('manifest'); r.add_argument('out'); r.set_defaults(run=render)
     args = parser.parse_args()
     args.run(args)
 

@@ -16,7 +16,29 @@
   build it.
 - Firmware updates verified from the port through fwupd and LVFS.
 - `scripts/audit-install-menu.py` and docs/INSTALL-MENU.md: every Omarchy
-  Install menu entry classified for ARM (34 of 74 work as-is).
+  Install menu entry classified for ARM (34 of 75 work as-is from the repos).
+- Ten more omarchy-pkgs recipes that already fetch ARM64 builds, added
+  unchanged and built on the Spark: `1password`, `1password-cli`,
+  `nordvpn-bin`, `once-bin`, `visual-studio-code-bin`, `sublime-text-4`,
+  `omarchy-emacs`, `openai-codex-desktop`, `voxtype-bin`, `omazed`.
+- New recipes for vendors that publish ARM64 Linux builds: `zed` (1.18.1 from
+  Zed's release tarball), `bitwarden` and `bitwarden-cli` (2026.8.0 from
+  Bitwarden's arm64 releases), `obsidian` (Arch's recipe, 1.13.7, with the
+  vendor's bundled Electron because Arch Linux ARM has no Electron package).
+  With these, Omarchy's Install menu entries for VS Code, Zed, Sublime Text,
+  Emacs, 1Password, Bitwarden, NordVPN, Once, ChatGPT and dictation work on
+  the port, and 139 of 147 base packages are present.
+- `ollama` and `ollama-cuda` 0.33.3 built from source with the port's CUDA 13
+  toolkit and GCC 15 host compiler for the GB10 (sm_121), so Install → AI →
+  Ollama installs a GPU-accelerated Ollama.
+- `omarchy-settings` 4.0.2-5 applies `patches/omarchy-menu-arm.patch`: on
+  aarch64 the Install menu hides the 20 entries with no ARM path (Chrome,
+  Edge, Brave, Zen, Cursor, Dropbox, Spotify, Grok, LM Studio, the Wine and
+  Steam gaming stack, the Windows VM) and adds a Spotify web app entry. The
+  x86 menu is unchanged. `omarchy` 4.0.2-8 carries the same change in the
+  full ARM patch.
+- OBS Studio and Pinta remain unpackaged: OBS needs a native ARM build that
+  was not attempted, and Pinta needs .NET, which Arch Linux ARM does not ship.
 
 ## v0.1.0-preview.3 — Clean build, base packages and system setup
 

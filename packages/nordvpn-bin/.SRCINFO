@@ -1,0 +1,26 @@
+pkgbase = nordvpn-bin
+	pkgdesc = NordVPN CLI tool for Linux
+	pkgver = 5.3.0
+	pkgrel = 1
+	url = https://nordvpn.com/download/linux/
+	install = nordvpn-bin.install
+	arch = x86_64
+	arch = i686
+	arch = armv7h
+	arch = aarch64
+	arch = armeabi
+	license = GPL3
+	provides = nordvpn
+	conflicts = openvpn-nordvpn
+	source_x86_64 = https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/nordvpn_5.3.0_amd64.deb
+	sha256sums_x86_64 = 34cdea72a75c9700c285b950ed2ec96acaeed4d607013a3abd18366731f8c334
+	source_i686 = https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/nordvpn_5.3.0_i386.deb
+	sha256sums_i686 = c6e3908876941698a41287e01ca4327d9f2c0116469c2de072e3767ba551c5ae
+	source_armv7h = https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/nordvpn_5.3.0_armhf.deb
+	sha256sums_armv7h = 34ee5e8ee89b22a1082b67253ca9eb61bcd4c158afb3a163b00c5b6679178c71
+	source_aarch64 = https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/nordvpn_5.3.0_arm64.deb
+	sha256sums_aarch64 = 87fc3fbacd289fbf2242d52b62da363b7e799701504dd7a98013db63df372999
+	source_armeabi = https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/nordvpn_5.3.0_armel.deb
+	sha256sums_armeabi = 43caf6489ebc9d9f97d97be40312abfbfb7e07022aed76294830818cd993e1ca
+
+pkgname = nordvpn-bin

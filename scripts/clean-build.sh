@@ -19,7 +19,9 @@ root=$(cd "$(dirname "$0")/.." && pwd)
 order=(gcc15-dgx linux-dgx-spark omarchy-keyring omarchy-settings aquamarine-compat13 omarchy
        cuda-dgx-spark perftest dgx-spark-mlnx-hotplug nsight-dgx-spark nvidia-ai-workbench dgx-dashboard
        mise-bin xdg-terminal-exec ttfx aether cliamp herdr hyprland-preview-share-picker omacalc omacut
-       omawrite omarchy-nvim tensaku tobi-try tzupdate ufw-docker yay)
+       omawrite omarchy-nvim tensaku tobi-try tzupdate ufw-docker yay localsend ghostty
+       1password-cli 1password nordvpn-bin once-bin visual-studio-code-bin sublime-text-4 omarchy-emacs
+       openai-codex-desktop voxtype-bin omazed zed bitwarden bitwarden-cli obsidian ollama)
 
 setup() {
   mkdir -p "$dir/repo"

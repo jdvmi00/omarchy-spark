@@ -66,6 +66,23 @@ Suggested dependency order:
 3. `aquamarine-compat13`, `omarchy-keyring`, `omarchy-settings`, then `omarchy`.
 4. `dgx-spark-mlnx-hotplug`, `nsight-dgx-spark`, `nvidia-ai-workbench`,
    `dgx-dashboard`, `mise-bin` and `xdg-terminal-exec` as needed.
+5. The Omarchy application recipes (`ghostty`, `localsend`, `zed`, `omazed`,
+   `bitwarden`, `bitwarden-cli`, `obsidian`, `visual-studio-code-bin`,
+   `sublime-text-4`, `omarchy-emacs`, `1password`, `1password-cli`,
+   `nordvpn-bin`, `once-bin`, `openai-codex-desktop`, `voxtype-bin`) in any
+   order; `ollama` after `cuda-dgx-spark` and `gcc15-dgx`.
+
+Some vendor recipes verify PGP signatures (`1password`, `1password-cli`,
+`voxtype-bin`): import the keys named in their `validpgpkeys` into the build
+user's keyring first (`gpg --recv-keys <fingerprint>`, or from the vendor's
+published key file when the keyserver is unreachable), or `makepkg` stops
+with "One or more PGP signatures could not be verified".
+
+`ollama` is a split recipe producing `ollama` and `ollama-cuda`. It builds the
+CUDA backend for the GB10 (`CMAKE_CUDA_ARCHITECTURES=121`) with the port's
+CUDA 13 toolkit, and CUDA 13 rejects the system GCC as host compiler, so the
+recipe points `NVCC_CCBIN` and `CUDAHOSTCXX` at `gcc15-dgx`. Expect about half
+an hour on the Spark.
 
 Read each package README and PKGBUILD. The kernel config and version file are
 already included; do not run an absent upstream configuration generator. The
@@ -107,8 +124,17 @@ aarch64 are now present, copied unchanged from omarchy-pkgs.
 `scripts/audit-install-menu.py` does the same for Omarchy's Install menu:
 `extract` maps each entry to the packages its helper script adds, `probe` checks
 them on the ARM host, `classify` tiers the entries into
-`manifests/omarchy-install-menu-arm-status.json`; docs/INSTALL-MENU.md is the
-readable result.
+`manifests/omarchy-install-menu-arm-status.json`, and `render` writes
+docs/INSTALL-MENU.md from it. The manifest also records which entries the
+port's menu patch hides on aarch64.
+
+The menu file `default/omarchy/omarchy-menu.jsonc` belongs to
+`omarchy-settings`, so the ARM menu changes live in
+`patches/omarchy-menu-arm.patch`, applied by that recipe; the full
+`patches/omarchy-spark-arm.patch` used by the `omarchy` recipe contains the
+same hunk. Regenerate both from `upstream/omarchy` after editing the working
+tree (`git diff` for the full patch, `git diff -- default/omarchy/omarchy-menu.jsonc`
+for the menu one) and update the checksums in both PKGBUILDs.
 
 ## Native integration
 

@@ -58,5 +58,10 @@
     "name": "ghostty",
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ghostty.git",
     "commit": "7c601d97c8e447371dbc004368b3b83666b61225"
+  },
+  {
+    "name": "obsidian",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/obsidian.git",
+    "commit": "9793f64d75f9505327ea1611b135c77aee0d3921"
   }
 ]
