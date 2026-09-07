@@ -20,6 +20,14 @@ untouched. Inside that view the app reports the OS supported and Workbench
 installed, and proceeds to its normal windows. It still tries to take ownership
 of the helper binaries in `~/.nvwb/bin`, which are root-owned behind the port's
 links; that fails harmlessly and is logged as an unhandled rejection.
+Release 9 closes the two update paths a user could click into. The vendor
+self-updater's feed (`resources/app-update.yml`) is replaced in the app's view
+by one that points at nothing, so the app never offers to download a .deb and
+run apt through pkexec; and `~/.nvwb/bin` is mounted read-only for the app,
+so its install/repair pass cannot replace the helper links with vendor
+binaries. Update the desktop app and its bundled service by updating this
+package with pacman; a newer upstream release is packaged by bumping the
+pinned .deb.
 
 ## Why the adapters exist
 
