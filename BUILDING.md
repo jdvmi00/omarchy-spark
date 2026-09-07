@@ -104,6 +104,12 @@ tiers the rest by whether an upstream recipe builds on aarch64. Packages in
 the `omarchy-recipe` tier belong under `packages/` here; all 14 that build on
 aarch64 are now present, copied unchanged from omarchy-pkgs.
 
+`scripts/audit-install-menu.py` does the same for Omarchy's Install menu:
+`extract` maps each entry to the packages its helper script adds, `probe` checks
+them on the ARM host, `classify` tiers the entries into
+`manifests/omarchy-install-menu-arm-status.json`; docs/INSTALL-MENU.md is the
+readable result.
+
 ## Native integration
 
 On an already configured Arch Spark, the Workbench README documents

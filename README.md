@@ -34,6 +34,7 @@ is not hidden inside an Ubuntu VM.
 - [Build and test the source](BUILDING.md)
 - [Known issues and remaining work](docs/KNOWN-ISSUES.md)
 - [Dual boot on the internal NVMe](docs/DUAL-BOOT.md)
+- [Which Install menu entries work on ARM](docs/INSTALL-MENU.md)
 - [Release notes](docs/RELEASE-NOTES.md)
 - [Publication review and post-publication reassessment](docs/RELEASE-REVIEW.md)
 - [Upstream provenance and licenses](THIRD_PARTY.md)

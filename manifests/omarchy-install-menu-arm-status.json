@@ -1,0 +1,957 @@
+{
+  "source": "upstream/omarchy default/omarchy/omarchy-menu.jsonc and bin/ at the omarchy commit in upstream-lock.json",
+  "host_arch": "aarch64",
+  "counts": {
+    "interactive": 7,
+    "works": 36,
+    "not-applicable": 8,
+    "no-arm-build": 15,
+    "buildable": 8
+  },
+  "entries": [
+    {
+      "entry": "install.package",
+      "label": "Package",
+      "packages": [],
+      "note": "interactive",
+      "package_status": {},
+      "tier": "interactive"
+    },
+    {
+      "entry": "install.aur",
+      "label": "AUR",
+      "packages": [],
+      "note": "interactive",
+      "package_status": {},
+      "tier": "interactive"
+    },
+    {
+      "entry": "install.webapp",
+      "label": "Web App",
+      "packages": [],
+      "note": "interactive",
+      "package_status": {},
+      "tier": "interactive"
+    },
+    {
+      "entry": "install.tui",
+      "label": "TUI",
+      "packages": [],
+      "note": "interactive",
+      "package_status": {},
+      "tier": "interactive"
+    },
+    {
+      "entry": "install.style.theme",
+      "label": "Theme",
+      "packages": [],
+      "note": "interactive",
+      "package_status": {},
+      "tier": "interactive"
+    },
+    {
+      "entry": "install.style.background",
+      "label": "Background",
+      "packages": [],
+      "note": "interactive",
+      "package_status": {},
+      "tier": "interactive"
+    },
+    {
+      "entry": "install.style.font.cascadia",
+      "label": "Cascadia Mono",
+      "packages": [
+        "ttf-cascadia-mono-nerd"
+      ],
+      "note": "",
+      "package_status": {
+        "ttf-cascadia-mono-nerd": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.style.font.meslo",
+      "label": "Meslo LG Mono",
+      "packages": [
+        "ttf-meslo-nerd"
+      ],
+      "note": "",
+      "package_status": {
+        "ttf-meslo-nerd": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.style.font.fira",
+      "label": "Fira Code",
+      "packages": [
+        "ttf-firacode-nerd"
+      ],
+      "note": "",
+      "package_status": {
+        "ttf-firacode-nerd": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.style.font.victor",
+      "label": "Victor Code",
+      "packages": [
+        "ttf-victor-mono-nerd"
+      ],
+      "note": "",
+      "package_status": {
+        "ttf-victor-mono-nerd": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.style.font.bitstream",
+      "label": "Bitstream Vera Mono",
+      "packages": [
+        "ttf-bitstream-vera-mono-nerd"
+      ],
+      "note": "",
+      "package_status": {
+        "ttf-bitstream-vera-mono-nerd": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.style.font.iosevka",
+      "label": "Iosevka",
+      "packages": [
+        "ttf-iosevka-nerd"
+      ],
+      "note": "",
+      "package_status": {
+        "ttf-iosevka-nerd": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.windows",
+      "label": "Windows",
+      "packages": [
+        "freerdp",
+        "openbsd-netcat",
+        "gum"
+      ],
+      "note": "x86 Windows virtual machine",
+      "package_status": {
+        "freerdp": "available",
+        "openbsd-netcat": "available",
+        "gum": "installed"
+      },
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.preinstalls",
+      "label": "Preinstalls",
+      "packages": [
+        "aether",
+        "cliamp",
+        "libreoffice-fresh",
+        "xournalpp",
+        "pinta",
+        "obsidian",
+        "obs-studio",
+        "kdenlive",
+        "moonlight-qt",
+        "lazydocker",
+        "omacut",
+        "omacalc",
+        "omawrite"
+      ],
+      "note": "",
+      "package_status": {
+        "aether": "installed",
+        "cliamp": "installed",
+        "libreoffice-fresh": "installed",
+        "xournalpp": "installed",
+        "pinta": "no-arm-build",
+        "obsidian": "no-arm-build",
+        "obs-studio": "no-arm-build",
+        "kdenlive": "installed",
+        "moonlight-qt": "installed",
+        "lazydocker": "installed",
+        "omacut": "installed",
+        "omacalc": "installed",
+        "omawrite": "installed"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.browser.chrome",
+      "label": "Chrome",
+      "packages": [
+        "google-chrome"
+      ],
+      "note": "",
+      "package_status": {
+        "google-chrome": "installed"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.browser.edge",
+      "label": "Edge",
+      "packages": [
+        "microsoft-edge-stable-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "microsoft-edge-stable-bin": "no-arm-build"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.browser.brave",
+      "label": "Brave",
+      "packages": [
+        "brave-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "brave-bin": "no-arm-build"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.browser.brave-origin",
+      "label": "Brave Origin",
+      "packages": [
+        "brave-origin-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "brave-origin-bin": "no-arm-build"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.browser.firefox",
+      "label": "Firefox",
+      "packages": [
+        "firefox"
+      ],
+      "note": "",
+      "package_status": {
+        "firefox": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.browser.zen",
+      "label": "Zen",
+      "packages": [
+        "zen-browser-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "zen-browser-bin": "no-arm-build"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.service.1password",
+      "label": "1Password",
+      "packages": [
+        "1password",
+        "1password-cli"
+      ],
+      "note": "",
+      "package_status": {
+        "1password": "buildable",
+        "1password-cli": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.service.dropbox",
+      "label": "Dropbox",
+      "packages": [
+        "dropbox",
+        "dropbox-cli",
+        "libappindicator-gtk3",
+        "python-gpgme",
+        "nautilus-dropbox"
+      ],
+      "note": "",
+      "package_status": {
+        "dropbox": "x86-only-recipe",
+        "dropbox-cli": "x86-only-recipe",
+        "libappindicator-gtk3": "available",
+        "python-gpgme": "available",
+        "nautilus-dropbox": "x86-only-recipe"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.service.spotify",
+      "label": "Spotify",
+      "packages": [
+        "spotify"
+      ],
+      "note": "",
+      "package_status": {
+        "spotify": "x86-only-recipe"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.service.signal",
+      "label": "Signal",
+      "packages": [
+        "signal-desktop"
+      ],
+      "note": "",
+      "package_status": {
+        "signal-desktop": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.service.tailscale",
+      "label": "Tailscale",
+      "packages": [
+        "tailscale"
+      ],
+      "note": "",
+      "package_status": {
+        "tailscale": "installed"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.service.nordvpn",
+      "label": "NordVPN",
+      "packages": [
+        "nordvpn-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "nordvpn-bin": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.service.once",
+      "label": "ONCE",
+      "packages": [
+        "once-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "once-bin": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.service.bitwarden",
+      "label": "Bitwarden",
+      "packages": [
+        "bitwarden",
+        "bitwarden-cli"
+      ],
+      "note": "",
+      "package_status": {
+        "bitwarden": "no-arm-build",
+        "bitwarden-cli": "available"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.service.chromium-account",
+      "label": "Chromium Account",
+      "packages": [],
+      "note": "configuration only, no packages",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.editor.vscode",
+      "label": "VSCode",
+      "packages": [
+        "visual-studio-code-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "visual-studio-code-bin": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.editor.cursor",
+      "label": "Cursor",
+      "packages": [
+        "cursor-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "cursor-bin": "x86-only-recipe"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.editor.zed",
+      "label": "Zed",
+      "packages": [
+        "zed",
+        "omazed"
+      ],
+      "note": "",
+      "package_status": {
+        "zed": "no-arm-build",
+        "omazed": "buildable"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.editor.sublime",
+      "label": "Sublime Text",
+      "packages": [
+        "sublime-text-4"
+      ],
+      "note": "",
+      "package_status": {
+        "sublime-text-4": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.editor.helix",
+      "label": "Helix",
+      "packages": [
+        "helix"
+      ],
+      "note": "",
+      "package_status": {
+        "helix": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.editor.vim",
+      "label": "Vim",
+      "packages": [
+        "vim"
+      ],
+      "note": "",
+      "package_status": {
+        "vim": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.editor.emacs",
+      "label": "Emacs",
+      "packages": [
+        "omarchy-emacs"
+      ],
+      "note": "",
+      "package_status": {
+        "omarchy-emacs": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.terminal.alacritty",
+      "label": "Alacritty",
+      "packages": [
+        "alacritty"
+      ],
+      "note": "",
+      "package_status": {
+        "alacritty": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.terminal.foot",
+      "label": "Foot",
+      "packages": [
+        "foot"
+      ],
+      "note": "",
+      "package_status": {
+        "foot": "installed"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.terminal.ghostty",
+      "label": "Ghostty",
+      "packages": [
+        "ghostty"
+      ],
+      "note": "",
+      "package_status": {
+        "ghostty": "installed"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.terminal.kitty",
+      "label": "Kitty",
+      "packages": [
+        "kitty"
+      ],
+      "note": "",
+      "package_status": {
+        "kitty": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.ai.chatgpt",
+      "label": "ChatGPT Desktop",
+      "packages": [
+        "openai-codex-desktop"
+      ],
+      "note": "",
+      "package_status": {
+        "openai-codex-desktop": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.ai.dictation",
+      "label": "Dictation",
+      "packages": [
+        "wtype",
+        "voxtype-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "wtype": "installed",
+        "voxtype-bin": "buildable"
+      },
+      "tier": "buildable"
+    },
+    {
+      "entry": "install.ai.grok-bot",
+      "label": "Grok Bot",
+      "packages": [
+        "grok-bot"
+      ],
+      "note": "",
+      "package_status": {
+        "grok-bot": "x86-only-recipe"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.ai.lm-studio",
+      "label": "LM Studio",
+      "packages": [
+        "lmstudio-bin"
+      ],
+      "note": "",
+      "package_status": {
+        "lmstudio-bin": "x86-only-recipe"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.ai.ollama",
+      "label": "Ollama",
+      "packages": [
+        "ollama-cuda"
+      ],
+      "note": "inline: picks ollama-cuda when nvidia-smi is present",
+      "package_status": {
+        "ollama-cuda": "no-arm-build"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.gaming.steam",
+      "label": "Steam",
+      "packages": [
+        "steam"
+      ],
+      "note": "Steam is x86-only",
+      "package_status": {
+        "steam": "no-arm-build"
+      },
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.gaming.retroarch",
+      "label": "RetroArch",
+      "packages": [
+        "retroarch",
+        "retroarch-assets-glui",
+        "retroarch-assets-ozone",
+        "retroarch-assets-xmb",
+        "libretro-beetle-pce",
+        "libretro-beetle-pce-fast",
+        "libretro-beetle-psx",
+        "libretro-beetle-psx-hw",
+        "libretro-beetle-supergrafx",
+        "libretro-blastem",
+        "libretro-bsnes",
+        "libretro-bsnes-hd",
+        "libretro-core-info",
+        "libretro-desmume",
+        "libretro-dolphin",
+        "libretro-flycast",
+        "libretro-gambatte",
+        "libretro-genesis-plus-gx",
+        "libretro-kronos",
+        "libretro-mame",
+        "libretro-melonds",
+        "libretro-mesen",
+        "libretro-mesen-s",
+        "libretro-mgba",
+        "libretro-mupen64plus-next",
+        "libretro-nestopia",
+        "libretro-overlays",
+        "libretro-parallel-n64",
+        "libretro-picodrive",
+        "libretro-play",
+        "libretro-ppsspp",
+        "libretro-sameboy",
+        "libretro-scummvm",
+        "libretro-shaders-slang",
+        "libretro-snes9x",
+        "libretro-yabause",
+        "libretro-cap32-git",
+        "libretro-fbneo-git",
+        "libretro-uae-git",
+        "libretro-vice-x128-git",
+        "libretro-vice-x64-git",
+        "libretro-vice-x64dtv-git",
+        "libretro-vice-x64sc-git",
+        "libretro-vice-xcbm2-git",
+        "libretro-vice-xcbm5x0-git",
+        "libretro-vice-xpet-git",
+        "libretro-vice-xplus4-git",
+        "libretro-vice-xscpu64-git",
+        "libretro-vice-xvic-git",
+        "libretro-database-git",
+        "retroarch-joypad-autoconfig-git"
+      ],
+      "note": "",
+      "package_status": {
+        "retroarch": "available",
+        "retroarch-assets-glui": "available",
+        "retroarch-assets-ozone": "available",
+        "retroarch-assets-xmb": "available",
+        "libretro-beetle-pce": "available",
+        "libretro-beetle-pce-fast": "available",
+        "libretro-beetle-psx": "available",
+        "libretro-beetle-psx-hw": "available",
+        "libretro-beetle-supergrafx": "available",
+        "libretro-blastem": "available",
+        "libretro-bsnes": "available",
+        "libretro-bsnes-hd": "available",
+        "libretro-core-info": "available",
+        "libretro-desmume": "available",
+        "libretro-dolphin": "available",
+        "libretro-flycast": "available",
+        "libretro-gambatte": "available",
+        "libretro-genesis-plus-gx": "available",
+        "libretro-kronos": "available",
+        "libretro-mame": "available",
+        "libretro-melonds": "available",
+        "libretro-mesen": "available",
+        "libretro-mesen-s": "available",
+        "libretro-mgba": "available",
+        "libretro-mupen64plus-next": "available",
+        "libretro-nestopia": "available",
+        "libretro-overlays": "available",
+        "libretro-parallel-n64": "available",
+        "libretro-picodrive": "available",
+        "libretro-play": "available",
+        "libretro-ppsspp": "no-arm-build",
+        "libretro-sameboy": "available",
+        "libretro-scummvm": "available",
+        "libretro-shaders-slang": "available",
+        "libretro-snes9x": "available",
+        "libretro-yabause": "available",
+        "libretro-cap32-git": "buildable",
+        "libretro-fbneo-git": "buildable",
+        "libretro-uae-git": "x86-only-recipe",
+        "libretro-vice-x128-git": "no-arm-build",
+        "libretro-vice-x64-git": "no-arm-build",
+        "libretro-vice-x64dtv-git": "no-arm-build",
+        "libretro-vice-x64sc-git": "no-arm-build",
+        "libretro-vice-xcbm2-git": "no-arm-build",
+        "libretro-vice-xcbm5x0-git": "no-arm-build",
+        "libretro-vice-xpet-git": "no-arm-build",
+        "libretro-vice-xplus4-git": "no-arm-build",
+        "libretro-vice-xscpu64-git": "no-arm-build",
+        "libretro-vice-xvic-git": "no-arm-build",
+        "libretro-database-git": "buildable",
+        "retroarch-joypad-autoconfig-git": "buildable"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.gaming.minecraft",
+      "label": "Minecraft",
+      "packages": [
+        "minecraft-launcher"
+      ],
+      "note": "official launcher is x86-64 only",
+      "package_status": {
+        "minecraft-launcher": "x86-only-recipe"
+      },
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.gaming.geforce-now",
+      "label": "NVIDIA GeForce NOW",
+      "packages": [
+        "flatpak"
+      ],
+      "note": "Flatpak app published for x86-64 only",
+      "package_status": {
+        "flatpak": "available"
+      },
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.gaming.xbox-cloud",
+      "label": "Xbox Cloud Gaming",
+      "packages": [],
+      "note": "browser web app; packaging is a Chromium web app",
+      "package_status": {},
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.gaming.xbox-controllers",
+      "label": "Xbox Controllers",
+      "packages": [
+        "linux-headers",
+        "xpadneo-dkms"
+      ],
+      "note": "",
+      "package_status": {
+        "linux-headers": "installed",
+        "xpadneo-dkms": "x86-only-recipe"
+      },
+      "tier": "no-arm-build"
+    },
+    {
+      "entry": "install.gaming.battlenet",
+      "label": "Battle.net",
+      "packages": [
+        "umu-launcher"
+      ],
+      "note": "Windows games through Wine/umu, x86-only",
+      "package_status": {
+        "umu-launcher": "no-arm-build"
+      },
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.gaming.lutris",
+      "label": "Lutris",
+      "packages": [
+        "lutris",
+        "umu-launcher",
+        "wine-staging",
+        "wine-mono",
+        "wine-gecko",
+        "winetricks",
+        "python-protobuf"
+      ],
+      "note": "Wine-based, x86-only",
+      "package_status": {
+        "lutris": "available",
+        "umu-launcher": "no-arm-build",
+        "wine-staging": "no-arm-build",
+        "wine-mono": "no-arm-build",
+        "wine-gecko": "no-arm-build",
+        "winetricks": "no-arm-build",
+        "python-protobuf": "available"
+      },
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.gaming.heroic",
+      "label": "Heroic (Epic Games)",
+      "packages": [
+        "heroic-games-launcher-bin"
+      ],
+      "note": "Windows game stores through Wine, x86-only",
+      "package_status": {
+        "heroic-games-launcher-bin": "x86-only-recipe"
+      },
+      "tier": "not-applicable"
+    },
+    {
+      "entry": "install.gaming.retro-launcher",
+      "label": "RetroArch Game Launcher",
+      "packages": [],
+      "note": "interactive",
+      "package_status": {},
+      "tier": "interactive"
+    },
+    {
+      "entry": "install.development.rails",
+      "label": "Ruby on Rails",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.docker-dbs",
+      "label": "Docker DB",
+      "packages": [],
+      "note": "configuration only, no packages",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.go",
+      "label": "Go",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.python",
+      "label": "Python",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.zig",
+      "label": "Zig",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.rust",
+      "label": "Rust",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.java",
+      "label": "Java",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.dotnet",
+      "label": ".NET",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.ocaml",
+      "label": "OCaml",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.clojure",
+      "label": "Clojure",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.scala",
+      "label": "Scala",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.javascript.node",
+      "label": "Node.js",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.javascript.bun",
+      "label": "Bun",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.javascript.deno",
+      "label": "Deno",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.php.php",
+      "label": "PHP",
+      "packages": [
+        "php",
+        "composer",
+        "php-sqlite",
+        "xdebug"
+      ],
+      "note": "",
+      "package_status": {
+        "php": "available",
+        "composer": "available",
+        "php-sqlite": "available",
+        "xdebug": "available"
+      },
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.php.laravel",
+      "label": "Laravel",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.php.symfony",
+      "label": "Symfony",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.elixir.elixir",
+      "label": "Elixir",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    },
+    {
+      "entry": "install.development.elixir.phoenix",
+      "label": "Phoenix",
+      "packages": [],
+      "note": "mise-managed toolchain; arm64 availability depends on the tool",
+      "package_status": {},
+      "tier": "works"
+    }
+  ]
+}
