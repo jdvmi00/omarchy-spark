@@ -170,3 +170,19 @@ repository not being configured in the container at that point and passed on
 rerun; the container script now configures it during setup. Checksums and the
 container toolchain are in `manifests/clean-build-2026-09-06.json`. The NVIDIA
 driver packages were not part of the run; they come from Arch Linux ARM.
+
+## Moved onto the internal NVMe — 2026-09-06
+
+DGX OS's 3.7 TB ext4 partition (338 GB used) was checked and shrunk to 1 TiB
+in about ten minutes, its GPT entry rewritten with the partition GUID and type
+preserved, and a 2.7 TB partition created after it. The running external-SSD
+system (107 GB) was copied in with rsync, given an NVMe-capable initramfs and
+a GRUB menu that also chainloads Ubuntu's shim, and Arch's GRUB was installed
+into the shared EFI partition as `EFI/OmarchySpark` with its own UEFI entry,
+placed first in the boot order. The Spark rebooted from the NVMe through that
+entry: root on the new partition, EFI from the shared one, every service up,
+Hyprland on the GB10, and no failed unit. The DGX OS filesystem checks clean
+afterwards. Direct reads from the NVMe run about 8.3 GB/s. The external SSD
+remains intact as a fallback. Booting DGX OS through the new menu entry was
+not exercised; its own firmware entry still exists. The procedure is in
+docs/DUAL-BOOT.md and image/nvme-*.sh.

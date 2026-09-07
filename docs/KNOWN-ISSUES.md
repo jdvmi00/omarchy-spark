@@ -1,7 +1,9 @@
 # Known issues and remaining work
 
 - No end-user installer, public boot image, signed port package repository or
-  tested upgrade/rollback workflow. The test installation was assembled manually.
+  tested upgrade/rollback workflow. The external-drive installation was
+  assembled manually; moving it onto the internal NVMe beside DGX OS is
+  scripted (docs/DUAL-BOOT.md), but partitioning from stock DGX OS is not.
 - Every recipe builds clean from the committed tree in a fresh Arch Linux ARM
   container (`scripts/clean-build.sh`, `manifests/clean-build-2026-09-06.json`),
   but source pins do not freeze rolling Arch build/runtime dependencies, so a

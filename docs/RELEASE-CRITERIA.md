@@ -9,7 +9,7 @@ port stable or recommending it as a supported daily-driver installation.
 | --- | --- | --- |
 | Source and provenance | Public recipes, hashes, Git pins, license notices and regression CI | Review new payload terms and provenance for every distributed artifact; preserve corresponding source and notices where required |
 | Complete build | All 28 recipes built from the committed tree in a fresh ARM64 container with logs and hashes (`manifests/clean-build-2026-09-06.json`); host regression suite passes | Build every shipped package in a fresh ARM64 environment with recorded dependencies, logs and resulting hashes |
-| Installation | One manually integrated external-SSD installation | Publish and test a complete procedure from stock DGX OS, including boot setup, external-drive selection and recovery |
+| Installation | One manually integrated external-SSD installation, since moved onto the internal NVMe beside DGX OS by a scripted, documented procedure | Publish and test a complete procedure from stock DGX OS, including boot setup, external-drive selection and recovery |
 | Independent replication | One physical Spark tested | A second contributor reproduces installation and core workloads on another Spark using only public instructions |
 | Updates and recovery | No validated update/rollback path | Test a coherent kernel/driver/userspace update and recovery from a failed update; document supported version combinations |
 | Desktop and hardware | Accelerated Omarchy at 4K and 6K; screensaver, lock screen and firewall verified; several devices detected | Verify suspend/resume where supported, sustained workloads, networking, audible audio and Bluetooth pairing; document exclusions |

@@ -8,9 +8,9 @@ compute and development tools.
 [![Source tests](https://github.com/jdvmi00/omarchy-spark/actions/workflows/tests.yml/badge.svg)](https://github.com/jdvmi00/omarchy-spark/actions/workflows/tests.yml)
 
 **[Developer preview: v0.1.0-preview.3](https://github.com/jdvmi00/omarchy-spark/releases/tag/v0.1.0-preview.3).** This is a source release for developers,
-not an installer or a supported replacement for DGX OS. One physical Spark has
-booted from an external SSD with accelerated Omarchy, native CUDA, GPU containers
-and an AI Workbench GPU project. Full factory software parity is still in progress.
+not an installer or a supported replacement for DGX OS. One physical Spark runs
+it from the internal NVMe beside DGX OS, with accelerated Omarchy, native CUDA,
+GPU containers and an AI Workbench GPU project. Full factory software parity is still in progress.
 
 ## What works on the test machine
 
@@ -33,6 +33,7 @@ is not hidden inside an Ubuntu VM.
 - [Getting started](docs/GETTING-STARTED.md)
 - [Build and test the source](BUILDING.md)
 - [Known issues and remaining work](docs/KNOWN-ISSUES.md)
+- [Dual boot on the internal NVMe](docs/DUAL-BOOT.md)
 - [Release notes](docs/RELEASE-NOTES.md)
 - [Publication review and post-publication reassessment](docs/RELEASE-REVIEW.md)
 - [Upstream provenance and licenses](THIRD_PARTY.md)
