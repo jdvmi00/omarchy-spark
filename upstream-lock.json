@@ -53,5 +53,10 @@
     "name": "aquamarine-packaging-compat13",
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aquamarine.git",
     "commit": "8489a8358817a964a923f05ba324996378d81a5d"
+  },
+  {
+    "name": "ghostty",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ghostty.git",
+    "commit": "7c601d97c8e447371dbc004368b3b83666b61225"
   }
 ]

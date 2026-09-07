@@ -44,6 +44,11 @@
   NetworkManager-wait-online, services that need DNS at boot must wait for
   it themselves; the Workbench unit does so from release 7, and other
   network-dependent units (Dashboard) have not been checked for the same.
+- Omarchy's Install menu adds packages by name, and several of its entries are
+  x86-only or AUR binaries (Chrome, Edge, Brave, VS Code, Zed, Spotify, Steam)
+  that Arch Linux ARM does not carry; they fail with "target not found". The
+  Ghostty terminal is now packaged here from Arch's recipe. A survey of which
+  entries work on ARM has not been done.
 - Bluetooth/audio devices and RDMA interfaces are detected; practical playback,
   pairing and peer throughput have not been established.
 - Firmware updates work from the port through fwupd and LVFS: the Embedded

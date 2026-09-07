@@ -11,6 +11,10 @@
 - `localsend` 1.18.2-1 from LocalSend's official Linux arm64 release, which
   restores Omarchy's Share menu.
 - Internal NVMe dual boot beside DGX OS, scripted (docs/DUAL-BOOT.md).
+- `ghostty` 1.3.1 from Arch's own recipe, minus its pandoc-built documentation,
+  so Omarchy's Install → Terminal → Ghostty works; Arch Linux ARM does not
+  build it.
+- Firmware updates verified from the port through fwupd and LVFS.
 
 ## v0.1.0-preview.3 — Clean build, base packages and system setup
 

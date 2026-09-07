@@ -230,3 +230,14 @@ entry with the GPU driver, 4K display and all services as before. This is
 the same mechanism the DGX Dashboard uses, so its firmware update button is
 expected to work on the port; that button itself was not pressed. Recovery
 from a failed update was not exercised.
+
+## Ghostty — 2026-09-07
+
+Omarchy's Install → Terminal → Ghostty failed with "target not found": Arch
+Linux ARM does not build Ghostty. Arch's own recipe builds it on the Spark
+once two things are changed: Zig 0.15.2 is fetched from ziglang.org because
+the repository's Zig is 0.16 and Ghostty 1.3.1 cannot use it, and the pandoc
+documentation step is disabled because Arch Linux ARM has no pandoc. The four
+split packages install cleanly, `ghostty --version` answers, the desktop entry
+is present, and Omarchy's install flow now finds the package. Man pages are
+not shipped.

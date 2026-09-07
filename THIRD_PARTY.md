@@ -23,6 +23,10 @@ describe the packaged software; they are not a grant to redistribute its binarie
   recipes recorded in upstream-lock.json. GCC source and runtime exceptions apply
   to the resulting compiler. The CUDA glibc compatibility patch's source revision
   is documented in its package README and lock file.
+- The ghostty recipe is Arch Linux's own packaging (archlinux/packaging/packages/
+  ghostty, 0BSD) at the revision in upstream-lock.json, with documentation
+  generation removed because Arch Linux ARM has no pandoc; it does not build
+  that package itself.
 - The archiso patch targets RageLtd/arch-dgx-spark-iso at the locked revision.
   The underlying repository is fetched for tests, not vendored or relicensed.
 - graham33/nixos-dgx-spark and omacom/try-omarchy informed the port. They and all
