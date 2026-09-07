@@ -46,7 +46,10 @@
   network-dependent units (Dashboard) have not been checked for the same.
 - Bluetooth/audio devices and RDMA interfaces are detected; practical playback,
   pairing and peer throughput have not been established.
-- Firmware discovery works; firmware maintenance and recovery are unvalidated.
+- Firmware updates work from the port through fwupd and LVFS: the Embedded
+  Controller and SoC firmware were updated by UEFI capsule-on-disk from Arch
+  and booted back cleanly. Recovery from a failed firmware update is still
+  unvalidated and would rely on NVIDIA's tooling.
 - The tested external ext4/GRUB setup differs from Omarchy's standard
   Limine/Snapper assumptions. The Limine patch tests are source-level regression
   checks, not evidence that the preview boots with Limine.

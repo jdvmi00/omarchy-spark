@@ -56,7 +56,8 @@ denied before dispatch. Package integrity: 51 files, zero altered.
 Audible audio, Bluetooth pairing, RDMA throughput/GPU-direct networking, suspend,
 sustained thermals, comprehensive Nsight workflows, authenticated
 Dashboard telemetry/notebooks, private registry/remote Workbench integrations,
-firmware installation, a complete default application set, and update/rollback.
+a complete default application set, update/rollback, and recovery from a failed
+firmware update.
 No firmware was flashed. The external drive negotiated USB 2.0 during bring-up
 because of its cable; with a 10 Gb/s-rated USB-C cable on the same port it
 links at 20 Gb/s and reads 1.6 GB/s with direct I/O (2026-09-06).
@@ -215,3 +216,17 @@ opens Chromium on the Dashboard. Omarchy's Share menu runs `localsend`, which
 the port could not build from source; `localsend` 1.18.2-1 packages the
 project's own Linux arm64 bundle and the app starts on the desktop. Sending to
 a peer was not exercised.
+
+## Firmware updated from the port — 2026-09-06
+
+fwupd 2.1.7 on the port, with the standard LVFS remote, offered NVIDIA's
+Embedded Controller update (0x03000302 to 0x03000508) and SoC firmware update
+(0x0200980f to 0x02009b0b), both signed and delivered as UEFI capsules on
+disk. `fwupdmgr update` wrote both capsules to the shared EFI partition and
+set the firmware's capsule flag; the UEFI applied them during the next boot.
+Afterwards fwupd reports both as Success at the new versions, the capsules
+were consumed and the flag cleared, and the Spark booted through its NVMe
+entry with the GPU driver, 4K display and all services as before. This is
+the same mechanism the DGX Dashboard uses, so its firmware update button is
+expected to work on the port; that button itself was not pressed. Recovery
+from a failed update was not exercised.
